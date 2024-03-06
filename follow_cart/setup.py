@@ -60,8 +60,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            # 'spawner = gazebo_ros.spawn_entity:main',
-            'convoy_controller = follow_cart.convoy_controller:main'
+            'convoy_controller=follow_cart.convoy_controller:main',
+            'follower_controller=follow_cart.follower_controller:main'
         ],
     },
 )
