@@ -184,7 +184,8 @@ def generate_launch_description():
         ("/tf", "/convoy/tf"),
         ("/tf_static", "/convoy/tf_static"),
         ("/odom", "/convoy/odom"),
-        ("/imu", "/convoy/imu")])
+        ("/imu", "/convoy/imu"),
+        ("/odometry/filtered", "/convoy/odometry/filtered")])
 
     fc1_localization_cmd = Node(
         package='robot_localization',
@@ -198,7 +199,8 @@ def generate_launch_description():
         ("/tf", "/fc1/tf"),
         ("/tf_static", "/fc1/tf_static"),
         ("/odom", "/fc1/odom"),
-        ("/imu", "/fc1/imu")])
+        ("/imu", "/fc1/imu"),
+        ("/odometry/filtered", "/fc1/odometry/filtered")])
 
     fc2_localization_cmd = Node(
         package='robot_localization',
@@ -212,7 +214,8 @@ def generate_launch_description():
         ("/tf", "/fc2/tf"),
         ("/tf_static", "/fc2/tf_static"),
         ("/odom", "/fc2/odom"),
-        ("/imu", "/fc2/imu")])
+        ("/imu", "/fc2/imu"),
+        ("/odometry/filtered", "/fc2/odometry/filtered")])
 
     fc3_localization_cmd = Node(
         package='robot_localization',
@@ -226,7 +229,8 @@ def generate_launch_description():
         ("/tf", "/fc3/tf"),
         ("/tf_static", "/fc3/tf_static"),
         ("/odom", "/fc3/odom"),
-        ("/imu", "/fc3/imu")])
+        ("/imu", "/fc3/imu"),
+        ("/odometry/filtered", "/fc3/odometry/filtered")])
 
     # Subscribe to the joint states of the robot, and publish the 3D pose of each link.
     convoy_state_publisher_cmd = Node(
@@ -430,7 +434,7 @@ def generate_launch_description():
         namespace='convoy',
         package='nav2_behaviors',
         executable='behavior_server',
-        name='recoveries_server',
+        name='behavior_server',
         parameters=[recovery_yaml_convoy],
         output='screen',
         remappings=[("/tf", "/convoy/tf"),
@@ -446,8 +450,8 @@ def generate_launch_description():
         parameters=[bt_navigator_yaml_convoy],
         remappings=[("/tf", "/convoy/tf"),
                     ("/tf_static", "/convoy/tf_static"),
-                    ("/odom", "/convoy/odom"),
-                    ("/map", "/map")])
+                    ("/map", "/map"),
+        ("/odometry/filtered", "/convoy/odometry/filtered")])
 
     fc1_controller_server = Node(
         namespace='fc1',
@@ -479,7 +483,7 @@ def generate_launch_description():
         namespace='fc1',
         package='nav2_behaviors',
         executable='behavior_server',
-        name='recoveries_server',
+        name='behavior_server',
         parameters=[recovery_yaml_fc1],
         output='screen',
         remappings=[("/tf", "/fc1/tf"),
@@ -496,9 +500,8 @@ def generate_launch_description():
         parameters=[bt_navigator_yaml_fc1],
         remappings=[("/tf", "/fc1/tf"),
                     ("/tf_static", "/fc1/tf_static"),
-                    ("/odom", "/fc1/odom"),
-                    ("/map", "/map")
-                    ])
+                    ("/map", "/map"),
+        ("/odometry/filtered", "/fc1/odometry/filtered")])
 
     fc2_controller_server = Node(
         namespace='fc2',
@@ -530,7 +533,7 @@ def generate_launch_description():
         namespace='fc2',
         package='nav2_behaviors',
         executable='behavior_server',
-        name='recoveries_server',
+        name='behavior_server',
         parameters=[recovery_yaml_fc2],
         output='screen',
         remappings=[("/tf", "/fc2/tf"),
@@ -547,9 +550,8 @@ def generate_launch_description():
         parameters=[bt_navigator_yaml_fc2],
         remappings=[("/tf", "/fc2/tf"),
                     ("/tf_static", "/fc2/tf_static"),
-                    ("/odom", "/fc2/odom"),
-                    ("/map", "/map")
-                    ])
+                    ("/map", "/map"),
+        ("/odometry/filtered", "/fc2/odometry/filtered")])
 
     fc3_controller_server = Node(
         namespace='fc3',
@@ -581,7 +583,7 @@ def generate_launch_description():
         namespace='fc3',
         package='nav2_behaviors',
         executable='behavior_server',
-        name='recoveries_server',
+        name='behavior_server',
         parameters=[recovery_yaml_fc3],
         output='screen',
         remappings=[("/tf", "/fc3/tf"),
@@ -598,41 +600,9 @@ def generate_launch_description():
         parameters=[bt_navigator_yaml_fc3],
         remappings=[("/tf", "/fc3/tf"),
                     ("/tf_static", "/fc3/tf_static"),
-                    ("/odom", "/fc3/odom"),
-                    ("/map", "/map")
-                    ])
+                    ("/map", "/map"),
+        ("/odometry/filtered", "/fc3/odometry/filtered")])
 
-
-    lifecycle_manager = Node(
-        package='nav2_lifecycle_manager',
-        executable='lifecycle_manager',
-        name='lifecycle_manager_localization',
-        output='screen',
-        parameters=[{'use_sim_time': True},
-                    {'autostart': True},
-                    {'bond_timeout':0.0},
-                    {'node_names': ['map_server',
-                                    'convoy/amcl',
-                                    'convoy/planner_server',
-                                    'convoy/controller_server',
-                                    'convoy/recoveries_server',
-                                    'convoy/bt_navigator',
-                                    'fc1/amcl',
-                                    'fc1/planner_server',
-                                    'fc1/controller_server',
-                                    'fc1/recoveries_server',
-                                    'fc1/bt_navigator'
-                                    'fc2/amcl',
-                                    'fc2/planner_server',
-                                    'fc2/controller_server',
-                                    'fc2/recoveries_server',
-                                    'fc2/bt_navigator',
-                                    'fc3/amcl',
-                                    'fc3/planner_server',
-                                    'fc3/controller_server',
-                                    'fc3/recoveries_server',
-                                    'fc3/bt_navigator'
-                                    ]}])
 
     lifecycle_manager_localization = Node(
         package='nav2_lifecycle_manager',
@@ -654,24 +624,25 @@ def generate_launch_description():
         executable='lifecycle_manager',
         name='lifecycle_manager_pathplanner',
         output='screen',
-        parameters=[{'autostart': True},
+        parameters=[{'use_sim_time': True},
+                    {'autostart': True},
                     {'bond_timeout': 0.0},
                     {'node_names': [
                                     'convoy/planner_server',
                                     'convoy/controller_server',
-                                    'convoy/recoveries_server',
+                                    'convoy/behavior_server',
                                     'convoy/bt_navigator',
                                     'fc1/planner_server',
                                     'fc1/controller_server',
-                                    'fc1/recoveries_server',
+                                    'fc1/behavior_server',
                                     'fc1/bt_navigator'
                                     'fc2/planner_server',
                                     'fc2/controller_server',
-                                    'fc2/recoveries_server',
+                                    'fc2/behavior_server',
                                     'fc2/bt_navigator',
                                     'fc3/planner_server',
                                     'fc3/controller_server',
-                                    'fc3/recoveries_server',
+                                    'fc3/behavior_server',
                                     'fc3/bt_navigator'
                                     ]}])
 
@@ -720,9 +691,9 @@ def generate_launch_description():
     ld.add_action(spawn_fc3_cmd)
 
     ld.add_action(convoy_localization_cmd)
-    # ld.add_action(fc1_localization_cmd)
-    # ld.add_action(fc2_localization_cmd)
-    # ld.add_action(fc3_localization_cmd)
+    ld.add_action(fc1_localization_cmd)
+    ld.add_action(fc2_localization_cmd)
+    ld.add_action(fc3_localization_cmd)
 
     ld.add_action(convoy_state_publisher_cmd)
     ld.add_action(fc1_state_publisher_cmd)

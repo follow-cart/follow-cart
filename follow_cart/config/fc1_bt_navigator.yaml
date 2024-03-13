@@ -1,9 +1,9 @@
 fc1/bt_navigator:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: true
     global_frame: map
     robot_base_frame: fc1/base_link
-    odom_topic: /fc1/odom
+    odom_topic: /fc1/odometry/filtered
     bt_loop_duration: 10
     default_server_timeout: 20
     default_nav_to_pose_bt_xml: "/home/workspace/follow_cart_ws/src/follow_cart/config/follow_point_bt.xml"
