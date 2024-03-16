@@ -1,13 +1,4 @@
-# Author: Addison Sears-Collins
-# Date: November 9, 2021
-# Description: Launch a two-wheeled robot using the ROS 2 Navigation Stack.
-#              The spawning of the robot is performed by the Gazebo-ROS spawn_entity node.
-#              The robot must be in both SDF and URDF format.
-#              If you want to spawn the robot in a pose other than the default, be sure to set that inside
-#              the nav2_params_path yaml file: amcl ---> initial_pose: [x, y, z, yaw]
-#              The robot will follow a point that you click on the map (at a fixed distance away).
-#              Use the Publish Point button in RViz to publish the point's location to the /goal_update topic
-# https://automaticaddison.com
+
 
 import os
 from ament_index_python.packages import get_package_share_directory
@@ -25,7 +16,7 @@ def generate_launch_description():
     fc2_name_in_model = 'follow_cart_2'
     fc3_name_in_model = 'follow_cart_3'
 
-    # Pose where we want to spawn the robot
+    # 로봇 초기 생성 위치
     convoy_spawn_x_val = '0.0'
     convoy_spawn_y_val = '0.0'
     convoy_spawn_z_val = '1.0'
@@ -46,53 +37,54 @@ def generate_launch_description():
     fc3_spawn_z_val = '0.5'
     fc3_spawn_yaw_val = '0.0'
 
-    # Set the path to different files and folders.
+    # urdf 파일 경로
     pkg_share = get_package_share_directory(package_name)
     convoy_urdf_path = os.path.join(pkg_share, 'urdf', 'convoy', 'jetbot.urdf')
     fc_urdf_path = os.path.join(pkg_share, 'urdf', 'follow_cart', 'turtlebot3_waffle_pi.urdf')
 
+    # ekf 파일 경로
     localization_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_ekf.yaml')
     localization_yaml_fc1 = os.path.join(pkg_share, 'config', 'fc1_ekf.yaml')
     localization_yaml_fc2 = os.path.join(pkg_share, 'config', 'fc2_ekf.yaml')
     localization_yaml_fc3 = os.path.join(pkg_share, 'config', 'fc3_ekf.yaml')
 
+    # convoy nav2 파일 경로
     amcl_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_amcl_config.yaml')
     controller_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_controller.yaml')
     planner_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_planner_server.yaml')
     recovery_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_recovery.yaml')
     bt_navigator_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_bt_navigator.yaml')
 
+    # fc1 nav2 파일 경로
     amcl_yaml_fc1 = os.path.join(pkg_share, 'config', 'fc1_amcl_config.yaml')
     controller_yaml_fc1 = os.path.join(pkg_share, 'config', 'fc1_controller.yaml')
     planner_yaml_fc1 = os.path.join(pkg_share, 'config', 'fc1_planner_server.yaml')
     recovery_yaml_fc1 = os.path.join(pkg_share, 'config', 'fc1_recovery.yaml')
     bt_navigator_yaml_fc1 = os.path.join(pkg_share, 'config', 'fc1_bt_navigator.yaml')
 
+    # fc2 nav2 파일 경로
     amcl_yaml_fc2 = os.path.join(pkg_share, 'config', 'fc2_amcl_config.yaml')
     controller_yaml_fc2 = os.path.join(pkg_share, 'config', 'fc2_controller.yaml')
     planner_yaml_fc2 = os.path.join(pkg_share, 'config', 'fc2_planner_server.yaml')
     recovery_yaml_fc2 = os.path.join(pkg_share, 'config', 'fc2_recovery.yaml')
     bt_navigator_yaml_fc2 = os.path.join(pkg_share, 'config', 'fc2_bt_navigator.yaml')
 
+    # fc3 nav2 파일 경로
     amcl_yaml_fc3 = os.path.join(pkg_share, 'config', 'fc3_amcl_config.yaml')
     controller_yaml_fc3 = os.path.join(pkg_share, 'config', 'fc3_controller.yaml')
     planner_yaml_fc3 = os.path.join(pkg_share, 'config', 'fc3_planner_server.yaml')
     recovery_yaml_fc3 = os.path.join(pkg_share, 'config', 'fc3_recovery.yaml')
     bt_navigator_yaml_fc3 = os.path.join(pkg_share, 'config', 'fc3_bt_navigator.yaml')
 
+    # rviz 파일 경로
     rviz_config_file_path = os.path.join(pkg_share, 'rviz', 'convoy_and_fc1.rviz')
+    # map 파일 경로
     map_yaml_path = os.path.join(pkg_share, 'maps', 'map.yaml')
 
 
-
+    # gazebo 모델 경로
     gazebo_models_path = os.path.join(pkg_share, 'models')
     os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
-
-
-
-    warehouse_pkg_dir = get_package_share_directory('aws_robomaker_small_warehouse_world')
-    warehouse_launch_path = os.path.join(warehouse_pkg_dir, 'launch')
-
 
     use_sim_time = True
     fc1 = LaunchConfiguration('fc1', default='fc1')
@@ -100,13 +92,16 @@ def generate_launch_description():
     fc3 = LaunchConfiguration('fc3', default='fc3')
 
 
-    # Specify the actions
+    # aws warehouse world 경로
+    warehouse_pkg_dir = get_package_share_directory('aws_robomaker_small_warehouse_world')
+    warehouse_launch_path = os.path.join(warehouse_pkg_dir, 'launch')
 
+    # gazebo 실행
     gazebo_run = IncludeLaunchDescription(
             PythonLaunchDescriptionSource([warehouse_launch_path, '/no_roof_small_warehouse.launch.py'])
         )
 
-    # Launch the robot
+    # convoy와 follow cart gazebo에 생성
     spawn_convoy_cmd = Node(
         package='gazebo_ros',
         namespace='convoy',
@@ -171,7 +166,8 @@ def generate_launch_description():
         remappings=[
             ("/tf", "tf")])
 
-    # Start robot localization using an Extended Kalman filter
+    # ekf_filter_node 실행
+    # odometry, imu 정보를 센서 퓨전하여 위치 추
     convoy_localization_cmd = Node(
         package='robot_localization',
         namespace='convoy',
@@ -232,7 +228,8 @@ def generate_launch_description():
         ("/imu", "/fc3/imu"),
         ("/odometry/filtered", "/fc3/odometry/filtered")])
 
-    # Subscribe to the joint states of the robot, and publish the 3D pose of each link.
+    # robot_state_publisher 실행
+    # 로봇의 상태를 지속적으로 전달
     convoy_state_publisher_cmd = Node(
         package='robot_state_publisher',
         namespace='convoy',
@@ -355,6 +352,8 @@ def generate_launch_description():
     #                       'params_file': fc1_params_file,
     #                       'autostart': autostart}.items())
 
+    # amcl 실행
+    # 위치 추정
     convoy_amcl = Node(
             namespace='convoy',
             package='nav2_amcl',
@@ -406,6 +405,8 @@ def generate_launch_description():
                     ("/map", "/map")
                     ])
 
+    # controller 실행
+    # global path를 따라 장애물 회피 등의 local path 생성, 로봇들의 주행을 직접 제어
     convoy_controller_server = Node(
         namespace='convoy',
         package='nav2_controller',
@@ -418,6 +419,8 @@ def generate_launch_description():
                     ("/scan", "/convoy/scan"),
                     ("/map", "/map")])
 
+    # planner 실행
+    # 목적지 까지의 최적의 경로 생성
     convoy_planner_server = Node(
         namespace='convoy',
         package='nav2_planner',
@@ -430,6 +433,8 @@ def generate_launch_description():
                     ("/scan", "/convoy/scan"),
                     ("/map", "/map")])
 
+    # behavior_server 실행
+    # 로봇이 경로를 찾지 못하거나 제대로 동작을 수행하지 못할 시 상태 회복을 위한 명령 실행
     convoy_recoveries_server = Node(
         namespace='convoy',
         package='nav2_behaviors',
@@ -441,6 +446,8 @@ def generate_launch_description():
                     ("/tf_static", "/convoy/tf_static"),
                     ("/map", "/map")])
 
+    # bt_navigator 실행
+    # behavior_tree에 따라 contorller 등을 사용하여 navigation 수행
     convoy_bt_navigator = Node(
         namespace='convoy',
         package='nav2_bt_navigator',
@@ -603,13 +610,14 @@ def generate_launch_description():
                     ("/map", "/map"),
         ("/odometry/filtered", "/fc3/odometry/filtered")])
 
-
-    lifecycle_manager_localization = Node(
+    # lifecycle_manager 실행
+    # navigation을 위한 노드들을 관리
+    lifecycle_manager = Node(
         package='nav2_lifecycle_manager',
         executable='lifecycle_manager',
-        name='lifecycle_manager_localization',
+        name='lifecycle_manager',
         output='screen',
-        parameters=[{'use_sim_time': True},
+        parameters=[
                     {'autostart': True},
                     {'bond_timeout': 0.0},
                     {'node_names': ['map_server',
@@ -617,17 +625,6 @@ def generate_launch_description():
                                     'fc1/amcl',
                                     'fc2/amcl',
                                     'fc3/amcl',
-                                    ]}])
-
-    lifecycle_manager_pathplanner = Node(
-        package='nav2_lifecycle_manager',
-        executable='lifecycle_manager',
-        name='lifecycle_manager_pathplanner',
-        output='screen',
-        parameters=[{'use_sim_time': True},
-                    {'autostart': True},
-                    {'bond_timeout': 0.0},
-                    {'node_names': [
                                     'convoy/planner_server',
                                     'convoy/controller_server',
                                     'convoy/behavior_server',
@@ -635,7 +632,7 @@ def generate_launch_description():
                                     'fc1/planner_server',
                                     'fc1/controller_server',
                                     'fc1/behavior_server',
-                                    'fc1/bt_navigator'
+                                    'fc1/bt_navigator',
                                     'fc2/planner_server',
                                     'fc2/controller_server',
                                     'fc2/behavior_server',
@@ -646,6 +643,50 @@ def generate_launch_description():
                                     'fc3/bt_navigator'
                                     ]}])
 
+    # lifecycle_manager_localization = Node(
+    #     package='nav2_lifecycle_manager',
+    #     executable='lifecycle_manager',
+    #     name='lifecycle_manager_localization',
+    #     output='screen',
+    #     parameters=[{'use_sim_time': True},
+    #                 {'autostart': True},
+    #                 {'bond_timeout': 0.0},
+    #                 {'node_names': ['map_server',
+    #                                 'convoy/amcl',
+    #                                 'fc1/amcl',
+    #                                 'fc2/amcl',
+    #                                 'fc3/amcl',
+    #                                 ]}])
+    #
+    # lifecycle_manager_pathplanner = Node(
+    #     package='nav2_lifecycle_manager',
+    #     executable='lifecycle_manager',
+    #     name='lifecycle_manager_pathplanner',
+    #     output='screen',
+    #     parameters=[{'use_sim_time': True},
+    #                 {'autostart': True},
+    #                 {'bond_timeout': 0.0},
+    #                 {'node_names': [
+    #                                 'convoy/planner_server',
+    #                                 'convoy/controller_server',
+    #                                 'convoy/behavior_server',
+    #                                 'convoy/bt_navigator',
+    #                                 'fc1/planner_server',
+    #                                 'fc1/controller_server',
+    #                                 'fc1/behavior_server',
+    #                                 'fc1/bt_navigator',
+    #                                 'fc2/planner_server',
+    #                                 'fc2/controller_server',
+    #                                 'fc2/behavior_server',
+    #                                 'fc2/bt_navigator',
+    #                                 'fc3/planner_server',
+    #                                 'fc3/controller_server',
+    #                                 'fc3/behavior_server',
+    #                                 'fc3/bt_navigator'
+    #                                 ]}])
+
+    # map_server 실행
+    # map 정보를 전달
     map_server = Node(
         package='nav2_map_server',
         executable='map_server',
@@ -656,7 +697,7 @@ def generate_launch_description():
                     {'frame_id': "map"},
                     {'yaml_filename': map_yaml_path}])
 
-    # Launch RViz
+    # rviz 실행
     rviz = Node(
         package='rviz2',
         executable='rviz2',
@@ -665,7 +706,7 @@ def generate_launch_description():
         arguments=['-d', rviz_config_file_path]
     )
 
-
+    # dial을 통해 convoy를 제어
     convoy_controller = Node(
         package='follow_cart',
         executable='convoy_controller',
@@ -680,10 +721,11 @@ def generate_launch_description():
         output='screen'
     )
 
-    # Create the launch description and populate
+    # launch description 생성
     ld = LaunchDescription()
 
-    # Add any actions
+    # launch description에 노드들 추가
+    # 노드가 실행될 수 있게
     ld.add_action(gazebo_run)
     ld.add_action(spawn_convoy_cmd)
     ld.add_action(spawn_fc1_cmd)
@@ -706,8 +748,9 @@ def generate_launch_description():
     # ld.add_action(fc3_joint_state_publisher_cmd)
 
 
-    ld.add_action(lifecycle_manager_localization)
-    ld.add_action(lifecycle_manager_pathplanner)
+    # ld.add_action(lifecycle_manager_localization)
+    # ld.add_action(lifecycle_manager_pathplanner)
+    ld.add_action(lifecycle_manager)
     ld.add_action(map_server)
 
     ld.add_action(convoy_amcl)
@@ -737,7 +780,7 @@ def generate_launch_description():
 
     ld.add_action(rviz)
 
-    # ld.add_action(convoy_controller)
+    ld.add_action(convoy_controller)
     # ld.add_action(follower_controller)
 
     return ld

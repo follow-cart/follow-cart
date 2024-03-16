@@ -9,6 +9,7 @@ class FollowerController(Node):
         self.pose_publisher = self.create_publisher(PoseStamped, "/follow_cart_1/goal_pose", 10)
         self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.odom_cb, 10)
 
+    # odom msg를 goal_pose로 전달한 msg 타입을 변경 후 전달
     def odom_cb(self, odom_msg):
         pose_stamped = PoseStamped()
         pose_stamped.header.frame_id = odom_msg.header.frame_id
