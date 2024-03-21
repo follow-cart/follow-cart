@@ -37,7 +37,7 @@ setup(
     name=package_name,
     version='0.0.0',
     packages=find_packages(exclude=['test']),
-    data_files=package_files(data_files, ['launch/', 'worlds/', 'models/', 'rviz/', 'params/', 'maps/', 'config/', 'urdf/', 'meshes/']),
+    data_files=package_files(data_files, ['launch/', 'models/', 'rviz/', 'maps/', 'config/', 'urdf/', 'meshes/']),
     # data_files=[
     #     ('share/ament_index/resource_index/packages',
     #         ['resource/' + package_name]),
@@ -60,8 +60,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            # 'spawner = gazebo_ros.spawn_entity:main',
-            'convoy_controller = follow_cart.convoy_controller:main'
+            'convoy_controller=follow_cart.convoy_controller:main',
+            'fc1_controller=follow_cart.fc1_controller:main',
+            'fc2_controller=follow_cart.fc2_controller:main',
+            'fc3_controller=follow_cart.fc3_controller:main'
         ],
     },
 )
