@@ -4,12 +4,10 @@ convoy/bt_navigator:
     global_frame: map
     robot_base_frame: convoy/base_link
     odom_topic: /convoy/odometry/filtered
-    default_nav_to_pose_bt_xml: "/home/workspace/follow_cart_ws/src/follow_cart/config/follow_point_bt.xml"
+    default_bt_xml_filename: "/home/workspace/follow_cart_ws/src/follow_cart/config/follow_point_bt.xml"
     bt_loop_duration: 10
     default_server_timeout: 20
     transform_tolerance: 0.1
-    navigate_to_pose:
-      plugin: "nav2_bt_navigator/NavigateToPoseNavigator"
     enable_groot_monitoring: false
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node

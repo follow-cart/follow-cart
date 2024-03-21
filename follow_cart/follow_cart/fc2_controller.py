@@ -3,7 +3,7 @@ from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.msg import Odometry
 
-class FollowerController(Node):
+class FC2Controller(Node):
     def __init__(self):
         super().__init__("follower_controller")
         self.pose_publisher = self.create_publisher(PoseStamped, "/follow_cart_1/goal_pose", 10)
@@ -18,9 +18,9 @@ class FollowerController(Node):
         self.pose_publisher.publish(pose_stamped)
 def main(args=None):
     rclpy.init(args=args)
-    follower_controller = FollowerController()
+    fc2_controller = FC2Controller()
     try:
-        rclpy.spin(follower_controller)
+        rclpy.spin(fc2_controller)
     except KeyboardInterrupt:
         pass
 

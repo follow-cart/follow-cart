@@ -37,7 +37,7 @@ setup(
     name=package_name,
     version='0.0.0',
     packages=find_packages(exclude=['test']),
-    data_files=package_files(data_files, ['launch/', 'worlds/', 'models/', 'rviz/', 'maps/', 'config/', 'urdf/', 'meshes/']),
+    data_files=package_files(data_files, ['launch/', 'models/', 'rviz/', 'maps/', 'config/', 'urdf/', 'meshes/']),
     # data_files=[
     #     ('share/ament_index/resource_index/packages',
     #         ['resource/' + package_name]),
@@ -61,7 +61,9 @@ setup(
     entry_points={
         'console_scripts': [
             'convoy_controller=follow_cart.convoy_controller:main',
-            'follower_controller=follow_cart.follower_controller:main'
+            'fc1_controller=follow_cart.fc1_controller:main',
+            'fc2_controller=follow_cart.fc2_controller:main',
+            'fc3_controller=follow_cart.fc3_controller:main'
         ],
     },
 )

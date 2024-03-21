@@ -54,10 +54,6 @@ def generate_launch_description():
     planner_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_planner_server.yaml')
     recovery_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_recovery.yaml')
     bt_navigator_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_bt_navigator.yaml')
-    smoother_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_smoother_server.yaml')
-    waypoint_follower_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_waypoint_follower.yaml')
-    velocity_smoother_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_velocity_smoother.yaml')
-    collision_monitor_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_collision_monitor.yaml')
 
     # fc1 nav2 파일 경로
     amcl_yaml_fc1 = os.path.join(pkg_share, 'config', 'fc1_amcl_config.yaml')
@@ -81,7 +77,7 @@ def generate_launch_description():
     bt_navigator_yaml_fc3 = os.path.join(pkg_share, 'config', 'fc3_bt_navigator.yaml')
 
     # rviz 파일 경로
-    rviz_config_file_path = os.path.join(pkg_share, 'rviz', 'convoy_and_fc1.rviz')
+    rviz_config_file_path = os.path.join(pkg_share, 'rviz', 'multi_robot.rviz')
     # map 파일 경로
     map_yaml_path = os.path.join(pkg_share, 'maps', 'map.yaml')
 
@@ -251,8 +247,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', fc_urdf_path, ' robot_name:=', fc1]),
-                     'frame_prefix': 'fc1/'}],
+                     'robot_description': Command(['xacro ', fc_urdf_path, ' robot_name:=', fc1])}],
         remappings=[
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
@@ -265,8 +260,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', fc_urdf_path, ' robot_name:=', fc2]),
-                     'frame_prefix': 'fc2/'}],
+                     'robot_description': Command(['xacro ', fc_urdf_path, ' robot_name:=', fc2])}],
         remappings=[
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
@@ -279,52 +273,12 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', fc_urdf_path, ' robot_name:=', fc3]),
-                     'frame_prefix': 'fc3/'}],
+                     'robot_description': Command(['xacro ', fc_urdf_path, ' robot_name:=', fc3])}],
         remappings=[
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
             ("/robot_description", "robot_description")])
 
-    # convoy_joint_state_publisher_cmd = Node(
-    #     package='joint_state_publisher',
-    #     namespace='convoy',
-    #     executable='joint_state_publisher',
-    #     name='convoy_joint_state_publisher',
-    #     parameters=[{'use_sim_time': use_sim_time,
-    #                  'robot_description': Command(['xacro ', convoy_urdf_file_path])}],
-    #     remappings=[("/joint_states", "/convoy/joint_states"),
-    #                 ("/robot_description", "/robot_description")])
-    #
-    # fc1_joint_state_publisher_cmd = Node(
-    #     package='joint_state_publisher',
-    #     namespace='fc1',
-    #     executable='joint_state_publisher',
-    #     name='fc1_joint_state_publisher',
-    #     parameters=[{'use_sim_time': use_sim_time,
-    #                  'robot_description': Command(['xacro ', fc_urdf_file_path, ' robot_name:=', 'fc1'])}],
-    #     remappings=[("/joint_states", "/fc1/joint_states"),
-    #                 ("/robot_description", "/robot_description")])
-    #
-    # fc2_joint_state_publisher_cmd = Node(
-    #     package='joint_state_publisher',
-    #     namespace='fc2',
-    #     executable='joint_state_publisher',
-    #     name='fc2_joint_state_publisher',
-    #     parameters=[{'use_sim_time': use_sim_time,
-    #                  'robot_description': Command(['xacro ', fc_urdf_file_path, ' robot_name:=', 'fc2'])}],
-    #     remappings=[("/joint_states", "/fc2/joint_states"),
-    #                 ("/robot_description", "/robot_description")])
-    #
-    # fc3_joint_state_publisher_cmd = Node(
-    #     package='joint_state_publisher',
-    #     namespace='fc3',
-    #     executable='joint_state_publisher',
-    #     name='fc3_joint_state_publisher',
-    #     parameters=[{'use_sim_time': use_sim_time,
-    #                  'robot_description': Command(['xacro ', fc_urdf_file_path, ' robot_name:=', 'fc3'])}],
-    #     remappings=[("/joint_states", "/fc3/joint_states"),
-    #                 ("/robot_description", "/robot_description")])
 
     # Launch the ROS 2 Navigation Stack
     # convoy_navigation = IncludeLaunchDescription(
@@ -408,10 +362,10 @@ def generate_launch_description():
         name='controller_server',
         output='screen',
         parameters=[controller_yaml_convoy],
-        remappings=[("/tf", "/convoy/tf"),
-                    ("/tf_static", "/convoy/tf_static"),
-                    ("/scan", "/convoy/scan"),
-                    ("/cmd_vel", "/convoy/cmd_vel")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static"),
+                    ("/scan", "scan"),
+                    ("/cmd_vel", "cmd_vel")])
 
     # planner 실행
     # 목적지 까지의 최적의 경로 생성
@@ -422,9 +376,9 @@ def generate_launch_description():
         name='planner_server',
         output='screen',
         parameters=[planner_yaml_convoy],
-        remappings=[("/tf", "/convoy/tf"),
-                    ("/tf_static", "/convoy/tf_static"),
-                    ("/scan", "/convoy/scan")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static"),
+                    ("/scan", "scan")])
 
     # behavior_server 실행
     # 로봇이 경로를 찾지 못하거나 제대로 동작을 수행하지 못할 시 상태 회복을 위한 명령 실행
@@ -435,8 +389,8 @@ def generate_launch_description():
         name='behavior_server',
         parameters=[recovery_yaml_convoy],
         output='screen',
-        remappings=[("/tf", "/convoy/tf"),
-                    ("/tf_static", "/convoy/tf_static")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static")])
 
     # bt_navigator 실행
     # behavior_tree에 따라 contorller 등을 사용하여 navigation 수행
@@ -447,51 +401,9 @@ def generate_launch_description():
         name='bt_navigator',
         output='screen',
         parameters=[bt_navigator_yaml_convoy],
-        remappings=[("/tf", "/convoy/tf"),
-                    ("/tf_static", "/convoy/tf_static"),
-                    ("/odometry/filtered", "/convoy/odometry/filtered")])
-
-    convoy_smoother_server = Node(
-        namespace='convoy',
-        package='nav2_smoother',
-        executable='smoother_server',
-        name='smoother_server',
-        output='screen',
-        parameters=[smoother_yaml_convoy],
-        remappings=[("/tf", "tf"),
-                    ("/tf_static", "tf_static")])
-
-    convoy_waypoint_follower = Node(
-        namespace='convoy',
-        package='nav2_waypoint_follower',
-        executable='waypoint_follower',
-        name='waypoint_follower',
-        output='screen',
-        parameters=[waypoint_follower_yaml_convoy],
-        remappings=[("/tf", "tf"),
-                    ("/tf_static", "tf_static")])
-
-    convoy_velocity_smoother = Node(
-        namespace='convoy',
-        package='nav2_velocity_smoother',
-        executable='velocity_smoother',
-        name='velocity_smoother',
-        output='screen',
-        parameters=[velocity_smoother_yaml_convoy],
         remappings=[("/tf", "tf"),
                     ("/tf_static", "tf_static"),
-                    ("/odom", "odom")])
-
-    convoy_collision_monitor = Node(
-        namespace='convoy',
-        package='nav2_collision_monitor',
-        executable='collision_monitor',
-        name='collision_monitor',
-        output='screen',
-        parameters=[collision_monitor_yaml_convoy],
-        remappings=[("/tf", "tf"),
-                    ("/tf_static", "tf_static"),
-                    ("/scan", "scan")])
+                    ("/odometry/filtered", "odometry/filtered")])
 
     fc1_controller_server = Node(
         namespace='fc1',
@@ -500,9 +412,9 @@ def generate_launch_description():
         name='controller_server',
         output='screen',
         parameters=[controller_yaml_fc1],
-        remappings=[("/tf", "/fc1/tf"),
-                    ("/tf_static", "/fc1/tf_static"),
-                    ("/scan", "/fc1/scan")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static"),
+                    ("/scan", "scan")])
 
     fc1_planner_server = Node(
         namespace='fc1',
@@ -511,9 +423,9 @@ def generate_launch_description():
         name='planner_server',
         output='screen',
         parameters=[planner_yaml_fc1],
-        remappings=[("/tf", "/fc1/tf"),
-                    ("/tf_static", "/fc1/tf_static"),
-                    ("/scan", "/fc1/scan")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static"),
+                    ("/scan", "scan")])
 
     fc1_recoveries_server = Node(
         namespace='fc1',
@@ -522,8 +434,8 @@ def generate_launch_description():
         name='behavior_server',
         parameters=[recovery_yaml_fc1],
         output='screen',
-        remappings=[("/tf", "/fc1/tf"),
-                    ("/tf_static", "/fc1/tf_static")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static")])
 
     fc1_bt_navigator = Node(
         namespace='fc1',
@@ -532,9 +444,9 @@ def generate_launch_description():
         name='bt_navigator',
         output='screen',
         parameters=[bt_navigator_yaml_fc1],
-        remappings=[("/tf", "/fc1/tf"),
-                    ("/tf_static", "/fc1/tf_static"),
-                    ("/odometry/filtered", "/fc1/odometry/filtered")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static"),
+                    ("/odometry/filtered", "odometry/filtered")])
 
     fc2_controller_server = Node(
         namespace='fc2',
@@ -543,9 +455,9 @@ def generate_launch_description():
         name='controller_server',
         output='screen',
         parameters=[controller_yaml_fc2],
-        remappings=[("/tf", "/fc2/tf"),
-                    ("/tf_static", "/fc2/tf_static"),
-                    ("/scan", "/fc2/scan")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static"),
+                    ("/scan", "scan")])
 
     fc2_planner_server = Node(
         namespace='fc2',
@@ -554,9 +466,9 @@ def generate_launch_description():
         name='planner_server',
         output='screen',
         parameters=[planner_yaml_fc2],
-        remappings=[("/tf", "/fc2/tf"),
-                    ("/tf_static", "/fc2/tf_static"),
-                    ("/scan", "/fc2/scan")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static"),
+                    ("/scan", "scan")])
 
     fc2_recoveries_server = Node(
         namespace='fc2',
@@ -565,8 +477,8 @@ def generate_launch_description():
         name='behavior_server',
         parameters=[recovery_yaml_fc2],
         output='screen',
-        remappings=[("/tf", "/fc2/tf"),
-                    ("/tf_static", "/fc2/tf_static")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static")])
 
     fc2_bt_navigator = Node(
         namespace='fc2',
@@ -575,9 +487,9 @@ def generate_launch_description():
         name='bt_navigator',
         output='screen',
         parameters=[bt_navigator_yaml_fc2],
-        remappings=[("/tf", "/fc2/tf"),
-                    ("/tf_static", "/fc2/tf_static"),
-                    ("/odometry/filtered", "/fc2/odometry/filtered")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static"),
+                    ("/odometry/filtered", "odometry/filtered")])
 
     fc3_controller_server = Node(
         namespace='fc3',
@@ -586,9 +498,9 @@ def generate_launch_description():
         name='controller_server',
         output='screen',
         parameters=[controller_yaml_fc3],
-        remappings=[("/tf", "/fc3/tf"),
-                    ("/tf_static", "/fc3/tf_static"),
-                    ("/scan", "/fc3/scan")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static"),
+                    ("/scan", "scan")])
 
     fc3_planner_server = Node(
         namespace='fc3',
@@ -597,9 +509,9 @@ def generate_launch_description():
         name='planner_server',
         output='screen',
         parameters=[planner_yaml_fc3],
-        remappings=[("/tf", "/fc3/tf"),
-                    ("/tf_static", "/fc3/tf_static"),
-                    ("/scan", "/fc3/scan")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static"),
+                    ("/scan", "scan")])
 
     fc3_recoveries_server = Node(
         namespace='fc3',
@@ -608,8 +520,8 @@ def generate_launch_description():
         name='behavior_server',
         parameters=[recovery_yaml_fc3],
         output='screen',
-        remappings=[("/tf", "/fc3/tf"),
-                    ("/tf_static", "/fc3/tf_static")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static")])
 
     fc3_bt_navigator = Node(
         namespace='fc3',
@@ -618,9 +530,9 @@ def generate_launch_description():
         name='bt_navigator',
         output='screen',
         parameters=[bt_navigator_yaml_fc3],
-        remappings=[("/tf", "/fc3/tf"),
-                    ("/tf_static", "/fc3/tf_static"),
-                    ("/odometry/filtered", "/fc3/odometry/filtered")])
+        remappings=[("/tf", "tf"),
+                    ("/tf_static", "tf_static"),
+                    ("/odometry/filtered", "odometry/filtered")])
 
     # lifecycle_manager 실행
     # navigation을 위한 노드들을 관리
@@ -726,10 +638,10 @@ def generate_launch_description():
         output='screen'
     )
 
-    follower_controller = Node(
+    fc1_controller = Node(
         package='follow_cart',
-        executable='follower_controller',
-        name='follower_controller',
+        executable='fc1_controller',
+        name='fc1_controller',
         output='screen'
     )
 
@@ -754,14 +666,8 @@ def generate_launch_description():
     ld.add_action(fc2_state_publisher_cmd)
     ld.add_action(fc3_state_publisher_cmd)
 
-    # ld.add_action(convoy_joint_state_publisher_cmd)
-    # ld.add_action(fc1_joint_state_publisher_cmd)
-    # ld.add_action(fc2_joint_state_publisher_cmd)
-    # ld.add_action(fc3_joint_state_publisher_cmd)
-
-
     ld.add_action(lifecycle_manager_localization)
-    # ld.add_action(lifecycle_manager_pathplanner)
+    ld.add_action(lifecycle_manager_pathplanner)
     # ld.add_action(lifecycle_manager)
     ld.add_action(map_server)
 
@@ -770,33 +676,29 @@ def generate_launch_description():
     ld.add_action(fc2_amcl)
     ld.add_action(fc3_amcl)
 
-    # ld.add_action(convoy_controller_server)
-    # ld.add_action(convoy_planner_server)
-    # ld.add_action(convoy_recoveries_server)
-    # ld.add_action(convoy_bt_navigator)
-    # ld.add_action(convoy_smoother_server)
-    # ld.add_action(convoy_waypoint_follower)
-    # ld.add_action(convoy_velocity_smoother)
-    # ld.add_action(convoy_collision_monitor)
+    ld.add_action(convoy_bt_navigator)
+    ld.add_action(convoy_planner_server)
+    ld.add_action(convoy_controller_server)
+    ld.add_action(convoy_recoveries_server)
 
-    # ld.add_action(fc1_controller_server)
-    # ld.add_action(fc1_planner_server)
-    # ld.add_action(fc1_recoveries_server)
-    # ld.add_action(fc1_bt_navigator)
-    #
-    # ld.add_action(fc2_controller_server)
-    # ld.add_action(fc2_planner_server)
-    # ld.add_action(fc2_recoveries_server)
-    # ld.add_action(fc2_bt_navigator)
-    #
-    # ld.add_action(fc3_controller_server)
-    # ld.add_action(fc3_planner_server)
-    # ld.add_action(fc3_recoveries_server)
-    # ld.add_action(fc3_bt_navigator)
+    ld.add_action(fc1_bt_navigator)
+    ld.add_action(fc1_planner_server)
+    ld.add_action(fc1_controller_server)
+    ld.add_action(fc1_recoveries_server)
+
+    ld.add_action(fc2_bt_navigator)
+    ld.add_action(fc2_planner_server)
+    ld.add_action(fc2_controller_server)
+    ld.add_action(fc2_recoveries_server)
+
+    ld.add_action(fc3_bt_navigator)
+    ld.add_action(fc3_planner_server)
+    ld.add_action(fc3_controller_server)
+    ld.add_action(fc3_recoveries_server)
 
     # ld.add_action(rviz)
 
-    # ld.add_action(convoy_controller)
-    # ld.add_action(follower_controller)
+    ld.add_action(convoy_controller)
+    ld.add_action(fc1_controller)
 
     return ld
