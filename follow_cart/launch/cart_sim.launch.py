@@ -177,7 +177,8 @@ def generate_launch_description():
         ("/tf_static", "tf_static"),
         ("/odom", "odom"),
         ("/imu", "imu"),
-        ("/odometry/filtered", "odometry/filtered")])
+        ("/odometry/filtered", "odometry/filtered"),
+        ("/amcl_pose", "amcl_pose")])
 
     fc1_localization_cmd = Node(
         package='robot_localization',
@@ -192,7 +193,8 @@ def generate_launch_description():
         ("/tf_static", "tf_static"),
         ("/odom", "odom"),
         ("/imu", "imu"),
-        ("/odometry/filtered", "odometry/filtered")])
+        ("/odometry/filtered", "odometry/filtered"),
+        ("/amcl_pose", "amcl_pose")])
 
     # fc2_localization_cmd = Node(
     #     package='robot_localization',
@@ -280,32 +282,6 @@ def generate_launch_description():
     #         ("/robot_description", "robot_description")])
 
 
-    # Launch the ROS 2 Navigation Stack
-    # convoy_navigation = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(os.path.join(nav2_launch_dir, 'bringup_launch.py')),
-    #     launch_arguments={'namespace': convoy_namespace,
-    #                       'use_namespace': use_namespace,
-    #                       'slam': slam,
-    #                       'map': map_yaml,
-    #                       'use_sim_time': use_sim_time,
-    #                       'params_file': convoy_params_file,
-    #                       'autostart': autostart}.items())
-    #
-
-    # nav2_dir = get_package_share_directory('nav2_bringup')
-    # nav2_launch_dir = os.path.join(nav2_dir, 'launch')
-    #
-    # fc1_params_file = os.path.join(pkg_share, 'config', 'follow_cart_1_nav2_object_following_params.yaml')
-    #
-    # fc1_navigation = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(os.path.join(nav2_launch_dir, 'bringup_launch.py')),
-    #     launch_arguments={'namespace': 'fc1',
-    #                       'use_namespace': True,
-    #                       'slam': False,
-    #                       'map': map_yaml_path,
-    #                       'use_sim_time': use_sim_time,
-    #                       'params_file': fc1_params_file,
-    #                       'autostart': True}.items())
 
     # amcl 실행
     # 위치 추정
@@ -318,7 +294,8 @@ def generate_launch_description():
             parameters=[amcl_yaml_convoy],
             remappings=[("/tf", "tf"),
                         ("/tf_static", "tf_static"),
-                        ("/scan", "scan")])
+                        ("/scan", "scan"),
+                        ("/amcl_pose", "amcl_pose")])
 
     # controller 실행
     # global path를 따라 장애물 회피 등의 local path 생성, 로봇들의 주행을 직접 제어
@@ -381,7 +358,8 @@ def generate_launch_description():
         parameters=[amcl_yaml_fc1],
         remappings=[("/tf", "tf"),
                     ("/tf_static", "tf_static"),
-                    ("/scan", "scan")])
+                    ("/scan", "scan"),
+                    ("/amcl_pose", "amcl_pose")])
 
     fc1_controller_server = Node(
         namespace='fc1',
