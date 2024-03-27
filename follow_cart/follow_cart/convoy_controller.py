@@ -14,14 +14,14 @@ class ConvoyController(Node):
         self.gui = gui
         self.twist_publisher = self.create_publisher(Twist, '/convoy/cmd_vel', 10)
 
-        timer_period = 1
+        timer_period = 5
         self.timer = self.create_timer(timer_period, self.pub_callback)
         self.current_linear_x = 0.0
         self.target_linear_x = 0.0
         self.current_angular_z = 0.0
         self.target_angular_z = 0.0
-        self.linear_x_calculator = VelocityCalculator(1 / timer_period, 2.0, 0.0, 0.0)
-        self.angular_z_calculator = VelocityCalculator(1 / timer_period, 2.0, 0.0, 0.0)
+        self.linear_x_calculator = VelocityCalculator(1 / timer_period, 1.0, 0.0, 0.0)
+        self.angular_z_calculator = VelocityCalculator(1 / timer_period, 1.0, 0.0, 0.0)
 
     def pub_callback(self):
         new_linear_x = self.gui.linear_velocity()
