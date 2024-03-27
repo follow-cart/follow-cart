@@ -1,8 +1,6 @@
-# follow-cart
+# Follow Cart
 
 
-## OS: ubuntu 22.04
-## ROS2 배포판: ROS2 iron
 
 ![image](https://github.com/follow-cart/follow-cart/assets/76193871/056d14de-6243-4535-b3ef-a6cb60f31de8)
 
@@ -11,7 +9,18 @@
 ![image](https://github.com/follow-cart/follow-cart/assets/76193871/0757e9ca-d7d1-430f-8781-faf2cc3d42d4)
 
 
+
+
 ## 개발환경 설정
+
+
+
+> OS: ubuntu 22.04
+
+> ROS2 배포판: ROS2 iron
+
+
+
 1. 워크스페이스 경로 통일(home/workspace/follow_cart_ws/src)
 2. src 폴더 내에서 아래 명령 실행
 
