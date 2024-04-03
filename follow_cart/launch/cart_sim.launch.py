@@ -1,5 +1,3 @@
-
-
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
@@ -7,6 +5,7 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
 
@@ -38,7 +37,7 @@ def generate_launch_description():
     fc3_spawn_yaw_val = '0.0'
 
     # urdf 파일 경로
-    pkg_share = get_package_share_directory(package_name)
+    pkg_share = FindPackageShare(package=package_name).find(package_name)
     convoy_urdf_path = os.path.join(pkg_share, 'urdf', 'convoy', 'jetbot.urdf')
     fc_urdf_path = os.path.join(pkg_share, 'urdf', 'follow_cart', 'turtlebot3_waffle_pi.urdf')
 
@@ -519,20 +518,20 @@ def generate_launch_description():
         executable='lifecycle_manager',
         name='lifecycle_manager',
         output='screen',
-        parameters=[
+        parameters=[{'use_sim_time': True},
                     {'autostart': True},
                     {'bond_timeout': 0.0},
                     {'node_names': ['map_server',
                                     'convoy/amcl',
-                                    'convoy/planner_server',
                                     'convoy/controller_server',
+                                    'convoy/planner_server',
                                     'convoy/behavior_server',
                                     'convoy/bt_navigator',
                                     'fc1/amcl',
-                                    'fc1/planner_server',
                                     'fc1/controller_server',
+                                    'fc1/planner_server',
                                     'fc1/behavior_server',
-                                    'fc1/bt_navigator',
+                                    'fc1/bt_navigator'
                                     ]}])
 
     # 'fc2/amcl',
@@ -600,6 +599,8 @@ def generate_launch_description():
                     {'frame_id': "map"},
                     {'yaml_filename': map_yaml_path}])
 
+
+
     # rviz 실행
     rviz = Node(
         package='rviz2',
@@ -609,14 +610,7 @@ def generate_launch_description():
         arguments=['-d', rviz_config_file_path]
     )
 
-    # dial을 통해 convoy를 제어
-    convoy_controller = Node(
-        package='follow_cart',
-        executable='convoy_controller',
-        name='convoy_controller',
-        output='screen'
-    )
-
+    # 대형을 유지하며 convoy를 따라가게 하는 fc1 controller
     fc1_controller = Node(
         package='follow_cart',
         executable='fc1_controller',
@@ -651,16 +645,16 @@ def generate_launch_description():
     ld.add_action(map_server)
 
     ld.add_action(convoy_amcl)
-    ld.add_action(convoy_bt_navigator)
-    ld.add_action(convoy_planner_server)
     ld.add_action(convoy_controller_server)
+    ld.add_action(convoy_planner_server)
     ld.add_action(convoy_recoveries_server)
+    ld.add_action(convoy_bt_navigator)
 
     ld.add_action(fc1_amcl)
-    ld.add_action(fc1_bt_navigator)
-    ld.add_action(fc1_planner_server)
     ld.add_action(fc1_controller_server)
+    ld.add_action(fc1_planner_server)
     ld.add_action(fc1_recoveries_server)
+    ld.add_action(fc1_bt_navigator)
 
     # ld.add_action(fc2_amcl)
     # ld.add_action(fc2_bt_navigator)
@@ -678,7 +672,6 @@ def generate_launch_description():
 
     # ld.add_action(rviz)
 
-    ld.add_action(convoy_controller)
     ld.add_action(fc1_controller)
 
     return ld

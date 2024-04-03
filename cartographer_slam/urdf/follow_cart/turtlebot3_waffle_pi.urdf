@@ -4,7 +4,7 @@
   <xacro:arg name="robot_name" default="fc1" />
   <!-- Init colour -->
   <material name="black">
-      <color rgba="1.0 1.0 1.0 1.0"/>
+      <color rgba="0.0 0.0 0.0 1.0"/>
   </material>
 
   <material name="dark">
@@ -40,7 +40,7 @@
   </material>
 
   <material name="white">
-    <color rgba="0.0 0.0 0.0 0.0"/>
+    <color rgba="1.0 1.0 1.0 1.0"/>
   </material>
 
   <link name="$(arg robot_name)/base_footprint"/>
@@ -284,7 +284,7 @@
   <gazebo reference="$(arg robot_name)/base_scan">
     <sensor name="hls_lfcd_lds" type="ray">
         <always_on>true</always_on>
-        <visualize>false</visualize>
+        <visualize>true</visualize>
         <pose>-0.064 0 0.121 0 0 0</pose>
         <update_rate>5</update_rate>
         <ray>
@@ -333,7 +333,6 @@
             <namespace>$(arg robot_name)</namespace>
             <remapping>~/out:=imu</remapping>
           </ros>
-          <initialOrientationAsReference>false</initialOrientationAsReference>
           <frameName>$(arg robot_name)/imu_link</frameName>
     </plugin>
 

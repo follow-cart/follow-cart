@@ -1,6 +1,6 @@
 fc1/bt_navigator:
   ros__parameters:
-    use_sim_time: true
+    use_sim_time: True
     global_frame: map
     robot_base_frame: fc1/base_link
     odom_topic: /fc1/odometry/filtered
@@ -15,8 +15,8 @@ fc1/bt_navigator:
       - nav2_follow_path_action_bt_node
       - nav2_spin_action_bt_node
       - nav2_wait_action_bt_node
-      - nav2_assisted_teleop_action_bt_node
       - nav2_back_up_action_bt_node
+      - nav2_assisted_teleop_action_bt_node
       - nav2_drive_on_heading_bt_node
       - nav2_clear_costmap_service_bt_node
       - nav2_is_stuck_condition_bt_node
@@ -24,12 +24,12 @@ fc1/bt_navigator:
       - nav2_goal_updated_condition_bt_node
       - nav2_globally_updated_goal_condition_bt_node
       - nav2_is_path_valid_condition_bt_node
+      - nav2_initial_pose_received_condition_bt_node
+      - nav2_reinitialize_global_localization_service_bt_node
       - nav2_are_error_codes_active_condition_bt_node
       - nav2_would_a_controller_recovery_help_condition_bt_node
       - nav2_would_a_planner_recovery_help_condition_bt_node
       - nav2_would_a_smoother_recovery_help_condition_bt_node
-      - nav2_initial_pose_received_condition_bt_node
-      - nav2_reinitialize_global_localization_service_bt_node
       - nav2_rate_controller_bt_node
       - nav2_distance_controller_bt_node
       - nav2_speed_controller_bt_node

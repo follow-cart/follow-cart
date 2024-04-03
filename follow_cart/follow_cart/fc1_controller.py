@@ -1,16 +1,19 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
-from nav_msgs.msg import Odometry
+from nav2_msgs.action import NavigateToPose
+from rclpy.action import ActionClient
 from .fc1_formation_keeper import FC1FormationKeeper
 
 class FC1Controller(Node):
     def __init__(self):
         super().__init__("fc1_controller")
-        self.pose_publisher = self.create_publisher(PoseStamped, "/fc1/goal_pose", 10)
+        self.pose_publisher = self.create_publisher(PoseStamped, "/fc1/goal_update", 10)
         # self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.odom_cb, 10)
         self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
+        self._action_client = ActionClient(self, NavigateToPose, '/fc1/navigate_to_pose')
         self.fc1_formation_keeper = FC1FormationKeeper()
+        self.initial_goal = True
 
     # odom msg를 goal_pose로 전달한 msg 타입을 변경 후 전달
     # def odom_cb(self, odom_msg):
@@ -39,11 +42,6 @@ class FC1Controller(Node):
     #     self.pose_publisher.publish(pose_stamped)
 
     def pose_cb(self, pose_msg):
-        pose_stamped = PoseStamped()
-        pose_stamped.header.frame_id = "map"
-        pose_stamped.header.stamp = pose_msg.header.stamp
-
-        pose_stamped.pose.orientation = pose_msg.pose.pose.orientation
 
         convoy_x = pose_msg.pose.pose.orientation.x
         convoy_y = pose_msg.pose.pose.orientation.y
@@ -57,13 +55,65 @@ class FC1Controller(Node):
         new_x = pose_msg.pose.pose.position.x - x_from_convoy
         new_y = pose_msg.pose.pose.position.y - y_from_convoy
 
-        pose_stamped.pose.position.x = new_x
-        pose_stamped.pose.position.y = new_y
-        pose_stamped.pose.position.z = 0.0
+        # self.get_logger().info('Recieved Data:\n X : %f \n Y : %f \n Z : 0.0' % (new_x, new_y))
+        if self.initial_goal:
+            self.send_goal(new_x, new_y, 0.0)
+            self.initial_goal = False
+        else:
+            pose_stamped = PoseStamped()
+            pose_stamped.header.frame_id = "map"
+            pose_stamped.header.stamp = self.get_clock().now().to_msg()
 
-        self.pose_publisher.publish(pose_stamped)
+            pose_stamped.pose.orientation = pose_msg.pose.pose.orientation
+
+            pose_stamped.pose.position.x = new_x
+            pose_stamped.pose.position.y = new_y
+            pose_stamped.pose.position.z = 0.0
+
+            self.pose_publisher.publish(pose_stamped)
 
 
+    def send_goal(self, x, y, theta):
+        self.get_logger().info('sending goal to action server')
+        goal_pose = NavigateToPose.Goal()
+        goal_pose.pose.header.frame_id = "map"
+        goal_pose.pose.pose.position.x = x
+        goal_pose.pose.pose.position.y = y
+        goal_pose.pose.pose.position.z = theta
+
+        goal_pose.behavior_tree = "/home/workspace/follow_cart_ws/src/follow_cart/config/follow_point_bt.xml"
+
+        self.get_logger().info('waiting for action server')
+        self._action_client.wait_for_server()
+        self.get_logger().info('action server detected')
+
+        _send_goal_future = self._action_client.send_goal_async(
+            goal_pose,
+            feedback_callback=self.feedback_callback)
+        self.get_logger().info('goal sent')
+
+        _send_goal_future.add_done_callback(self.goal_response_callback)
+
+    def goal_response_callback(self, future):
+        goal_handle = future.result()
+        if not goal_handle.accepted:
+            self.get_logger().info('Goal rejected :(')
+            return
+        self.get_logger().info('Goal accepted :)')
+        _get_result_future = goal_handle.get_result_async()
+
+        _get_result_future.add_done_callback(self.get_result_callback)
+
+    def get_result_callback(self, future):
+        result = future.result().result
+        self.get_logger().info('Result: {0}' + str(result))
+        self.initial_goal = True
+        # rclpy.shutdown()
+
+    def feedback_callback(self, feedback_msg):
+        pass
+        # feedback = feedback_msg.feedback
+        # self.get_logger().info('FEEDBACK:' + str(feedback))
 
 def main(args=None):
     rclpy.init(args=args)
