@@ -2,54 +2,55 @@
   This Behavior Tree follows a dynamic pose to a certain distance
 -->
 
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <PipelineSequence name="NavigateWithReplanning">
+      <RateController hz="1.0">
+        <Sequence>
+          <GoalUpdater input_goal="{goal}" output_goal="{updated_goal}">
+            <ComputePathToPose goal="{updated_goal}" path="{path}" planner_id="GridBased"/>
+          </GoalUpdater>
+         <TruncatePath distance="0.0" input_path="{path}" output_path="{truncated_path}"/>
+        </Sequence>
+      </RateController>
+      <KeepRunningUntilFailure>
+        <FollowPath path="{truncated_path}" controller_id="FollowPath"/>
+      </KeepRunningUntilFailure>
+    </PipelineSequence>
+  </BehaviorTree>
+</root>
+
 <!--<root main_tree_to_execute="MainTree">-->
 <!--  <BehaviorTree ID="MainTree">-->
-<!--    <PipelineSequence name="NavigateWithReplanning">-->
-<!--      <RateController hz="1.0">-->
-<!--        <Sequence>-->
-<!--          <GoalUpdater input_goal="{goal}" output_goal="{updated_goal}">-->
-<!--            <ComputePathToPose goal="{updated_goal}" path="{path}" planner_id="GridBased"/>-->
-<!--          </GoalUpdater>-->
-<!--         <TruncatePath distance="0.0" input_path="{path}" output_path="{truncated_path}"/>-->
-<!--        </Sequence>-->
-<!--      </RateController>-->
-<!--      <KeepRunningUntilFailure>-->
-<!--        <FollowPath path="{truncated_path}" controller_id="FollowPath"/>-->
-<!--      </KeepRunningUntilFailure>-->
-<!--    </PipelineSequence>-->
+<!--    <Sequence name="Test">-->
+<!--      <ClearEntireCostmap name="ClearLocalCostmap-test" service_name="local_costmap/clear_entirely_local_costmap"/>-->
+<!--      <ClearEntireCostmap name="ClearGlobalCostmap-test" service_name="global_costmap/clear_entirely_global_costmap"/>-->
+<!--      <Wait wait_duration="1"/>-->
+<!--      <RecoveryNode number_of_retries="6" name="NavigateRecovery">-->
+<!--        <PipelineSequence name="NavigateWithReplanning">-->
+<!--          <RateController hz="10.0">-->
+<!--            <RecoveryNode number_of_retries="1" name="ComputePathToPose">-->
+<!--              <GoalUpdater input_goal="{goal}" output_goal="{updated_goal}">-->
+<!--                <ComputePathToPose goal="{updated_goal}" path="{path}" planner_id="GridBased"/>-->
+<!--              </GoalUpdater>-->
+<!--              <ClearEntireCostmap name="ClearGlobalCostmap-Context" service_name="global_costmap/clear_entirely_global_costmap"/>-->
+<!--            </RecoveryNode>-->
+<!--          </RateController>-->
+<!--          <RecoveryNode number_of_retries="1" name="DynamicFollowPath">-->
+<!--            <FollowPath path="{path}" controller_id="DynamicFollowPath"/>-->
+<!--            <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap"/>-->
+<!--          </RecoveryNode>-->
+<!--        </PipelineSequence>-->
+<!--        <ReactiveFallback name="RecoveryFallback">-->
+<!--          <GoalUpdated/>-->
+<!--          <SequenceStar name="RecoveryActions">-->
+<!--            <ClearEntireCostmap name="ClearLocalCostmap-Subtree" service_name="local_costmap/clear_entirely_local_costmap"/>-->
+<!--            <ClearEntireCostmap name="ClearGlobalCostmap-Subtree" service_name="global_costmap/clear_entirely_global_costmap"/>-->
+<!--            <Wait wait_duration="1"/>-->
+<!--          </SequenceStar>-->
+<!--        </ReactiveFallback>-->
+<!--      </RecoveryNode>-->
+<!--    </Sequence>-->
 <!--  </BehaviorTree>-->
 <!--</root>-->
 
-<root main_tree_to_execute="MainTree">
-  <BehaviorTree ID="MainTree">
-    <Sequence name="Test">
-      <ClearEntireCostmap name="ClearLocalCostmap-test" service_name="local_costmap/clear_entirely_local_costmap"/>
-      <ClearEntireCostmap name="ClearGlobalCostmap-test" service_name="global_costmap/clear_entirely_global_costmap"/>
-      <Wait wait_duration="1"/>
-      <RecoveryNode number_of_retries="6" name="NavigateRecovery">
-        <PipelineSequence name="NavigateWithReplanning">
-          <RateController hz="10.0">
-            <RecoveryNode number_of_retries="1" name="ComputePathToPose">
-              <GoalUpdater input_goal="{goal}" output_goal="{updated_goal}">
-                <ComputePathToPose goal="{updated_goal}" path="{path}" planner_id="GridBased"/>
-              </GoalUpdater>
-              <ClearEntireCostmap name="ClearGlobalCostmap-Context" service_name="global_costmap/clear_entirely_global_costmap"/>
-            </RecoveryNode>
-          </RateController>
-          <RecoveryNode number_of_retries="1" name="DynamicFollowPath">
-            <FollowPath path="{path}" controller_id="DynamicFollowPath"/>
-            <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap"/>
-          </RecoveryNode>
-        </PipelineSequence>
-        <ReactiveFallback name="RecoveryFallback">
-          <GoalUpdated/>
-          <SequenceStar name="RecoveryActions">
-            <ClearEntireCostmap name="ClearLocalCostmap-Subtree" service_name="local_costmap/clear_entirely_local_costmap"/>
-            <ClearEntireCostmap name="ClearGlobalCostmap-Subtree" service_name="global_costmap/clear_entirely_global_costmap"/>
-            <Wait wait_duration="1"/>
-          </SequenceStar>
-        </ReactiveFallback>
-      </RecoveryNode>
-    </Sequence>
-  </BehaviorTree>
-</root>

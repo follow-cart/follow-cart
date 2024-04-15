@@ -17,27 +17,28 @@ def generate_launch_description():
 
     # 로봇 초기 생성 위치
     convoy_spawn_x_val = '0.0'
-    convoy_spawn_y_val = '0.0'
-    convoy_spawn_z_val = '0.25'
+    convoy_spawn_y_val = '-2.0'
+    convoy_spawn_z_val = '0.1'
     convoy_spawn_yaw_val = '0.0'
 
-    fc1_spawn_x_val = '-1.0'
-    fc1_spawn_y_val = '0.0'
-    fc1_spawn_z_val = '0.25'
+    fc1_spawn_x_val = '-0.5'
+    fc1_spawn_y_val = '-1.5'
+    fc1_spawn_z_val = '0.1'
     fc1_spawn_yaw_val = '0.0'
 
-    fc2_spawn_x_val = '-1.0'
-    fc2_spawn_y_val = '-2.5'
-    fc2_spawn_z_val = '0.25'
+    fc2_spawn_x_val = '-0.5'
+    fc2_spawn_y_val = '-2.0'
+    fc2_spawn_z_val = '0.1'
     fc2_spawn_yaw_val = '0.0'
 
-    fc3_spawn_x_val = '-1.0'
-    fc3_spawn_y_val = '-3.5'
-    fc3_spawn_z_val = '0.25'
+    fc3_spawn_x_val = '-0.5'
+    fc3_spawn_y_val = '-2.5'
+    fc3_spawn_z_val = '0.1'
     fc3_spawn_yaw_val = '0.0'
 
     # urdf 파일 경로
-    pkg_share = FindPackageShare(package=package_name).find(package_name)
+    # pkg_share = FindPackageShare(package=package_name).find(package_name)
+    pkg_share = get_package_share_directory(package_name)
     convoy_urdf_path = os.path.join(pkg_share, 'urdf', 'convoy', 'jetbot.urdf')
     fc_urdf_path = os.path.join(pkg_share, 'urdf', 'follow_cart', 'turtlebot3_waffle_pi.urdf')
 
@@ -513,79 +514,47 @@ def generate_launch_description():
 
     # lifecycle_manager 실행
     # navigation을 위한 노드들을 관리
-    lifecycle_manager = Node(
+    lifecycle_manager_localization = Node(
         package='nav2_lifecycle_manager',
         executable='lifecycle_manager',
-        name='lifecycle_manager',
+        name='lifecycle_manager_localization',
         output='screen',
         parameters=[{'use_sim_time': True},
                     {'autostart': True},
                     {'bond_timeout': 0.0},
                     {'node_names': ['map_server',
                                     'convoy/amcl',
-                                    'convoy/controller_server',
+                                    'fc1/amcl'
+                                    ]}])
+
+    convoy_lifecycle_manager = Node(
+        package='nav2_lifecycle_manager',
+        executable='lifecycle_manager',
+        name='convoy_lifecycle_manager',
+        output='screen',
+        parameters=[{'use_sim_time': True},
+                    {'autostart': True},
+                    {'bond_timeout': 0.0},
+                    {'node_names': ['convoy/controller_server',
                                     'convoy/planner_server',
                                     'convoy/behavior_server',
-                                    'convoy/bt_navigator',
-                                    'fc1/amcl',
+                                    'convoy/bt_navigator'
+                                    ]}])
+    fc1_lifecycle_manager = Node(
+        package='nav2_lifecycle_manager',
+        executable='lifecycle_manager',
+        name='fc1_lifecycle_manager',
+        output='screen',
+        parameters=[{'use_sim_time': True},
+                    {'autostart': True},
+                    {'bond_timeout': 0.0},
+                    {'node_names': [
                                     'fc1/controller_server',
                                     'fc1/planner_server',
                                     'fc1/behavior_server',
                                     'fc1/bt_navigator'
                                     ]}])
 
-    # 'fc2/amcl',
-    # 'fc2/planner_server',
-    # 'fc2/controller_server',
-    # 'fc2/behavior_server',
-    # 'fc2/bt_navigator',
-    # 'fc3/amcl',
-    # 'fc3/planner_server',
-    # 'fc3/controller_server',
-    # 'fc3/behavior_server',
-    # 'fc3/bt_navigator',
-
-    # lifecycle_manager_localization = Node(
-    #     package='nav2_lifecycle_manager',
-    #     executable='lifecycle_manager',
-    #     name='lifecycle_manager_localization',
-    #     output='screen',
-    #     parameters=[{'use_sim_time': True},
-    #                 {'autostart': True},
-    #                 {'bond_timeout': 0.0},
-    #                 {'node_names': ['map_server',
-    #                                 'convoy/amcl',
-    #                                 'fc1/amcl',
-    #                                 'fc2/amcl',
-    #                                 'fc3/amcl',
-    #                                 ]}])
-    #
-    # lifecycle_manager_pathplanner = Node(
-    #     package='nav2_lifecycle_manager',
-    #     executable='lifecycle_manager',
-    #     name='lifecycle_manager_pathplanner',
-    #     output='screen',
-    #     parameters=[{'use_sim_time': True},
-    #                 {'autostart': True},
-    #                 {'bond_timeout': 0.0},
-    #                 {'node_names': [
-    #                                 'convoy/planner_server',
-    #                                 'convoy/controller_server',
-    #                                 'convoy/behavior_server',
-    #                                 'convoy/bt_navigator',
-    #                                 'fc1/planner_server',
-    #                                 'fc1/controller_server',
-    #                                 'fc1/behavior_server',
-    #                                 'fc1/bt_navigator',
-    #                                 'fc2/planner_server',
-    #                                 'fc2/controller_server',
-    #                                 'fc2/behavior_server',
-    #                                 'fc2/bt_navigator',
-    #                                 'fc3/planner_server',
-    #                                 'fc3/controller_server',
-    #                                 'fc3/behavior_server',
-    #                                 'fc3/bt_navigator',
-    #                                 ]}])
 
     # map_server 실행
     # map 정보를 전달
@@ -599,22 +568,31 @@ def generate_launch_description():
                     {'frame_id': "map"},
                     {'yaml_filename': map_yaml_path}])
 
-
-
     # rviz 실행
-    rviz = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        output='screen',
-        arguments=['-d', rviz_config_file_path]
-    )
+    # rviz = Node(
+    #     package='rviz2',
+    #     executable='rviz2',
+    #     name='rviz2',
+    #     arguments=['-d', rviz_config_file_path],
+    #     remappings=[("/tf", "/convoy/tf"),
+    #                 ("/tf_static", "/convoy/tf_static"),
+    #                 ("/robot_description", "/convoy/robot_description"),
+    #                 ("/map", "/map"),
+    #                 ("/map_updates", "/map_updates")])
+
 
     # 대형을 유지하며 convoy를 따라가게 하는 fc1 controller
     fc1_controller = Node(
         package='follow_cart',
         executable='fc1_controller',
         name='fc1_controller',
+        output='screen'
+    )
+
+    fc1_goal_updater = Node(
+        package='follow_cart',
+        executable='fc1_goal_updater',
+        name='fc1_goal_updater',
         output='screen'
     )
 
@@ -638,9 +616,6 @@ def generate_launch_description():
     ld.add_action(fc1_state_publisher_cmd)
     # ld.add_action(fc2_state_publisher_cmd)
     # ld.add_action(fc3_state_publisher_cmd)
-
-    # ld.add_action(lifecycle_manager_localization)
-    # ld.add_action(lifecycle_manager_pathplanner)
 
     ld.add_action(map_server)
 
@@ -668,10 +643,13 @@ def generate_launch_description():
     # ld.add_action(fc3_controller_server)
     # ld.add_action(fc3_recoveries_server)
 
-    ld.add_action(lifecycle_manager)
+    ld.add_action(lifecycle_manager_localization)
+    ld.add_action(convoy_lifecycle_manager)
+    ld.add_action(fc1_lifecycle_manager)
 
     # ld.add_action(rviz)
 
     ld.add_action(fc1_controller)
+    ld.add_action(fc1_goal_updater)
 
     return ld

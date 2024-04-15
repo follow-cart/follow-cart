@@ -1,6 +1,6 @@
 fc1/amcl:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: true
     alpha1: 0.2
     alpha2: 0.2
     alpha3: 0.2
@@ -39,6 +39,7 @@ fc1/amcl:
     map_topic: /map
     set_initial_pose: true
     initial_pose:
-        x: -1.0
-        y:  0.0
-        yaw: 0.0
+      x: -0.5
+      y: -1.5
+      z: 0.0
+      yaw: 0.0
