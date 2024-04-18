@@ -1,14 +1,14 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
-from .fc1_formation_keeper import FC1FormationKeeper
+from .fc3_formation_keeper import FC3FormationKeeper
 
-class FC1GoalUpdater(Node):
+class FC3GoalUpdater(Node):
     def __init__(self):
-        super().__init__("fc1_goal_updater")
-        self.pose_publisher = self.create_publisher(PoseStamped, "/fc1/goal_update", 10)
+        super().__init__("fc3_goal_updater")
+        self.pose_publisher = self.create_publisher(PoseStamped, "/fc3/goal_update", 10)
         self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.update_cb, 10)
-        self.fc1_formation_keeper = FC1FormationKeeper()
+        self.fc3_formation_keeper = FC3FormationKeeper()
 
     def update_cb(self, pose_msg):
 
@@ -18,7 +18,7 @@ class FC1GoalUpdater(Node):
         convoy_w = pose_msg.pose.pose.orientation.w
 
         # 대형 유지를 위해 convoy 기준으로 x축, y축 어디에 위치해야 하는지
-        x_from_convoy, y_from_convoy = self.fc1_formation_keeper.calculate(convoy_x, convoy_y, convoy_z, convoy_w)
+        x_from_convoy, y_from_convoy = self.fc3_formation_keeper.calculate(convoy_x, convoy_y, convoy_z, convoy_w)
 
         # 대형 유지를 위한 새로운 위치 계산
         new_x = pose_msg.pose.pose.position.x - x_from_convoy
@@ -41,9 +41,9 @@ class FC1GoalUpdater(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    fc1_goal_updater = FC1GoalUpdater()
+    fc3_goal_updater = FC3GoalUpdater()
     try:
-        rclpy.spin(fc1_goal_updater)
+        rclpy.spin(fc3_goal_updater)
     except KeyboardInterrupt:
         pass
 

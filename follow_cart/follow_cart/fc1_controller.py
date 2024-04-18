@@ -4,13 +4,10 @@ from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
 from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
 from .fc1_formation_keeper import FC1FormationKeeper
-from geometry_msgs.msg import Quaternion
 
 class FC1Controller(Node):
     def __init__(self):
         super().__init__("fc1_controller")
-        # self.pose_publisher = self.create_publisher(PoseStamped, "/fc1/goal_update", 10)
-        # self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.odom_cb, 10)
         self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
         self._action_client = ActionClient(self, NavigateToPose, '/fc1/navigate_to_pose')
         self.fc1_formation_keeper = FC1FormationKeeper()
