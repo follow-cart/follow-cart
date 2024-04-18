@@ -6,7 +6,7 @@ fc1/planner_server:
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
       tolerance: 0.0
-      use_astar: false
+      use_astar: true
       allow_unknown: true
 
 fc1/global_costmap:
