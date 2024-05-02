@@ -191,7 +191,7 @@
               <namespace>/convoy</namespace>
               <remapping>~/out:=imu</remapping>
             </ros>
-
+            <initialOrientationAsReference>false</initialOrientationAsReference>
             <frame_name>convoy/imu_link</frame_name>
     </plugin>
 

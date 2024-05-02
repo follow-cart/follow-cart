@@ -25,7 +25,7 @@ class FC2GoalUpdater(Node):
         new_y = pose_msg.pose.pose.position.y - y_from_convoy
 
         pose_stamped = PoseStamped()
-        pose_stamped.header.frame_id = "map"
+        pose_stamped.header.frame_id = "fc2/map"
         pose_stamped.header.stamp = self.get_clock().now().to_msg()
 
         pose_stamped.pose.orientation.x = pose_msg.pose.pose.orientation.x

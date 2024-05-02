@@ -84,7 +84,7 @@ class FC1Controller(Node):
         goal_pose = NavigateToPose.Goal()
 
         pose_stamped = PoseStamped()
-        pose_stamped.header.frame_id = "map"
+        pose_stamped.header.frame_id = "fc1/map"
         pose_stamped.header.stamp = self.get_clock().now().to_msg()
         # pose_stamped.header.stamp = pose_msg.header.stamp
 

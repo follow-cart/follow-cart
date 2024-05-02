@@ -14,9 +14,9 @@ convoy/global_costmap:
     ros__parameters:
       update_frequency: 1.0
       publish_frequency: 1.0
-      global_frame: map
+      global_frame: convoy/map
       # This has to be set
-      map_topic: /map
+      map_topic: /convoy/map
       robot_base_frame: convoy/base_link
       use_sim_time: true
       robot_radius: 0.15
