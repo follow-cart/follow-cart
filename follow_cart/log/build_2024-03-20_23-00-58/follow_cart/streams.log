@@ -1,0 +1,22 @@
+[0.368s] Invoking command in '/home/yg/follow-cart/v2/follow-cart/follow_cart': PYTHONPATH=/home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/prefix_override:/home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base build/follow_cart build --build-base /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build install --record /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/install.log --single-version-externally-managed install_data
+[0.514s] running egg_info
+[0.514s] writing build/follow_cart/follow_cart.egg-info/PKG-INFO
+[0.514s] writing dependency_links to build/follow_cart/follow_cart.egg-info/dependency_links.txt
+[0.515s] writing entry points to build/follow_cart/follow_cart.egg-info/entry_points.txt
+[0.515s] writing requirements to build/follow_cart/follow_cart.egg-info/requires.txt
+[0.515s] writing top-level names to build/follow_cart/follow_cart.egg-info/top_level.txt
+[0.516s] reading manifest file 'build/follow_cart/follow_cart.egg-info/SOURCES.txt'
+[0.517s] writing manifest file 'build/follow_cart/follow_cart.egg-info/SOURCES.txt'
+[0.517s] running build
+[0.517s] running build_py
+[0.518s] running install
+[0.518s] running install_lib
+[0.519s] running install_data
+[0.520s] running install_egg_info
+[0.522s] removing '/home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart-0.0.0-py3.10.egg-info' (and everything under it)
+[0.522s] Copying build/follow_cart/follow_cart.egg-info to /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart-0.0.0-py3.10.egg-info
+[0.522s] running install_scripts
+[0.536s] Installing convoy_controller script to /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/follow_cart
+[0.536s] Installing follower_controller script to /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/follow_cart
+[0.536s] writing list of installed files to '/home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/install.log'
+[0.554s] Invoked command in '/home/yg/follow-cart/v2/follow-cart/follow_cart' returned '0': PYTHONPATH=/home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/prefix_override:/home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base build/follow_cart build --build-base /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build install --record /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/install.log --single-version-externally-managed install_data

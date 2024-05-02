@@ -1,0 +1,374 @@
+<sdf version='1.7'>
+  <model name='convoy'>
+  <static>false</static>
+    <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+    <link name="base_footprint"/>
+
+    <link name='base_link'>
+      <inertial>
+        <pose>0.000644 0 0.010849 0 -0 0</pose>
+        <mass>1.01</mass>
+        <inertia>
+          <ixx>0.00107272</ixx>
+          <ixy>0</ixy>
+          <ixz>-5.51535e-05</ixz>
+          <iyy>0.00111455</iyy>
+          <iyz>0</iyz>
+          <izz>0.00104183</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_footprint_fixed_joint_lump__collision_collision'>
+        <pose>0 0 0.053 1.57079 -0 1.57079</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://convoy/meshes/JetBot-v3-Chassis.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_footprint_fixed_joint_lump__collision_collision_1'>
+        <pose>0 -0.0058 0.137 0 -0 3.14</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://convoy/meshes/lidar-base.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='base_footprint_fixed_joint_lump__visual_visual'>
+        <pose>0 0 0.053 1.57079 -0 1.57079</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://convoy/meshes/JetBot-v3-Chassis.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__visual_visual_1'>
+        <pose>0.065 0 0.0957 0 0.25 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.001 0.001</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__visual_visual_2'>
+        <pose>0 -0.0058 0.137 0 -0 3.14</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://convoy/meshes/lidar-base.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <sensor name='camera' type='camera'>
+        <always_on>1</always_on>
+        <visualize>1</visualize>
+        <camera>
+          <horizontal_fov>2.79253</horizontal_fov>
+          <image>
+            <width>1280</width>
+            <height>720</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>1</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </camera>
+        <plugin name='camera_controller' filename='libgazebo_ros_camera.so'>
+          <ros>
+            <namespace>/convoy</namespace>
+            <remapping>~/out:=image_raw</remapping>
+          </ros>
+          <alwaysOn>1</alwaysOn>
+          <updateRate>30.0</updateRate>
+          <cameraName>camera</cameraName>
+          <frameName>convoy/camera_link</frameName>
+          <imageTopicName>rgb/image_raw</imageTopicName>
+          <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+          <hackBaseline>0.07</hackBaseline>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+        </plugin>
+        <pose>0.065 0 0.0957 0 0.25 0</pose>
+      </sensor>
+      <sensor name='lds_lfcd_sensor' type='ray'>
+        <always_on>1</always_on>
+        <visualize>0</visualize>
+        <update_rate>5</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>428</samples>
+              <resolution>0.84</resolution>
+              <min_angle>0</min_angle>
+              <max_angle>6.28319</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.1</min>
+            <max>8</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </ray>
+        <plugin name='scan' filename='libgazebo_ros_ray_sensor.so'>
+          <ros>
+            <namespace>/convoy</namespace>
+            <remapping>~/out:=scan</remapping>
+          </ros>
+          <output_type>sensor_msgs/LaserScan</output_type>
+          <frameName>convoy/lidar_link</frameName>
+        </plugin>
+        <pose>0 -0.0058 0.137 0 -0 3.14</pose>
+      </sensor>
+    </link>
+    <link name='right_wheel'>
+      <pose relative_to='right_wheel_hinge'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <collision name='right_wheel_fixed_joint_lump__collision_collision'>
+        <pose>0 0 0 0 1.5708 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.008</length>
+            <radius>0.03</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='right_wheel_fixed_joint_lump__visual_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://convoy/meshes/JetBot-v3-Wheel.stl</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <link name='left_wheel'>
+      <pose relative_to='left_wheel_hinge'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <collision name='left_wheel_fixed_joint_lump__collision_collision'>
+        <pose>0 0 0 0 1.5708 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.008</length>
+            <radius>0.03</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='left_wheel_fixed_joint_lump__visual_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://convoy/meshes/JetBot-v3-Wheel.stl</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <!-- *********************** IMU SENSOR SETUP **************************  -->
+    <link name="imu_link">
+        <gravity>true</gravity>
+        <sensor name="bmb_imu" type="imu">
+          <always_on>true</always_on>
+          <update_rate>100</update_rate>
+          <visualize>true</visualize>
+          <imu>
+            <orientation>
+              <x>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>2e-3</stddev>
+                </noise>
+              </x>
+              <y>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>2e-3</stddev>
+                </noise>
+              </y>
+              <z>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>2e-3</stddev>
+                </noise>
+              </z>
+            </orientation>
+            <angular_velocity>
+              <x>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>2e-4</stddev>
+                </noise>
+              </x>
+              <y>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>2e-4</stddev>
+                </noise>
+              </y>
+              <z>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>2e-4</stddev>
+                </noise>
+              </z>
+            </angular_velocity>
+            <linear_acceleration>
+              <x>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>1.7e-2</stddev>
+                </noise>
+              </x>
+              <y>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>1.7e-2</stddev>
+                </noise>
+              </y>
+              <z>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>1.7e-2</stddev>
+                </noise>
+              </z>
+            </linear_acceleration>
+          </imu>
+          <plugin name="convoy_imu" filename="libgazebo_ros_imu_sensor.so">
+            <initial_orientation_as_reference>false</initial_orientation_as_reference>
+            <frame_name>convoy/imu_link</frame_name>
+            <ros>
+              <namespace>/convoy</namespace>
+              <remapping>~/out:=imu</remapping>
+            </ros>
+          </plugin>
+        </sensor>
+    </link>
+
+    <joint name="base_joint" type="fixed">
+    <parent>base_footprint</parent>
+    <child>base_link</child>
+    <pose>0 0 0 0 0 0</pose>
+    </joint>
+
+    <joint name='left_wheel_hinge' type='revolute'>
+      <pose relative_to='base_link'>0.03 0.05125 0.04 0 -0 1.57079</pose>
+      <parent>base_link</parent>
+      <child>left_wheel</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <joint name='right_wheel_hinge' type='revolute'>
+      <pose relative_to='base_link'>0.03 -0.0595 0.04 0 -0 1.57079</pose>
+      <parent>base_link</parent>
+      <child>right_wheel</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <joint name="imu_joint" type="fixed">
+      <parent>base_footprint</parent>
+      <child>imu_link</child>
+      <pose>0 0 0 0 0 0</pose>
+    </joint>
+
+    <static>0</static>
+    <plugin name='convoy_diff_drive_controller' filename='libgazebo_ros_diff_drive.so'>
+      <ros>
+        <namespace>/convoy</namespace>
+      </ros>
+
+      <update_rate>30</update_rate>
+
+      <left_joint>left_wheel_hinge</left_joint>
+      <right_joint>right_wheel_hinge</right_joint>
+
+      <wheel_separation>0.096</wheel_separation>
+      <wheel_diameter>0.065</wheel_diameter>
+
+      <command_topic>cmd_vel</command_topic>
+
+      <max_wheel_acceleration>1</max_wheel_acceleration>
+      <max_wheel_torque>1</max_wheel_torque>
+
+      <publish_odom>true</publish_odom>
+
+      <publish_wheel_tf>true</publish_wheel_tf>
+
+      <odometry_topic>convoy/odom</odometry_topic>
+      <odometry_frame>convoy/odom</odometry_frame>
+      <robot_base_frame>convoy/base_footprint</robot_base_frame>
+
+      <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
+      <odometry_source>1</odometry_source>
+    </plugin>
+
+    <plugin name="convoy_joint_state" filename="libgazebo_ros_joint_state_publisher.so">
+        <ros>
+          <namespace>/convoy</namespace>
+          <remapping>~/out:=joint_states</remapping>
+        </ros>
+        <update_rate>30</update_rate>
+        <joint_name>left_wheel_hinge</joint_name>
+        <joint_name>right_wheel_hinge</joint_name>
+    </plugin>
+
+  </model>
+</sdf>

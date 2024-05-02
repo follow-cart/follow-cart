@@ -1,0 +1,22 @@
+running egg_info
+writing build/follow_cart/follow_cart.egg-info/PKG-INFO
+writing dependency_links to build/follow_cart/follow_cart.egg-info/dependency_links.txt
+writing entry points to build/follow_cart/follow_cart.egg-info/entry_points.txt
+writing requirements to build/follow_cart/follow_cart.egg-info/requires.txt
+writing top-level names to build/follow_cart/follow_cart.egg-info/top_level.txt
+reading manifest file 'build/follow_cart/follow_cart.egg-info/SOURCES.txt'
+writing manifest file 'build/follow_cart/follow_cart.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+running install_data
+creating /home/yg/follow-cart/follow-cart/follow_cart/install/follow_cart/share/follow_cart/launch/__pycache__
+copying launch/__pycache__/cart_sim.launch.cpython-310.pyc -> /home/yg/follow-cart/follow-cart/follow_cart/install/follow_cart/share/follow_cart/launch/__pycache__
+running install_egg_info
+removing '/home/yg/follow-cart/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart-0.0.0-py3.10.egg-info' (and everything under it)
+Copying build/follow_cart/follow_cart.egg-info to /home/yg/follow-cart/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart-0.0.0-py3.10.egg-info
+running install_scripts
+Installing convoy_controller script to /home/yg/follow-cart/follow-cart/follow_cart/install/follow_cart/lib/follow_cart
+Installing follower_controller script to /home/yg/follow-cart/follow-cart/follow_cart/install/follow_cart/lib/follow_cart
+writing list of installed files to '/home/yg/follow-cart/follow-cart/follow_cart/build/follow_cart/install.log'

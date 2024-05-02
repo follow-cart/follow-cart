@@ -1,0 +1,139 @@
+running egg_info
+creating build/follow_cart/follow_cart.egg-info
+writing build/follow_cart/follow_cart.egg-info/PKG-INFO
+writing dependency_links to build/follow_cart/follow_cart.egg-info/dependency_links.txt
+writing entry points to build/follow_cart/follow_cart.egg-info/entry_points.txt
+writing requirements to build/follow_cart/follow_cart.egg-info/requires.txt
+writing top-level names to build/follow_cart/follow_cart.egg-info/top_level.txt
+writing manifest file 'build/follow_cart/follow_cart.egg-info/SOURCES.txt'
+reading manifest file 'build/follow_cart/follow_cart.egg-info/SOURCES.txt'
+writing manifest file 'build/follow_cart/follow_cart.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+copying follow_cart/dial_gui.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+copying follow_cart/follower_controller.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+copying follow_cart/velocity_calculator.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+copying follow_cart/convoy_controller.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+copying follow_cart/formation_keeper.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+copying follow_cart/__init__.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+running install
+running install_lib
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+copying /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart/dial_gui.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+copying /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart/follower_controller.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+copying /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart/velocity_calculator.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+copying /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart/convoy_controller.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+copying /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart/formation_keeper.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+copying /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart/__init__.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+byte-compiling /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart/dial_gui.py to dial_gui.cpython-310.pyc
+byte-compiling /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart/follower_controller.py to follower_controller.cpython-310.pyc
+byte-compiling /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart/velocity_calculator.py to velocity_calculator.cpython-310.pyc
+byte-compiling /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart/convoy_controller.py to convoy_controller.cpython-310.pyc
+byte-compiling /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart/formation_keeper.py to formation_keeper.cpython-310.pyc
+byte-compiling /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart/__init__.py to __init__.cpython-310.pyc
+running install_data
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/ament_index
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/ament_index/resource_index
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/ament_index/resource_index/packages
+copying resource/follow_cart -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/ament_index/resource_index/packages
+copying package.xml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/launch
+copying launch/cart_sim.launch.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/launch/
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/worlds
+copying worlds/empty.world -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/worlds/
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy
+copying models/convoy/model.config -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy
+copying models/convoy/model.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy/meshes
+copying models/convoy/meshes/JetBot-v3-Chassis.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy/meshes
+copying models/convoy/meshes/lidar-base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy/meshes
+copying models/convoy/meshes/JetBot-v3-Wheel.stl -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy/meshes
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common
+copying models/turtlebot3_common/model.config -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+copying models/turtlebot3_common/meshes/r200.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+copying models/turtlebot3_common/meshes/tire.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+copying models/turtlebot3_common/meshes/burger_base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+copying models/turtlebot3_common/meshes/waffle_base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+copying models/turtlebot3_common/meshes/lds.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+copying models/turtlebot3_common/meshes/waffle_pi_base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_1
+copying models/follow_cart_1/model.config -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_1
+copying models/follow_cart_1/model-1_4_.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_1
+copying models/follow_cart_1/model.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_1
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_2
+copying models/follow_cart_2/model.config -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_2
+copying models/follow_cart_2/model-1_4_.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_2
+copying models/follow_cart_2/model.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_2
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_3
+copying models/follow_cart_3/model.config -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_3
+copying models/follow_cart_3/model-1_4_.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_3
+copying models/follow_cart_3/model.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_3
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/rviz
+copying rviz/convoy_and_fc1.rviz -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/rviz/
+copying rviz/nav2_config_object_following.rviz -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/rviz/
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/maps
+copying maps/map.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/maps/
+copying maps/map_rotated.png -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/maps/
+copying maps/map.pgm -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/maps/
+copying maps/map_rotated.pgm -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/maps/
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config
+copying config/fc3_ekf.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc1_planner_server.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/convoy_amcl_config.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/follow_point_bt.xml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc1_ekf.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc2_ekf.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc1_controller.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc3_controller.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/convoy_controller.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/convoy_recovery.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc3_bt_navigator.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc1_bt_navigator.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/convoy_ekf.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc2_bt_navigator.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc2_controller.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc2_amcl_config.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc2_planner_server.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc1_amcl_config.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/follow_cart_1_nav2_object_following_params.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/convoy_planner_server.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc3_planner_server.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc1_recovery.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc3_recovery.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc3_amcl_config.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/fc2_recovery.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+copying config/convoy_bt_navigator.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/urdf
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/urdf/convoy
+copying urdf/convoy/jetbot.gazebo.xacro -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/urdf/convoy
+copying urdf/convoy/jetbot.urdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/urdf/convoy
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/urdf/follow_cart
+copying urdf/follow_cart/turtlebot3_waffle_pi.urdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/urdf/follow_cart
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/convoy
+copying meshes/convoy/JetBot-v3-Chassis.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/convoy
+copying meshes/convoy/JetBot-v3-Chassis.dae.1 -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/convoy
+copying meshes/convoy/LICENSE -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/convoy
+copying meshes/convoy/lidar-base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/convoy
+copying meshes/convoy/JetBot-v3-Wheel.stl -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/convoy
+creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+copying meshes/follow_cart/r200.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+copying meshes/follow_cart/tire.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+copying meshes/follow_cart/burger_base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+copying meshes/follow_cart/waffle_base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+copying meshes/follow_cart/waffle_pi_base.stl -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+copying meshes/follow_cart/right_tire.stl -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+copying meshes/follow_cart/lds.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+copying meshes/follow_cart/left_tire.stl -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+copying meshes/follow_cart/waffle_pi_base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+running install_egg_info
+Copying build/follow_cart/follow_cart.egg-info to /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart-0.0.0-py3.10.egg-info
+running install_scripts
+Installing convoy_controller script to /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/follow_cart
+Installing follower_controller script to /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/follow_cart
+writing list of installed files to '/home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/install.log'

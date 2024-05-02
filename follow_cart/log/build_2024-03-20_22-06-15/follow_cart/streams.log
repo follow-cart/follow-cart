@@ -1,0 +1,141 @@
+[0.369s] Invoking command in '/home/yg/follow-cart/v2/follow-cart/follow_cart': PYTHONPATH=/home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/prefix_override:/home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base build/follow_cart build --build-base /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build install --record /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/install.log --single-version-externally-managed install_data
+[0.514s] running egg_info
+[0.515s] creating build/follow_cart/follow_cart.egg-info
+[0.515s] writing build/follow_cart/follow_cart.egg-info/PKG-INFO
+[0.515s] writing dependency_links to build/follow_cart/follow_cart.egg-info/dependency_links.txt
+[0.515s] writing entry points to build/follow_cart/follow_cart.egg-info/entry_points.txt
+[0.515s] writing requirements to build/follow_cart/follow_cart.egg-info/requires.txt
+[0.515s] writing top-level names to build/follow_cart/follow_cart.egg-info/top_level.txt
+[0.515s] writing manifest file 'build/follow_cart/follow_cart.egg-info/SOURCES.txt'
+[0.516s] reading manifest file 'build/follow_cart/follow_cart.egg-info/SOURCES.txt'
+[0.517s] writing manifest file 'build/follow_cart/follow_cart.egg-info/SOURCES.txt'
+[0.517s] running build
+[0.517s] running build_py
+[0.517s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build
+[0.518s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib
+[0.518s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+[0.518s] copying follow_cart/dial_gui.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+[0.518s] copying follow_cart/follower_controller.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+[0.518s] copying follow_cart/velocity_calculator.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+[0.518s] copying follow_cart/convoy_controller.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+[0.518s] copying follow_cart/formation_keeper.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+[0.518s] copying follow_cart/__init__.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart
+[0.518s] running install
+[0.518s] running install_lib
+[0.519s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+[0.519s] copying /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart/dial_gui.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+[0.519s] copying /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart/follower_controller.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+[0.519s] copying /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart/velocity_calculator.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+[0.519s] copying /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart/convoy_controller.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+[0.519s] copying /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart/formation_keeper.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+[0.519s] copying /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build/lib/follow_cart/__init__.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart
+[0.519s] byte-compiling /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart/dial_gui.py to dial_gui.cpython-310.pyc
+[0.520s] byte-compiling /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart/follower_controller.py to follower_controller.cpython-310.pyc
+[0.520s] byte-compiling /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart/velocity_calculator.py to velocity_calculator.cpython-310.pyc
+[0.521s] byte-compiling /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart/convoy_controller.py to convoy_controller.cpython-310.pyc
+[0.521s] byte-compiling /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart/formation_keeper.py to formation_keeper.cpython-310.pyc
+[0.521s] byte-compiling /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart/__init__.py to __init__.cpython-310.pyc
+[0.521s] running install_data
+[0.521s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/ament_index
+[0.521s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/ament_index/resource_index
+[0.521s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/ament_index/resource_index/packages
+[0.522s] copying resource/follow_cart -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/ament_index/resource_index/packages
+[0.522s] copying package.xml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart
+[0.522s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/launch
+[0.522s] copying launch/cart_sim.launch.py -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/launch/
+[0.522s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/worlds
+[0.522s] copying worlds/empty.world -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/worlds/
+[0.522s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models
+[0.522s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy
+[0.522s] copying models/convoy/model.config -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy
+[0.522s] copying models/convoy/model.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy
+[0.522s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy/meshes
+[0.522s] copying models/convoy/meshes/JetBot-v3-Chassis.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy/meshes
+[0.524s] copying models/convoy/meshes/lidar-base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy/meshes
+[0.524s] copying models/convoy/meshes/JetBot-v3-Wheel.stl -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/convoy/meshes
+[0.524s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common
+[0.524s] copying models/turtlebot3_common/model.config -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common
+[0.525s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+[0.525s] copying models/turtlebot3_common/meshes/r200.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+[0.525s] copying models/turtlebot3_common/meshes/tire.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+[0.525s] copying models/turtlebot3_common/meshes/burger_base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+[0.525s] copying models/turtlebot3_common/meshes/waffle_base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+[0.525s] copying models/turtlebot3_common/meshes/lds.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+[0.525s] copying models/turtlebot3_common/meshes/waffle_pi_base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/turtlebot3_common/meshes
+[0.525s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_1
+[0.525s] copying models/follow_cart_1/model.config -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_1
+[0.525s] copying models/follow_cart_1/model-1_4_.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_1
+[0.525s] copying models/follow_cart_1/model.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_1
+[0.525s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_2
+[0.525s] copying models/follow_cart_2/model.config -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_2
+[0.525s] copying models/follow_cart_2/model-1_4_.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_2
+[0.525s] copying models/follow_cart_2/model.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_2
+[0.525s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_3
+[0.525s] copying models/follow_cart_3/model.config -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_3
+[0.525s] copying models/follow_cart_3/model-1_4_.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_3
+[0.525s] copying models/follow_cart_3/model.sdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/models/follow_cart_3
+[0.525s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/rviz
+[0.526s] copying rviz/convoy_and_fc1.rviz -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/rviz/
+[0.526s] copying rviz/nav2_config_object_following.rviz -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/rviz/
+[0.526s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/maps
+[0.526s] copying maps/map.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/maps/
+[0.526s] copying maps/map_rotated.png -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/maps/
+[0.526s] copying maps/map.pgm -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/maps/
+[0.526s] copying maps/map_rotated.pgm -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/maps/
+[0.526s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config
+[0.526s] copying config/fc3_ekf.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.526s] copying config/fc1_planner_server.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.526s] copying config/convoy_amcl_config.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.526s] copying config/follow_point_bt.xml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.526s] copying config/fc1_ekf.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.526s] copying config/fc2_ekf.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.526s] copying config/fc1_controller.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.526s] copying config/fc3_controller.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.526s] copying config/convoy_controller.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/convoy_recovery.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/fc3_bt_navigator.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/fc1_bt_navigator.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/convoy_ekf.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/fc2_bt_navigator.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/fc2_controller.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/fc2_amcl_config.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/fc2_planner_server.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/fc1_amcl_config.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/follow_cart_1_nav2_object_following_params.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/convoy_planner_server.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/fc3_planner_server.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/fc1_recovery.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/fc3_recovery.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/fc3_amcl_config.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/fc2_recovery.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] copying config/convoy_bt_navigator.yaml -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/config/
+[0.527s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/urdf
+[0.527s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/urdf/convoy
+[0.528s] copying urdf/convoy/jetbot.gazebo.xacro -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/urdf/convoy
+[0.528s] copying urdf/convoy/jetbot.urdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/urdf/convoy
+[0.528s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/urdf/follow_cart
+[0.528s] copying urdf/follow_cart/turtlebot3_waffle_pi.urdf -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/urdf/follow_cart
+[0.528s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes
+[0.528s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/convoy
+[0.528s] copying meshes/convoy/JetBot-v3-Chassis.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/convoy
+[0.530s] copying meshes/convoy/JetBot-v3-Chassis.dae.1 -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/convoy
+[0.538s] copying meshes/convoy/LICENSE -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/convoy
+[0.538s] copying meshes/convoy/lidar-base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/convoy
+[0.538s] copying meshes/convoy/JetBot-v3-Wheel.stl -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/convoy
+[0.538s] creating /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+[0.538s] copying meshes/follow_cart/r200.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+[0.539s] copying meshes/follow_cart/tire.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+[0.539s] copying meshes/follow_cart/burger_base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+[0.539s] copying meshes/follow_cart/waffle_base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+[0.539s] copying meshes/follow_cart/waffle_pi_base.stl -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+[0.543s] copying meshes/follow_cart/right_tire.stl -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+[0.544s] copying meshes/follow_cart/lds.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+[0.544s] copying meshes/follow_cart/left_tire.stl -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+[0.544s] copying meshes/follow_cart/waffle_pi_base.dae -> /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/share/follow_cart/meshes/follow_cart
+[0.544s] running install_egg_info
+[0.546s] Copying build/follow_cart/follow_cart.egg-info to /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages/follow_cart-0.0.0-py3.10.egg-info
+[0.546s] running install_scripts
+[0.560s] Installing convoy_controller script to /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/follow_cart
+[0.560s] Installing follower_controller script to /home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/follow_cart
+[0.561s] writing list of installed files to '/home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/install.log'
+[0.577s] Invoked command in '/home/yg/follow-cart/v2/follow-cart/follow_cart' returned '0': PYTHONPATH=/home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/prefix_override:/home/yg/follow-cart/v2/follow-cart/follow_cart/install/follow_cart/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base build/follow_cart build --build-base /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/build install --record /home/yg/follow-cart/v2/follow-cart/follow_cart/build/follow_cart/install.log --single-version-externally-managed install_data

@@ -1,0 +1,4 @@
+[console_scripts]
+convoy_controller = follow_cart.convoy_controller:main
+follower_controller = follow_cart.follower_controller:main
+
