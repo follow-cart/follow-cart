@@ -112,7 +112,7 @@ def generate_launch_description():
 
     # gazebo 실행
     gazebo_run = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([warehouse_launch_path, '/no_roof_small_warehouse.launch.py'])
+            PythonLaunchDescriptionSource([warehouse_launch_path, '/small_warehouse.launch.py'])
         )
 
     # convoy와 follow cart gazebo에 생성
