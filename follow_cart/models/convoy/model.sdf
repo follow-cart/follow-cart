@@ -84,7 +84,6 @@
         <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
           <ros>
             <namespace>/convoy</namespace>
-            <remapping>~/out:=image_raw</remapping>
           </ros>
           <alwaysOn>1</alwaysOn>
           <baseline>0.2</baseline>

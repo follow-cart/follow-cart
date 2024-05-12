@@ -194,8 +194,25 @@ def generate_launch_description():
          executable='pedestrian_controller',
          name="pedestrian_controller",
          output='screen')
-         
-            
+
+    # 프로세스 처리
+    convoy_camera_cmd = Node(
+         package='follow_cart',
+         namespace='convoy',
+         executable='pedestrian_detect_processor',
+         name="pedestrian_detect_processor",
+         output='screen'
+    )
+
+    # 카메라 영상 처리
+    display_image_cmd = Node(
+        package='follow_cart',
+        namespace='convoy',
+        executable='pedestrian_detector',
+        name='pedestrian_detector',
+        output='screen'
+    )
+
     # ekf_filter_node 실행
     # odometry, imu 정보를 센서 퓨전하여 위치 추
     convoy_localization_cmd = Node(
@@ -764,8 +781,10 @@ def generate_launch_description():
     # ld.add_action(spawn_fc1_cmd)
     # ld.add_action(spawn_fc2_cmd)
     # ld.add_action(spawn_fc3_cmd)
-    ld.add_action(spawn_pedestrian_cmd)
-    ld.add_action(pedestrian_controller_cmd)
+    # ld.add_action(spawn_pedestrian_cmd)
+    # ld.add_action(pedestrian_controller_cmd)
+    ld.add_action(convoy_camera_cmd)
+    ld.add_action(display_image_cmd)
     
     ld.add_action(convoy_localization_cmd)
     # ld.add_action(fc1_localization_cmd)

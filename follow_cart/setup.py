@@ -62,7 +62,9 @@ setup(
         'console_scripts': [
             'convoy_controller=follow_cart.convoy_controller:main',
             'follower_controller=follow_cart.follower_controller:main',
-            'pedestrian_controller=follow_cart.pedestrian_controller:main'
+            'pedestrian_controller=follow_cart.pedestrian_controller:main',
+            'pedestrian_detect_processor=follow_cart.pedestrian_detect_processor:main',
+            'pedestrian_detector=follow_cart.pedestrian_detector:main'
         ],
     },
 )
