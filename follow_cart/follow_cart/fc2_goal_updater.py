@@ -1,13 +1,16 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
+from nav_msgs.msg import Odometry
 from .fc2_formation_keeper import FC2FormationKeeper
 
 class FC2GoalUpdater(Node):
     def __init__(self):
         super().__init__("fc2_goal_updater")
         self.pose_publisher = self.create_publisher(PoseStamped, "/fc2/goal_update", 10)
-        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.update_cb, 10)
+        # self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.update_cb, 10)
+        self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.update_cb,
+                                                          10)
         self.fc2_formation_keeper = FC2FormationKeeper()
 
     def update_cb(self, pose_msg):
@@ -28,10 +31,7 @@ class FC2GoalUpdater(Node):
         pose_stamped.header.frame_id = "fc2/map"
         pose_stamped.header.stamp = self.get_clock().now().to_msg()
 
-        pose_stamped.pose.orientation.x = pose_msg.pose.pose.orientation.x
-        pose_stamped.pose.orientation.y = pose_msg.pose.pose.orientation.y
-        pose_stamped.pose.orientation.z = pose_msg.pose.pose.orientation.z
-        pose_stamped.pose.orientation.w = pose_msg.pose.pose.orientation.w
+        pose_stamped.pose.orientation = pose_msg.pose.pose.orientation
 
         pose_stamped.pose.position.x = new_x
         pose_stamped.pose.position.y = new_y

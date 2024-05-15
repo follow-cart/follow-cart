@@ -38,8 +38,3 @@ fc1/amcl:
     scan_topic: /fc1/scan
     map_topic: /fc1/map
     set_initial_pose: true
-    initial_pose:
-      x: -1.7
-      y: -1.0
-      z: 0.0
-      yaw: 0.0

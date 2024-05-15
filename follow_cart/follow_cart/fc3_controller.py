@@ -1,6 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
+from nav_msgs.msg import Odometry
 from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
 from .fc3_formation_keeper import FC3FormationKeeper
@@ -8,7 +9,9 @@ from .fc3_formation_keeper import FC3FormationKeeper
 class FC3Controller(Node):
     def __init__(self):
         super().__init__("fc3_controller")
-        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
+        # self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
+        self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.pose_cb,
+                                                          10)
         self._action_client = ActionClient(self, NavigateToPose, '/fc3/navigate_to_pose')
         self.fc3_formation_keeper = FC3FormationKeeper()
         self.initial_goal = True

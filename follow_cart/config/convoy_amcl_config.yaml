@@ -38,8 +38,3 @@ convoy/amcl:
     scan_topic: /convoy/scan
     map_topic: /convoy/map
     set_initial_pose: true
-    initial_pose:
-      x: 0.0
-      y: -2.0
-      z: 0.0
-      yaw: 0.0

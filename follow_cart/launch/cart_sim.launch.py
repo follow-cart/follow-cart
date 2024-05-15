@@ -46,7 +46,7 @@ def generate_launch_description():
     # urdf 파일 경로
     # pkg_share = FindPackageShare(package=package_name).find(package_name)
     pkg_share = get_package_share_directory(package_name)
-    convoy_urdf_path = os.path.join(pkg_share, 'urdf', 'convoy', 'jetbot.urdf')
+    # convoy_urdf_path = os.path.join(pkg_share, 'urdf', 'convoy', 'jetbot.urdf')
     fc_urdf_path = os.path.join(pkg_share, 'urdf', 'follow_cart', 'turtlebot3_waffle_pi.urdf')
 
     # ekf 파일 경로
@@ -101,6 +101,7 @@ def generate_launch_description():
     os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
 
     use_sim_time = True
+    convoy = LaunchConfiguration('convoy', default='convoy')
     fc1 = LaunchConfiguration('fc1', default='fc1')
     fc2 = LaunchConfiguration('fc2', default='fc2')
     fc3 = LaunchConfiguration('fc3', default='fc3')
@@ -253,7 +254,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', convoy_urdf_path])
+                     'robot_description': Command(['xacro ', fc_urdf_path, ' robot_name:=', convoy])
                      }],
         remappings=[
             ("/tf", "tf"),
@@ -555,13 +556,13 @@ def generate_launch_description():
                     {'autostart': True},
                     {'bond_timeout': 0.0},
                     {'node_names': ['convoy/map_server',
-                                    'fc1/map_server',
-                                    'fc2/map_server',
-                                    'fc3/map_server',
                                     'convoy/amcl',
+                                    'fc1/map_server',
                                     'fc1/amcl',
+                                    'fc2/map_server',
                                     'fc2/amcl',
-                                    'fc3/amcl'
+                                    # 'fc3/map_server',
+                                    # 'fc3/amcl'
                                     ]}])
 
     lifecycle_manager_path_planning = Node(
@@ -584,11 +585,12 @@ def generate_launch_description():
                                     'fc2/planner_server',
                                     'fc2/behavior_server',
                                     'fc2/bt_navigator',
-                                    'fc3/controller_server',
-                                    'fc3/planner_server',
-                                    'fc3/behavior_server',
-                                    'fc3/bt_navigator'
+                                    # 'fc3/controller_server',
+                                    # 'fc3/planner_server',
+                                    # 'fc3/behavior_server',
+                                    # 'fc3/bt_navigator'
                                     ]}])
+
 
     # fc1_lifecycle_manager = Node(
     #     package='nav2_lifecycle_manager',
@@ -780,57 +782,54 @@ def generate_launch_description():
     # launch description에 노드들 추가
     # 노드가 실행될 수 있게
     ld.add_action(gazebo_run)
+
     ld.add_action(spawn_convoy_cmd)
-    ld.add_action(spawn_fc1_cmd)
-    ld.add_action(spawn_fc2_cmd)
-    ld.add_action(spawn_fc3_cmd)
-
-    ld.add_action(convoy_localization_cmd)
-    ld.add_action(fc1_localization_cmd)
-    ld.add_action(fc2_localization_cmd)
-    ld.add_action(fc3_localization_cmd)
-
     ld.add_action(convoy_state_publisher_cmd)
+    ld.add_action(convoy_localization_cmd)
+
+    ld.add_action(spawn_fc1_cmd)
     ld.add_action(fc1_state_publisher_cmd)
+    ld.add_action(fc1_localization_cmd)
+
+
+    ld.add_action(spawn_fc2_cmd)
     ld.add_action(fc2_state_publisher_cmd)
-    ld.add_action(fc3_state_publisher_cmd)
+    ld.add_action(fc2_localization_cmd)
+
+    # ld.add_action(spawn_fc3_cmd)
+    # ld.add_action(fc3_state_publisher_cmd)
+    # ld.add_action(fc3_localization_cmd)
 
     ld.add_action(convoy_map_server)
-    ld.add_action(fc1_map_server)
-    ld.add_action(fc2_map_server)
-    ld.add_action(fc3_map_server)
-
     ld.add_action(convoy_amcl)
     ld.add_action(convoy_controller_server)
     ld.add_action(convoy_planner_server)
     ld.add_action(convoy_recoveries_server)
     ld.add_action(convoy_bt_navigator)
 
+    ld.add_action(fc1_map_server)
     ld.add_action(fc1_amcl)
     ld.add_action(fc1_controller_server)
     ld.add_action(fc1_planner_server)
     ld.add_action(fc1_recoveries_server)
     ld.add_action(fc1_bt_navigator)
 
+    ld.add_action(fc2_map_server)
     ld.add_action(fc2_amcl)
     ld.add_action(fc2_controller_server)
     ld.add_action(fc2_planner_server)
     ld.add_action(fc2_recoveries_server)
     ld.add_action(fc2_bt_navigator)
 
-    ld.add_action(fc3_amcl)
-    ld.add_action(fc3_controller_server)
-    ld.add_action(fc3_planner_server)
-    ld.add_action(fc3_recoveries_server)
-    ld.add_action(fc3_bt_navigator)
+    # ld.add_action(fc3_map_server)
+    # ld.add_action(fc3_amcl)
+    # ld.add_action(fc3_controller_server)
+    # ld.add_action(fc3_planner_server)
+    # ld.add_action(fc3_recoveries_server)
+    # ld.add_action(fc3_bt_navigator)
 
     ld.add_action(lifecycle_manager_localization)
     ld.add_action(lifecycle_manager_path_planning)
-
-    ld.add_action(convoy_rviz)
-    ld.add_action(fc1_rviz)
-    ld.add_action(fc2_rviz)
-    ld.add_action(fc3_rviz)
 
     ld.add_action(fc1_controller)
     ld.add_action(fc1_goal_updater)
@@ -838,7 +837,12 @@ def generate_launch_description():
     ld.add_action(fc2_controller)
     ld.add_action(fc2_goal_updater)
 
-    ld.add_action(fc3_controller)
-    ld.add_action(fc3_goal_updater)
+    # ld.add_action(fc3_controller)
+    # ld.add_action(fc3_goal_updater)
+
+    ld.add_action(convoy_rviz)
+    ld.add_action(fc1_rviz)
+    ld.add_action(fc2_rviz)
+    # ld.add_action(fc3_rviz)
 
     return ld
