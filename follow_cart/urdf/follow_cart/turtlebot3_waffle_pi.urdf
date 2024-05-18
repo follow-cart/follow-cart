@@ -1,57 +1,15 @@
 <?xml version="1.0" ?>
 <robot name="turtlebot3_waffle_pi" xmlns:xacro="http://ros.org/wiki/xacro">
-  <!-- <xacro:include filename="$(find turtlebot3_description)/urdf/common_properties.urdf"/> -->
   <xacro:arg name="robot_name" default="fc1" />
-  <!-- Init colour -->
-  <material name="black">
-      <color rgba="0.0 0.0 0.0 1.0"/>
-  </material>
 
-  <material name="dark">
-    <color rgba="0.3 0.3 0.3 1.0"/>
-  </material>
+  <link name="$(arg robot_name)/base_footprint"/>
 
-  <material name="light_black">
-    <color rgba="0.4 0.4 0.4 1.0"/>
-  </material>
-
-  <material name="blue">
-    <color rgba="0.0 0.0 0.8 1.0"/>
-  </material>
-
-  <material name="green">
-    <color rgba="0.0 0.8 0.0 1.0"/>
-  </material>
-
-  <material name="grey">
-    <color rgba="0.5 0.5 0.5 1.0"/>
-  </material>
-
-  <material name="orange">
-    <color rgba="1.0 0.4235 0.0392 1.0"/>
-  </material>
-
-  <material name="brown">
-    <color rgba="0.8706 0.8118 0.7647 1.0"/>
-  </material>
-
-  <material name="red">
-    <color rgba="0.8 0.0 0.0 1.0"/>
-  </material>
-
-  <material name="white">
-    <color rgba="1.0 1.0 1.0 1.0"/>
-  </material>
-
-  <link name="base_footprint"/>
-
-  <link name="base_link">
+  <link name="$(arg robot_name)/base_link">
     <visual>
       <origin xyz="-0.064 0 0.0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="file://$(find turtlebot3_description)/meshes/bases/waffle_pi_base.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="light_black"/>
     </visual>
 
     <collision>
@@ -70,13 +28,12 @@
     </inertial>
   </link>
 
-  <link name="wheel_left_link">
+  <link name="$(arg robot_name)/wheel_left_link">
     <visual>
       <origin xyz="0 0 0" rpy="1.57 0 0"/>
       <geometry>
         <mesh filename="file://$(find turtlebot3_description)/meshes/wheels/left_tire.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="dark"/>
     </visual>
 
     <collision>
@@ -95,13 +52,12 @@
       </inertial>
   </link>
 
-  <link name="wheel_right_link">
+  <link name="$(arg robot_name)/wheel_right_link">
     <visual>
       <origin xyz="0 0 0" rpy="1.57 0 0"/>
       <geometry>
         <mesh filename="file://$(find turtlebot3_description)/meshes/wheels/right_tire.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="dark"/>
     </visual>
 
     <collision>
@@ -120,7 +76,7 @@
       </inertial>
   </link>
 
-  <link name="caster_back_right_link">
+  <link name="$(arg robot_name)/caster_back_right_link">
     <collision>
       <origin xyz="0 0.001 0" rpy="0 0 0"/>
       <geometry>
@@ -137,7 +93,7 @@
     </inertial>
   </link>
 
-  <link name="caster_back_left_link">
+  <link name="$(arg robot_name)/caster_back_left_link">
     <collision>
       <origin xyz="0 0.001 0" rpy="0 0 0"/>
       <geometry>
@@ -154,16 +110,14 @@
     </inertial>
   </link>
 
-  <link name="imu_link"/>
+  <link name="$(arg robot_name)/imu_link"/>
 
-
-  <link name="base_scan">
+  <link name="$(arg robot_name)/base_scan">
     <visual>
       <origin xyz="0 0 0.0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="file://$(find turtlebot3_description)/meshes/sensors/lds.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="dark"/>
     </visual>
 
     <collision>
@@ -182,56 +136,87 @@
     </inertial>
   </link>
 
-  <joint name="base_joint" type="fixed">
-    <parent link="base_footprint"/>
-    <child link="base_link" />
+  <joint name="$(arg robot_name)/base_joint" type="fixed">
+    <parent link="$(arg robot_name)/base_footprint"/>
+    <child link="$(arg robot_name)/base_link" />
     <origin xyz="0 0 0.010" rpy="0 0 0"/>
   </joint>
 
-  <joint name="wheel_right_joint" type="continuous">
-    <parent link="base_link"/>
-    <child link="wheel_right_link"/>
+  <joint name="$(arg robot_name)/wheel_right_joint" type="continuous">
+    <parent link="$(arg robot_name)/base_link"/>
+    <child link="$(arg robot_name)/wheel_right_link"/>
     <origin xyz="0.0 -0.144 0.023" rpy="-1.57 0 0"/>
     <axis xyz="0 0 1"/>
   </joint>
 
-  <joint name="wheel_left_joint" type="continuous">
-    <parent link="base_link"/>
-    <child link="wheel_left_link"/>
+  <joint name="$(arg robot_name)/wheel_left_joint" type="continuous">
+    <parent link="$(arg robot_name)/base_link"/>
+    <child link="$(arg robot_name)/wheel_left_link"/>
     <origin xyz="0.0 0.144 0.023" rpy="-1.57 0 0"/>
     <axis xyz="0 0 1"/>
   </joint>
 
-  <joint name="caster_back_right_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="caster_back_right_link"/>
+  <joint name="$(arg robot_name)/caster_back_right_joint" type="fixed">
+    <parent link="$(arg robot_name)/base_link"/>
+    <child link="$(arg robot_name)/caster_back_right_link"/>
     <origin xyz="-0.177 -0.064 -0.004" rpy="-1.57 0 0"/>
   </joint>
 
-  <joint name="caster_back_left_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="caster_back_left_link"/>
+  <joint name="$(arg robot_name)/caster_back_left_joint" type="fixed">
+    <parent link="$(arg robot_name)/base_link"/>
+    <child link="$(arg robot_name)/caster_back_left_link"/>
     <origin xyz="-0.177 0.064 -0.004" rpy="-1.57 0 0"/>
   </joint>
 
-  <joint name="imu_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="imu_link"/>
+  <joint name="$(arg robot_name)/imu_joint" type="fixed">
+    <parent link="$(arg robot_name)/base_link"/>
+    <child link="$(arg robot_name)/imu_link"/>
     <origin xyz="0.0 0 0.068" rpy="0 0 0"/>
   </joint>
 
-  <joint name="scan_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="base_scan"/>
+  <joint name="$(arg robot_name)/scan_joint" type="fixed">
+    <parent link="$(arg robot_name)/base_link"/>
+    <child link="$(arg robot_name)/base_scan"/>
     <origin xyz="-0.064 0 0.122" rpy="0 0 0"/>
   </joint>
 
-  <!-- xacro:macro name="fc_macro" params="robot_name" -->
+  <!-- Camera link and joint added -->
+  <joint name="$(arg robot_name)/camera_joint" type="fixed">
+    <origin xyz="0.073 -0.011 0.084" rpy="0 0 0"/>
+    <parent link="$(arg robot_name)/base_link"/>
+    <child link="$(arg robot_name)/camera_link"/>
+  </joint>
 
-  <gazebo reference="imu_link">
+  <link name="$(arg robot_name)/camera_link">
+    <collision>
+      <origin xyz="0.005 0.011 0.013" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.015 0.030 0.027"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="$(arg robot_name)/camera_rgb_joint" type="fixed">
+    <origin xyz="0.003 0.011 0.009" rpy="0 0 0"/>
+    <parent link="$(arg robot_name)/camera_link"/>
+    <child link="$(arg robot_name)/camera_rgb_frame"/>
+  </joint>
+
+  <link name="$(arg robot_name)/camera_rgb_frame"/>
+
+  <joint name="$(arg robot_name)/camera_rgb_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+    <parent link="$(arg robot_name)/camera_rgb_frame"/>
+    <child link="$(arg robot_name)/camera_rgb_optical_frame"/>
+  </joint>
+
+  <link name="$(arg robot_name)/camera_rgb_optical_frame"/>
+  <!-- Camera link and joint added end -->
+
+  <gazebo reference="$(arg robot_name)/imu_link">
     <sensor name="imu" type="imu">
         <always_on>true</always_on>
-        <update_rate>200</update_rate>
+        <update_rate>100</update_rate>
         <imu>
           <angular_velocity>
             <x>
@@ -279,12 +264,13 @@
             <namespace>$(arg robot_name)</namespace>
             <remapping>~/out:=imu</remapping>
           </ros>
-          <initial_orientation_as_reference>false</initial_orientation_as_reference>
+          <initialOrientationAsReference>false</initialOrientationAsReference>
           <frameName>$(arg robot_name)/imu_link</frameName>
         </plugin>
       </sensor>
   </gazebo>
-  <gazebo reference="base_scan">
+
+  <gazebo reference="$(arg robot_name)/base_scan">
     <sensor name="hls_lfcd_lds" type="ray">
         <always_on>true</always_on>
         <visualize>false</visualize>
@@ -300,8 +286,8 @@
             </horizontal>
           </scan>
           <range>
-            <min>0.120000</min>
-            <max>3.5</max>
+            <min>0.1</min>
+            <max>8.0</max>
             <resolution>0.015000</resolution>
           </range>
           <noise>
@@ -321,19 +307,73 @@
     </sensor>
   </gazebo>
 
+  <!-- Camera sensor added -->
+  <gazebo reference="$(arg robot_name)/camera_rgb_frame">
+    <sensor type="camera" name="Pi Camera">
+      <always_on>true</always_on>
+      <visualize>false</visualize>
+      <camera>
+          <horizontal_fov>1.085595</horizontal_fov>
+          <image>
+              <width>640</width>
+              <height>480</height>
+              <format>R8G8B8</format>
+          </image>
+          <clip>
+              <near>0.03</near>
+              <far>100</far>
+          </clip>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <ros>
+          <namespace>$(arg robot_name)</namespace>
+        </ros>
+        <alwaysOn>true</alwaysOn>
+        <updateRate>30.0</updateRate>
+        <cameraName>camera</cameraName>
+        <frameName>$(arg robot_name)/camera_rgb_optical_frame</frameName>
+        <imageTopicName>camera/rgb/image_raw</imageTopicName>
+        <cameraInfoTopicName>camera/rgb/camera_info</cameraInfoTopicName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+  <!-- Camera sensor added end -->
+
   <gazebo>
+    <plugin name="scan" filename="libgazebo_ros_ray_sensor.so">
+          <ros>
+            <namespace>$(arg robot_name)</namespace>
+            <remapping>~/out:=scan</remapping>
+          </ros>
+          <output_type>sensor_msgs/LaserScan</output_type>
+          <frame_name>$(arg robot_name)/base_scan</frame_name>
+    </plugin>
+
+    <plugin name="imu" filename="libgazebo_ros_imu_sensor.so">
+          <ros>
+            <namespace>$(arg robot_name)</namespace>
+            <remapping>~/out:=imu</remapping>
+          </ros>
+          <initialOrientationAsReference>false</initialOrientationAsReference>
+          <frameName>$(arg robot_name)/imu_link</frameName>
+    </plugin>
+
     <plugin name="diff_drive" filename="libgazebo_ros_diff_drive.so">
       <ros>
         <namespace>$(arg robot_name)</namespace>
-        <remapping>/cmd_vel:=cmd_vel</remapping>
-        <remapping>/odom:=odom</remapping>
       </ros>
 
       <update_rate>30</update_rate>
 
       <!-- wheels -->
-      <left_joint>wheel_left_joint</left_joint>
-      <right_joint>wheel_right_joint</right_joint>
+      <left_joint>$(arg robot_name)/wheel_left_joint</left_joint>
+      <right_joint>$(arg robot_name)/wheel_right_joint</right_joint>
 
       <!-- kinematics -->
       <wheel_separation>0.287</wheel_separation>
@@ -353,23 +393,8 @@
 
       <odometry_frame>$(arg robot_name)/odom</odometry_frame>
       <robot_base_frame>$(arg robot_name)/base_footprint</robot_base_frame>
-    </plugin>
 
-    <plugin name="scan" filename="libgazebo_ros_ray_sensor.so">
-          <ros>
-            <namespace>$(arg robot_name)</namespace>
-            <remapping>~/out:=scan</remapping>
-          </ros>
-          <output_type>sensor_msgs/LaserScan</output_type>
-          <frame_name>$(arg robot_name)/base_scan</frame_name>
-    </plugin>
-
-    <plugin name="imu" filename="libgazebo_ros_imu_sensor.so">
-          <ros>
-            <namespace>$(arg robot_name)</namespace>
-            <remapping>~/out:=imu</remapping>
-          </ros>
-          <frameName>$(arg robot_name)/imu_link</frameName>
+      <odometry_source>1</odometry_source>
     </plugin>
 
     <plugin name="joint_state" filename="libgazebo_ros_joint_state_publisher.so">
@@ -378,11 +403,9 @@
         <remapping>~/out:=joint_states</remapping>
       </ros>
       <update_rate>30</update_rate>
-      <joint_name>wheel_left_joint</joint_name>
-      <joint_name>wheel_right_joint</joint_name>
+      <joint_name>$(arg robot_name)/wheel_left_joint</joint_name>
+      <joint_name>$(arg robot_name)/wheel_right_joint</joint_name>
     </plugin>
   </gazebo>
-
-  <!-- /xacro:macro -->
 
 </robot>

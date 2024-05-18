@@ -145,8 +145,9 @@
 
   <gazebo reference="camera_link">
     <sensor name='camera' type='camera'>
-        <always_on>1</always_on>
+        <always_on>true </always_on>
         <visualize>1</visualize>
+        <updateRate>30.0</updateRate>
         <camera>
           <horizontal_fov>2.79253</horizontal_fov>
           <image>
@@ -167,11 +168,10 @@
         <plugin name='camera_plugin' filename='libgazebo_ros_openni_kinect.so'>
           <ros>
             <namespace>/convoy</namespace>
-            <remapping>~/out:=image_raw</remapping>
           </ros>
           <baseline>0.2</baseline>
           <alwaysOn>true</alwaysOn>
-          <updateRate>30.0</updateRate>
+          <updateRate>1.0</updateRate>
           <cameraName>camera_ir</cameraName>
           <imageTopicName>/camera/color/image_raw</imageTopicName>
           <cameraInfoTopicName>/camera/color/camera_info</cameraInfoTopicName>

@@ -59,7 +59,7 @@ class PedestrianDetectProcessor(Node):
 
         self.subscription = self.create_subscription(
             Image,
-            '/convoy/camera/color/image_raw',
+            '/convoy/camera/rgb/image_raw',
             self.callback,
             10)
 

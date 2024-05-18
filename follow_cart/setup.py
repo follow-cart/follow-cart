@@ -62,6 +62,12 @@ setup(
         'console_scripts': [
             'convoy_controller=follow_cart.convoy_controller:main',
             'follower_controller=follow_cart.follower_controller:main',
+            'fc1_controller=follow_cart.fc1_controller:main',
+            'fc2_controller=follow_cart.fc2_controller:main',
+            'fc3_controller=follow_cart.fc3_controller:main',
+            'fc1_goal_updater=follow_cart.fc1_goal_updater:main',
+            'fc2_goal_updater=follow_cart.fc2_goal_updater:main',
+            'fc3_goal_updater=follow_cart.fc3_goal_updater:main',
             'pedestrian_controller=follow_cart.pedestrian_controller:main',
             'pedestrian_detect_processor=follow_cart.pedestrian_detect_processor:main',
             'pedestrian_detector=follow_cart.pedestrian_detector:main'
