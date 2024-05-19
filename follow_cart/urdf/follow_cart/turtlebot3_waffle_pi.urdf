@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <robot name="turtlebot3_waffle_pi" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:arg name="robot_name" default="fc1" />
+  <xacro:arg name="robot_name" default="convoy" />
 
   <link name="$(arg robot_name)/base_footprint"/>
 
@@ -309,9 +309,10 @@
 
   <!-- Camera sensor added -->
   <gazebo reference="$(arg robot_name)/camera_rgb_frame">
-    <sensor type="camera" name="Pi Camera">
+    <sensor type="camera" name="Pi_Camera">
       <always_on>true</always_on>
-      <visualize>false</visualize>
+      <visualize>true</visualize>
+      <updateRate>10.0</updateRate>
       <camera>
           <horizontal_fov>1.085595</horizontal_fov>
           <image>
@@ -329,11 +330,11 @@
           <namespace>$(arg robot_name)</namespace>
         </ros>
         <alwaysOn>true</alwaysOn>
-        <updateRate>30.0</updateRate>
-        <cameraName>camera</cameraName>
+        <updateRate>10.0</updateRate>
+        <cameraName>Pi_Camera</cameraName>
         <frameName>$(arg robot_name)/camera_rgb_optical_frame</frameName>
-        <imageTopicName>camera/rgb/image_raw</imageTopicName>
-        <cameraInfoTopicName>camera/rgb/camera_info</cameraInfoTopicName>
+        <imageTopicName>rgb/image_raw</imageTopicName>
+        <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
         <hackBaseline>0.07</hackBaseline>
         <distortionK1>0.0</distortionK1>
         <distortionK2>0.0</distortionK2>
@@ -405,6 +406,24 @@
       <update_rate>30</update_rate>
       <joint_name>$(arg robot_name)/wheel_left_joint</joint_name>
       <joint_name>$(arg robot_name)/wheel_right_joint</joint_name>
+    </plugin>
+
+    <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+      <ros>
+        <namespace>$(arg robot_name)</namespace>
+      </ros>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>10.0</updateRate>
+      <cameraName>Pi_Camera</cameraName>
+      <frameName>$(arg robot_name)/camera_rgb_optical_frame</frameName>
+      <imageTopicName>rgb/image_raw</imageTopicName>
+      <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+      <hackBaseline>0.07</hackBaseline>
+      <distortionK1>0.0</distortionK1>
+      <distortionK2>0.0</distortionK2>
+      <distortionK3>0.0</distortionK3>
+      <distortionT1>0.0</distortionT1>
+      <distortionT2>0.0</distortionT2>
     </plugin>
   </gazebo>
 

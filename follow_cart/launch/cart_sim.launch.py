@@ -300,7 +300,6 @@ def generate_launch_description():
         remappings=[
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
-            # ("/camera/rgb/image_raw", "image_raw"),
             ("/robot_description", "robot_description")])
 
     fc1_state_publisher_cmd = Node(
@@ -890,7 +889,7 @@ def generate_launch_description():
     # ld.add_action(fc3_controller)
     # ld.add_action(fc3_goal_updater)
 
-    # ld.add_action(convoy_rviz)
+    ld.add_action(convoy_rviz)
     # ld.add_action(fc1_rviz)
     # ld.add_action(fc2_rviz)
     # ld.add_action(fc3_rviz)

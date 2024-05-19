@@ -59,7 +59,7 @@ class PedestrianDetectProcessor(Node):
 
         self.subscription = self.create_subscription(
             Image,
-            '/convoy/camera/rgb/image_raw',
+            '/convoy/Pi_Camera/image_raw',
             self.callback,
             10)
 
@@ -69,6 +69,7 @@ class PedestrianDetectProcessor(Node):
         gray_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
         # ROS 이미지 메시지로 변환 후 퍼블리시
         processed_image_msg = self.bridge.cv2_to_imgmsg(gray_image, encoding="mono8")
+
         self.publisher.publish(processed_image_msg)
 
 def main(args=None):
