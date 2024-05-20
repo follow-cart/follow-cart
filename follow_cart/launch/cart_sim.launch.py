@@ -842,8 +842,8 @@ def generate_launch_description():
     # ld.add_action(fc3_localization_cmd)
 
     # 보행자
-    # ld.add_action(spawn_pedestrian_cmd)
-    # ld.add_action(pedestrian_controller_cmd)
+    ld.add_action(spawn_pedestrian_cmd)
+    ld.add_action(pedestrian_controller_cmd)
 
     # convoy 카메라
     ld.add_action(convoy_camera_cmd)
