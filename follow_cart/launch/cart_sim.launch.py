@@ -846,8 +846,8 @@ def generate_launch_description():
     ld.add_action(pedestrian_controller_cmd)
 
     # convoy 카메라
-    ld.add_action(convoy_camera_cmd)
-    ld.add_action(display_image_cmd)
+    # ld.add_action(convoy_camera_cmd)
+    # ld.add_action(display_image_cmd)
 
     # ld.add_action(convoy_map_server)
     # ld.add_action(convoy_amcl)
@@ -889,7 +889,7 @@ def generate_launch_description():
     # ld.add_action(fc3_controller)
     # ld.add_action(fc3_goal_updater)
 
-    ld.add_action(convoy_rviz)
+    # ld.add_action(convoy_rviz)
     # ld.add_action(fc1_rviz)
     # ld.add_action(fc2_rviz)
     # ld.add_action(fc3_rviz)
