@@ -1,7 +1,7 @@
 fc2/bt_navigator:
   ros__parameters:
     use_sim_time: true
-    global_frame: fc2/map
+    global_frame: map
     robot_base_frame: fc2/base_link
     odom_topic: /fc2/odometry/filtered
     bt_loop_duration: 10

@@ -9,9 +9,9 @@ from .fc2_formation_keeper import FC2FormationKeeper
 class FC2Controller(Node):
     def __init__(self):
         super().__init__("fc2_controller")
-        # self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
-        self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.pose_cb,
-                                                          10)
+        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
+        # self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.pose_cb,
+        #                                                   10)
         self._action_client = ActionClient(self, NavigateToPose, '/fc2/navigate_to_pose')
         self.fc2_formation_keeper = FC2FormationKeeper()
         self.initial_goal = True
@@ -43,7 +43,7 @@ class FC2Controller(Node):
         goal_pose = NavigateToPose.Goal()
 
         pose_stamped = PoseStamped()
-        pose_stamped.header.frame_id = "fc2/map"
+        pose_stamped.header.frame_id = "map"
         pose_stamped.header.stamp = self.get_clock().now().to_msg()
 
         pose_stamped.pose.orientation.x = orientation.x

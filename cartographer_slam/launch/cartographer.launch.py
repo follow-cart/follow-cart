@@ -26,8 +26,8 @@ def generate_launch_description():
     # 세로 대형: -1.0 가로 대형: -1.0 삼각 대형: -1.7
     fc1_spawn_x_val = '0.0'
     # 세로 대형: 0.0 가로 대형: -1.0 삼각 대형: -1.0
-    fc1_spawn_y_val = '-2.0'
-    fc1_spawn_z_val = '0.3'
+    fc1_spawn_y_val = '0.0'
+    fc1_spawn_z_val = '0.0'
     fc1_spawn_yaw_val = '0.0'
 
     # # 세로 대형: -1.0 가로 대형: -1.0 삼각 대형: -1.7

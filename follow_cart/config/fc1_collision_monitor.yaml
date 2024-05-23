@@ -1,0 +1,32 @@
+fc1/collision_monitor:
+  ros__parameters:
+    use_sim_time: True
+    base_frame_id: "fc1/base_footprint"
+    odom_frame_id: "fc1/odom"
+    cmd_vel_in_topic: "/fc1/cmd_vel_smoothed"
+    cmd_vel_out_topic: "/fc1/cmd_vel"
+    transform_tolerance: 0.5
+    source_timeout: 5.0
+    stop_pub_timeout: 2.0
+    polygons: [ "PolygonStop", "PolygonSlow" ]
+    PolygonStop:
+      type: "polygon"
+      points: [0.3, 0.3, 0.3, -0.3, 0.0, -0.3, 0.0, 0.3]
+      action_type: "stop"
+      max_points: 3
+      visualize: True
+      polygon_pub_topic: "/fc1/polygon_stop"
+    PolygonSlow:
+      type: "polygon"
+      points: [0.4, 0.4, 0.4, -0.4, -0.4, -0.4, -0.4, 0.4]
+      action_type: "slowdown"
+      max_points: 3
+      slowdown_ratio: 0.3
+      visualize: True
+      polygon_pub_topic: "/fc1/polygon_slowdown"
+
+    # observation sources parameters
+    observation_sources: ["scan"]
+    scan:
+      type: "scan"
+      topic: "/fc1/scan"

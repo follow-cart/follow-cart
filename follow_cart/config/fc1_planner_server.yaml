@@ -4,19 +4,20 @@ fc1/planner_server:
     use_sim_time: true
     planner_plugins: ["GridBased"]
     GridBased:
-      plugin: "nav2_navfn_planner/NavfnPlanner"
-      tolerance: 0.0
-      use_astar: true
-      allow_unknown: true
+      plugin: "nav2_theta_star_planner/ThetaStarPlanner"
+      how_many_corners: 8
+      w_euc_cost: 1.0
+      w_traversal_cost: 2.0
+      w_heuristic_cost: 1.0
 
 fc1/global_costmap:
   global_costmap:
     ros__parameters:
       update_frequency: 1.0
       publish_frequency: 1.0
-      global_frame: fc1/map
+      global_frame: map
       # This has to be set
-      map_topic: /fc1/map
+      map_topic: /map
       robot_base_frame: fc1/base_link
       use_sim_time: true
       robot_radius: 0.15

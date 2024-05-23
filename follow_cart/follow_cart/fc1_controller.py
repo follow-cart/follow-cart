@@ -9,38 +9,13 @@ from .fc1_formation_keeper import FC1FormationKeeper
 class FC1Controller(Node):
     def __init__(self):
         super().__init__("fc1_controller")
-        # self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
-        self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.pose_cb,
-                                                          10)
+        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
+        # self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.pose_cb,
+        #                                                   10)
         self._action_client = ActionClient(self, NavigateToPose, '/fc1/navigate_to_pose')
         self.fc1_formation_keeper = FC1FormationKeeper()
         self.initial_goal = True
 
-    # odom msg를 goal_pose로 전달한 msg 타입을 변경 후 전달
-    # def odom_cb(self, odom_msg):
-    #     pose_stamped = PoseStamped()
-    #     pose_stamped.header.frame_id = "map"
-    #     pose_stamped.header.stamp = odom_msg.header.stamp
-    #
-    #     pose_stamped.pose.orientation.w = 1.0
-    #
-    #     convoy_x = odom_msg.pose.pose.orientation.x
-    #     convoy_y = odom_msg.pose.pose.orientation.y
-    #     convoy_z = odom_msg.pose.pose.orientation.z
-    #     convoy_w = odom_msg.pose.pose.orientation.w
-    #
-    #     # 대형 유지를 위해 convoy 기준으로 x축, y축 어디에 위치해야 하는지
-    #     x_from_convoy, y_from_convoy = self.fc1_formation_keeper.calculate(convoy_x, convoy_y, convoy_z, convoy_w)
-    #
-    #     # 대형 유지를 위한 새로운 위치 계산
-    #     new_x = odom_msg.pose.pose.position.x - x_from_convoy
-    #     new_y = odom_msg.pose.pose.position.y - y_from_convoy
-    #
-    #     pose_stamped.pose.position.x = new_x
-    #     pose_stamped.pose.position.y = new_y
-    #     pose_stamped.pose.position.z = 0.0
-    #
-    #     self.pose_publisher.publish(pose_stampe
     def pose_cb(self, pose_msg):
         if self.initial_goal:
 
@@ -57,37 +32,17 @@ class FC1Controller(Node):
             new_y = pose_msg.pose.pose.position.y - y_from_convoy
 
             self.get_logger().info('init goal')
-            # orientation = Quaternion()
             orientation = pose_msg.pose.pose.orientation
             self.send_goal(new_x, new_y, orientation)
         else:
             pass
-
-
-        # else:
-        #     self.get_logger().info('update goal')
-        #     pose_stamped = PoseStamped()
-        #     pose_stamped.header.frame_id = "map"
-        #     pose_stamped.header.stamp = self.get_clock().now().to_msg()
-        #     # pose_stamped.header.stamp = pose_msg.header.stamp
-        #
-        #     pose_stamped.pose.orientation.x = pose_msg.pose.pose.orientation.x
-        #     pose_stamped.pose.orientation.y = pose_msg.pose.pose.orientation.y
-        #     pose_stamped.pose.orientation.z = pose_msg.pose.pose.orientation.z
-        #     pose_stamped.pose.orientation.w = pose_msg.pose.pose.orientation.w
-        #
-        #     pose_stamped.pose.position.x = new_x
-        #     pose_stamped.pose.position.y = new_y
-        #     pose_stamped.pose.position.z = 0.0
-        #
-        #     self.pose_publisher.publish(pose_stamped)
 
     def send_goal(self, x, y, orientation):
         self.get_logger().info('sending goal to action server')
         goal_pose = NavigateToPose.Goal()
 
         pose_stamped = PoseStamped()
-        pose_stamped.header.frame_id = "fc1/map"
+        pose_stamped.header.frame_id = "map"
         pose_stamped.header.stamp = self.get_clock().now().to_msg()
         # pose_stamped.header.stamp = pose_msg.header.stamp
 
