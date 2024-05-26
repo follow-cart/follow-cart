@@ -34,7 +34,7 @@
           </box>
           <mesh>
             <uri>model://pedestrian/meshes/walking.dae</uri>
-            <scale>0.8 0.8 0.8</scale>
+            <scale>0.5 0.5 0.5</scale>
           </mesh>
         </geometry>
       </collision>
@@ -44,7 +44,7 @@
         <geometry>
           <mesh>
             <uri>model://pedestrian/meshes/walking.dae</uri>
-            <scale>0.8 0.8 0.8</scale>
+            <scale>0.5 0.5 0.5</scale>
           </mesh>
         </geometry>
       </visual>

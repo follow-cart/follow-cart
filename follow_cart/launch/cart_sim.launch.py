@@ -198,6 +198,15 @@ def generate_launch_description():
         name="pedestrian_controller",
         output='screen')
 
+    pedestrian_follower_cmd = Node(
+        package='follow_cart',
+        namespace='pedestrian',
+        executable='pedestrian_follower',
+        name="pedestrian_follower",
+        output='screen',
+        parameters=[{'use_sim_time': use_sim_time}]
+    )
+
     # 프로세스 처리
     convoy_camera_cmd = Node(
         package='follow_cart',
@@ -729,6 +738,7 @@ def generate_launch_description():
                     ("/odom", "/convoy/odom"),
                     ("/amcl_pose", "/convoy/amcl_pose"),
                     ("/map", "/convoy/map"),
+                    ("/depth_camera_imgage", "/convoy/Camera/depth/image_raw"),
                     ("/robot_description", "/convoy/robot_description")])
 
     fc1_rviz = Node(
@@ -846,8 +856,11 @@ def generate_launch_description():
     ld.add_action(pedestrian_controller_cmd)
 
     # convoy 카메라
-    # ld.add_action(convoy_camera_cmd)
-    # ld.add_action(display_image_cmd)
+    ld.add_action(convoy_camera_cmd)
+    ld.add_action(display_image_cmd)
+
+    # 보행자 추적
+    ld.add_action(pedestrian_follower_cmd)
 
     # ld.add_action(convoy_map_server)
     # ld.add_action(convoy_amcl)

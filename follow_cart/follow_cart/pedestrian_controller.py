@@ -117,7 +117,7 @@ class PedestrianController(Node):
             self.direction *= -1
 
     def timer_callback(self):
-        self.msg.linear.y = 1.1 * self.direction
+        self.msg.linear.y = 0.65 * self.direction
         self.publisher_.publish(self.msg)
 
         # 현재 위치를 발행

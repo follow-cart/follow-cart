@@ -70,7 +70,8 @@ setup(
             'fc3_goal_updater=follow_cart.fc3_goal_updater:main',
             'pedestrian_controller=follow_cart.pedestrian_controller:main',
             'pedestrian_detect_processor=follow_cart.pedestrian_detect_processor:main',
-            'pedestrian_detector=follow_cart.pedestrian_detector:main'
+            'pedestrian_detector=follow_cart.pedestrian_detector:main',
+            'pedestrian_follower=follow_cart.pedestrian_follower:main'
         ],
     },
 )
