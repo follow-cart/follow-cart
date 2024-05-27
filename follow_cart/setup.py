@@ -63,7 +63,10 @@ setup(
             'convoy_controller=follow_cart.convoy_controller:main',
             'fc1_controller=follow_cart.fc1_controller:main',
             'fc2_controller=follow_cart.fc2_controller:main',
-            'fc3_controller=follow_cart.fc3_controller:main'
+            'fc3_controller=follow_cart.fc3_controller:main',
+            'fc1_goal_updater=follow_cart.fc1_goal_updater:main',
+            'fc2_goal_updater=follow_cart.fc2_goal_updater:main',
+            'fc3_goal_updater=follow_cart.fc3_goal_updater:main'
         ],
     },
 )

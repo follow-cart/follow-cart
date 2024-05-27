@@ -1,7 +1,7 @@
 convoy/behavior_server:
   ros__parameters:
-    costmap_topic: local_costmap/costmap_raw
-    footprint_topic: local_costmap/published_footprint
+    costmap_topic: /convoy/local_costmap/costmap_raw
+    footprint_topic: /convoy/local_costmap/published_footprint
     cycle_frequency: 10.0
     behavior_plugins: ["spin", "backup", "wait"]
     spin:
