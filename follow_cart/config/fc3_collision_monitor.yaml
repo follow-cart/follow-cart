@@ -11,14 +11,14 @@ fc3/collision_monitor:
     polygons: [ "PolygonStop", "PolygonSlow" ]
     PolygonStop:
       type: "polygon"
-      points: [0.3, 0.3, 0.3, -0.3, 0.0, -0.3, 0.0, 0.3]
+      points: [0.3, 0.2, 0.3, -0.2, -0.2, -0.2, -0.2, 0.2]
       action_type: "stop"
       max_points: 3
       visualize: True
       polygon_pub_topic: "/fc1/polygon_stop"
     PolygonSlow:
       type: "polygon"
-      points: [0.4, 0.4, 0.4, -0.4, -0.4, -0.4, -0.4, 0.4]
+      points: [0.4, 0.3, 0.4, -0.3, 0.0, -0.3, 0.0, 0.3]
       action_type: "slowdown"
       max_points: 3
       slowdown_ratio: 0.3
