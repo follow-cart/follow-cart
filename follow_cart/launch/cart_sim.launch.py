@@ -5,7 +5,6 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration
 from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
 
@@ -44,10 +43,8 @@ def generate_launch_description():
     fc3_spawn_yaw_val = '0.0'
 
     # urdf 파일 경로
-    # pkg_share = FindPackageShare(package=package_name).find(package_name)
     pkg_share = get_package_share_directory(package_name)
-    # convoy_urdf_path = os.path.join(pkg_share, 'urdf', 'convoy', 'jetbot.urdf')
-    fc_urdf_path = os.path.join(pkg_share, 'urdf', 'follow_cart', 'turtlebot3_waffle_pi.urdf')
+    urdf_path = os.path.join(pkg_share, 'urdf', 'follow_cart', 'turtlebot3_waffle_pi.urdf')
 
     # ekf 파일 경로
     localization_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_ekf.yaml')
@@ -100,7 +97,6 @@ def generate_launch_description():
 
     # map 파일 경로
     map_yaml_path = os.path.join(pkg_share, 'maps', 'map.yaml')
-
 
     # gazebo 모델 경로
     gazebo_models_path = os.path.join(pkg_share, 'models')
@@ -260,7 +256,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', fc_urdf_path, ' robot_name:=', convoy])
+                     'robot_description': Command(['xacro ', urdf_path, ' robot_name:=', convoy])
                      }],
         remappings=[
             ("/tf", "tf"),
@@ -274,7 +270,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', fc_urdf_path, ' robot_name:=', fc1])}],
+                     'robot_description': Command(['xacro ', urdf_path, ' robot_name:=', fc1])}],
         remappings=[
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
@@ -287,7 +283,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', fc_urdf_path, ' robot_name:=', fc2])}],
+                     'robot_description': Command(['xacro ', urdf_path, ' robot_name:=', fc2])}],
         remappings=[
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
@@ -300,7 +296,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', fc_urdf_path, ' robot_name:=', fc3])}],
+                     'robot_description': Command(['xacro ', urdf_path, ' robot_name:=', fc3])}],
         remappings=[
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),

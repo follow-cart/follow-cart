@@ -11,7 +11,7 @@ class FC1FormationKeeper:
 
         # yaw to degrees
         # 세로 대형: 0 가로 대형: -45 삼각 대형: -30
-        degree = math.degrees(yaw) -  30.0
+        degree = math.degrees(yaw) - 30.0
 
         # 삼각함수와 삼각비를 이용해 convoy가 바라보는 방향을 따라 변화하는 대형의 x,y 위치 차이 계산
         x_cartesian = self.distance * math.cos(math.radians(degree))

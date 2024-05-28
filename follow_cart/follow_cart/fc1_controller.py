@@ -44,7 +44,6 @@ class FC1Controller(Node):
         pose_stamped = PoseStamped()
         pose_stamped.header.frame_id = "map"
         pose_stamped.header.stamp = self.get_clock().now().to_msg()
-        # pose_stamped.header.stamp = pose_msg.header.stamp
 
         pose_stamped.pose.orientation.x = orientation.x
         pose_stamped.pose.orientation.y = orientation.y
@@ -84,7 +83,6 @@ class FC1Controller(Node):
         result = future.result().result
         self.get_logger().info('Result: {0}' + str(result))
         self.initial_goal = True
-        # rclpy.shutdown()
 
     def feedback_callback(self, feedback_msg):
         pass

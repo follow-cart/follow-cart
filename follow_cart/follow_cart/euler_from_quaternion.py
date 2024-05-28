@@ -1,4 +1,5 @@
 import numpy as np
+
 class EulerToQuaternion:
     @staticmethod
     def euler_from_quaternion(x, y, z, w):
