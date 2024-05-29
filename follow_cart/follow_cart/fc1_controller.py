@@ -6,17 +6,24 @@ from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
 from .fc1_formation_keeper import FC1FormationKeeper
 
+# follow cart의 주행을 담당하는 노드
 class FC1Controller(Node):
     def __init__(self):
         super().__init__("fc1_controller")
+        # convoy의 amcl_pose를 통해 pose 정보 받아옴
         self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
         # self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.pose_cb,
         #                                                   10)
+
+        # navigation action을 전달할 client 생성
         self._action_client = ActionClient(self, NavigateToPose, '/fc1/navigate_to_pose')
         self.fc1_formation_keeper = FC1FormationKeeper()
+
+        # action 수행 중이 아닌지 확인
         self.initial_goal = True
 
     def pose_cb(self, pose_msg):
+        # action 수행 중이 아니면
         if self.initial_goal:
 
             convoy_x = pose_msg.pose.pose.orientation.x
@@ -34,6 +41,8 @@ class FC1Controller(Node):
             self.get_logger().info('init goal')
             orientation = pose_msg.pose.pose.orientation
             self.send_goal(new_x, new_y, orientation)
+
+        # action을 수행 중이라면
         else:
             pass
 
@@ -43,13 +52,15 @@ class FC1Controller(Node):
 
         pose_stamped = PoseStamped()
         pose_stamped.header.frame_id = "map"
-        pose_stamped.header.stamp = self.get_clock().now().to_msg()
+        pose_stamped.header.stamp = self.get_clock().now().to_msg() # 노드 시간
 
+        # 목표 방향
         pose_stamped.pose.orientation.x = orientation.x
         pose_stamped.pose.orientation.y = orientation.y
         pose_stamped.pose.orientation.z = orientation.z
         pose_stamped.pose.orientation.w = orientation.w
 
+        # 목표 위치
         pose_stamped.pose.position.x = x
         pose_stamped.pose.position.y = y
         pose_stamped.pose.position.z = 0.0
@@ -57,15 +68,18 @@ class FC1Controller(Node):
         goal_pose.pose = pose_stamped
         goal_pose.behavior_tree = "/home/bluevery8/workspace/follow_cart_ws/src/follow_cart/config/follow_point_bt.xml"
 
+        # action server가 작동 확인
         self.get_logger().info('waiting for action server')
         self._action_client.wait_for_server()
         self.get_logger().info('action server detected')
 
+        # goal 전달
         _send_goal_future = self._action_client.send_goal_async(
             goal_pose,
             feedback_callback=self.feedback_callback)
         self.get_logger().info('goal sent')
 
+        # response callback 추가
         _send_goal_future.add_done_callback(self.goal_response_callback)
 
     def goal_response_callback(self, future):
@@ -74,14 +88,19 @@ class FC1Controller(Node):
             self.get_logger().info('Goal rejected :(')
             return
         self.get_logger().info('Goal accepted :)')
+
+        # action 진행 중으로 상태 변경
         self.initial_goal = False
         _get_result_future = goal_handle.get_result_async()
 
+        # result callback 추가
         _get_result_future.add_done_callback(self.get_result_callback)
 
     def get_result_callback(self, future):
         result = future.result().result
         self.get_logger().info('Result: {0}' + str(result))
+
+        # action 종료로 상태 변경
         self.initial_goal = True
 
     def feedback_callback(self, feedback_msg):

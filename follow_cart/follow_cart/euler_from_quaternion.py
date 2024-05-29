@@ -1,6 +1,7 @@
 import numpy as np
 
-class EulerToQuaternion:
+# quaternion 형태의 orientation을 euler 형태로 변형
+class EulerFromQuaternion:
     @staticmethod
     def euler_from_quaternion(x, y, z, w):
         ysqr = y * y

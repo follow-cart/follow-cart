@@ -1,5 +1,5 @@
 import math
-from .euler_from_quaternion import EulerToQuaternion
+from .euler_from_quaternion import EulerFromQuaternion
 class FC2FormationKeeper:
     def __init__(self):
         # 세로 대형: 2.0 가로 대형: 1.0 삼각 대형: 1.0
@@ -7,7 +7,7 @@ class FC2FormationKeeper:
 
     def calculate(self, x, y, z, w):
         # quaternion to Euler angles
-        roll, pitch, yaw = EulerToQuaternion.euler_from_quaternion(x, y, z, w)
+        roll, pitch, yaw = EulerFromQuaternion.euler_from_quaternion(x, y, z, w)
 
         # yaw to degrees
         degree = math.degrees(yaw)

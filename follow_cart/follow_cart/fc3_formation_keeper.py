@@ -1,5 +1,5 @@
 import math
-from .euler_from_quaternion import EulerToQuaternion
+from .euler_from_quaternion import EulerFromQuaternion
 class FC3FormationKeeper:
     def __init__(self):
         # 세로 대형: 3.0 가로 대형: 1.4 삼각 대형: 2.0
@@ -7,7 +7,7 @@ class FC3FormationKeeper:
 
     def calculate(self, x, y, z, w):
         # quaternion to Euler angles
-        roll, pitch, yaw = EulerToQuaternion.euler_from_quaternion(x, y, z, w)
+        roll, pitch, yaw = EulerFromQuaternion.euler_from_quaternion(x, y, z, w)
 
         # yaw to degrees
         # 세로 대형: 0 가로 대형: +45 삼각 대형: +30

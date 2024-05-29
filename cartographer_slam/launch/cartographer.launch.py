@@ -36,12 +36,13 @@ def generate_launch_description():
         PythonLaunchDescriptionSource([warehouse_launch_path, '/small_warehouse.launch.py'])
     )
 
+    # cartographer config 파일 경로
     cartographer_config_dir = os.path.join(get_package_share_directory('cartographer_slam'), 'config')
     configuration_basename = 'cartographer.lua'
 
     fc1 = LaunchConfiguration('fc1', default='fc1')
 
-    # 생성
+    # 로봇 생성
     spawn_fc1_cmd = Node(
         namespace='fc1',
         package='gazebo_ros',
@@ -59,7 +60,6 @@ def generate_launch_description():
 
     # robot_state_publisher 실행
     # 로봇의 상태를 지속적으로 전달
-
     fc1_state_publisher_cmd = Node(
         package='robot_state_publisher',
         namespace='fc1',
@@ -73,6 +73,7 @@ def generate_launch_description():
             ("/tf_static", "tf_static"),
             ("/robot_description", "robot_description")])
 
+    # cartographer 노드 생성
     cartographer_node = Node(
         package='cartographer_ros',
         executable='cartographer_node',
@@ -89,7 +90,7 @@ def generate_launch_description():
             ('/scan', '/fc1/scan'),
             ('/imu', '/fc1/imu'),
             ("/map", "/map"),])
-
+    # cartographer map 형식을 nav2에서 사용할 수 있는 형태롤 변경하는 노드
     occupancy_grid_node = Node(
         package='cartographer_ros',
         executable='cartographer_occupancy_grid_node',
@@ -114,6 +115,7 @@ def generate_launch_description():
 
     ld = LaunchDescription()
 
+    # launch description에 추가
     ld.add_action(gazebo_run)
 
     ld.add_action(fc1_state_publisher_cmd)
