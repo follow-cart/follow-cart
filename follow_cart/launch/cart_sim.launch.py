@@ -179,6 +179,7 @@ def generate_launch_description():
         remappings=[
             ("/tf", "tf")])
 
+    # 보행자 생성 노드
     spawn_pedestrian_cmd = Node(
         package='gazebo_ros',
         namespace='pedestrian',
@@ -191,6 +192,7 @@ def generate_launch_description():
                    '-z', '0.1'],
         output='screen')
 
+    # 보행자 움직임 처리하는 노드
     pedestrian_controller_cmd = Node(
         package='follow_cart',
         namespace='pedestrian',
@@ -198,6 +200,7 @@ def generate_launch_description():
         name="pedestrian_controller",
         output='screen')
 
+    # 보행자 추적하는 노드
     pedestrian_follower_cmd = Node(
         package='follow_cart',
         namespace='pedestrian',
