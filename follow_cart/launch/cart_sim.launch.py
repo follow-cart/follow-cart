@@ -400,7 +400,7 @@ def generate_launch_description():
         parameters=[velocity_smoother_yaml_convoy],
         remappings=[("/tf", "tf"),
                     ("/tf_static", "tf_static"),
-                    ("/odom", "odom"),
+                    ("/odometry/filtered", "odometry/filtered"),
                     ("/cmd_vel", "cmd_vel"),
                     ("/cmd_vel_smoothed", "cmd_vel_smoothed")])
 
@@ -490,7 +490,7 @@ def generate_launch_description():
         parameters=[velocity_smoother_yaml_fc1],
         remappings=[("/tf", "tf"),
                     ("/tf_static", "tf_static"),
-                    ("/odom", "odom"),
+                    ("/odometry/filtered", "odometry/filtered"),
                     ("/cmd_vel", "cmd_vel"),
                     ("/cmd_vel_smoothed", "cmd_vel_smoothed")])
 
@@ -580,7 +580,7 @@ def generate_launch_description():
         parameters=[velocity_smoother_yaml_fc2],
         remappings=[("/tf", "tf"),
                     ("/tf_static", "tf_static"),
-                    ("/odom", "odom"),
+                    ("/odometry/filtered", "odometry/filtered"),
                     ("/cmd_vel", "cmd_vel"),
                     ("/cmd_vel_smoothed", "cmd_vel_smoothed")])
 
@@ -670,7 +670,7 @@ def generate_launch_description():
         parameters=[velocity_smoother_yaml_fc3],
         remappings=[("/tf", "tf"),
                     ("/tf_static", "tf_static"),
-                    ("/odom", "odom"),
+                    ("/odometry/filtered", "odometry/filtered"),
                     ("/cmd_vel", "cmd_vel"),
                     ("/cmd_vel_smoothed", "cmd_vel_smoothed")])
 
@@ -920,8 +920,8 @@ def generate_launch_description():
     ld.add_action(fc3_goal_updater)
 
     ld.add_action(convoy_rviz)
-    ld.add_action(fc1_rviz)
-    ld.add_action(fc2_rviz)
-    ld.add_action(fc3_rviz)
+    # ld.add_action(fc1_rviz)
+    # ld.add_action(fc2_rviz)
+    # ld.add_action(fc3_rviz)
 
     return ld
