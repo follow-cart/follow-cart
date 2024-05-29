@@ -91,7 +91,7 @@ class PedestrianController(Node):
             pass
         self.update_twist_message()
 
-    # 키보드를 통한 보행자 움직임 처리
+    # 키보드를 통한 보행자 움직임 처리 (WASD 사용)
     def update_twist_message(self):
         if 'w' in self.keys_pressed and 'a' in self.keys_pressed:
             self.msg.linear.y = -0.5
