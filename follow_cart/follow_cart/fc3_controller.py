@@ -5,19 +5,29 @@ from nav_msgs.msg import Odometry
 from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
 from .fc3_formation_keeper import FC3FormationKeeper
+from std_msgs.msg import Bool
 
 class FC3Controller(Node):
     def __init__(self):
         super().__init__("fc3_controller")
         self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
-        # self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.pose_cb,
-        #                                                   10)
+        # self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.pose_cb, 10)
+
         self._action_client = ActionClient(self, NavigateToPose, '/fc3/navigate_to_pose')
+
+        # 긴급 정지 명령을 받아옴
+        self.emergency_stop_subscription = self.create_subscription(Bool, "/emergency_stop", self.emergency_stop_cb, 10)
+
         self.fc3_formation_keeper = FC3FormationKeeper()
         self.initial_goal = True
 
     # odom msg를 goal_pose로 전달한 msg 타입을 변경 후 전달
     def pose_cb(self, pose_msg):
+        # convoy의 위치 정보를 수신할 수 없을 시 긴급 정지
+        if pose_msg is None:
+            self.get_logger().info('[위치 정보 수신 불가] ! EMERGENCY STOP !')
+            rclpy.shutdown()
+
         if self.initial_goal:
 
             convoy_x = pose_msg.pose.pose.orientation.x
@@ -87,6 +97,11 @@ class FC3Controller(Node):
 
     def feedback_callback(self, feedback_msg):
         pass
+
+    def emergency_stop_cb(self, msg):
+        if msg.data:
+            self.get_logger().info('[충돌] ! EMERGENCY STOP !')
+            rclpy.shutdown()
 def main(args=None):
     rclpy.init(args=args)
     fc3_controller = FC3Controller()

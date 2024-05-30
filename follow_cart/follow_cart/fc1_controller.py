@@ -5,6 +5,7 @@ from nav_msgs.msg import Odometry
 from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
 from .fc1_formation_keeper import FC1FormationKeeper
+from std_msgs.msg import Bool
 
 # follow cart의 주행을 담당하는 노드
 class FC1Controller(Node):
@@ -12,17 +13,26 @@ class FC1Controller(Node):
         super().__init__("fc1_controller")
         # convoy의 amcl_pose를 통해 pose 정보 받아옴
         self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
-        # self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.pose_cb,
-        #                                                   10)
+        # self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.pose_cb, 10)
 
         # navigation action을 전달할 client 생성
         self._action_client = ActionClient(self, NavigateToPose, '/fc1/navigate_to_pose')
+
+        # 긴급 정지 명령을 받아옴
+        self.emergency_stop_subscription = self.create_subscription(Bool, "/emergency_stop", self.emergency_stop_cb, 10)
+
         self.fc1_formation_keeper = FC1FormationKeeper()
 
         # action 수행 중이 아닌지 확인
         self.initial_goal = True
 
     def pose_cb(self, pose_msg):
+
+        # convoy의 위치 정보를 수신할 수 없을 시 긴급 정지
+        if pose_msg is None:
+            self.get_logger().info('[위치 정보 수신 불가] ! EMERGENCY STOP !')
+            rclpy.shutdown()
+
         # action 수행 중이 아니면
         if self.initial_goal:
 
@@ -107,6 +117,11 @@ class FC1Controller(Node):
         pass
         # feedback = feedback_msg.feedback
         # self.get_logger().info('FEEDBACK:' + str(feedback))
+
+    def emergency_stop_cb(self, msg):
+        if msg.data:
+            self.get_logger().info('[충돌] ! EMERGENCY STOP !')
+            rclpy.shutdown()
 
 def main(args=None):
     rclpy.init(args=args)
