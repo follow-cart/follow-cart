@@ -1,21 +1,27 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
-from nav_msgs.msg import Odometry
 from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
 from .fc2_formation_keeper import FC2FormationKeeper
-from std_msgs.msg import Bool
+from std_msgs.msg import Bool, String
+from rclpy.qos import QoSProfile, DurabilityPolicy, ReliabilityPolicy
 
 class FC2Controller(Node):
     def __init__(self):
         super().__init__("fc2_controller")
-        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
-        # self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.pose_cb,
-        #                                                   10)
+        qos_profile = QoSProfile(depth=10)
+        qos_profile.durability = DurabilityPolicy.VOLATILE
+        qos_profile.reliability = ReliabilityPolicy.BEST_EFFORT
+
+        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, qos_profile)
+
         self._action_client = ActionClient(self, NavigateToPose, '/fc2/navigate_to_pose')
+
+        self.rear_pub = self.create_publisher(String, '/Rear/call_message', qos_profile)
         # 긴급 정지 명령을 받아옴
-        self.emergency_stop_subscription = self.create_subscription(Bool, "/emergency_stop", self.emergency_stop_cb, 10)
+        # self.emergency_stop_subscription = self.create_subscription(Bool, "/emergency_stop", self.emergency_stop_cb, 10)
+
         self.fc2_formation_keeper = FC2FormationKeeper()
         self.initial_goal = True
 
@@ -85,6 +91,11 @@ class FC2Controller(Node):
             return
         self.get_logger().info('Goal accepted :)')
         self.initial_goal = False
+
+        rear_message = String()
+        rear_message.data = 'Rear is active and moving'
+        self.rear_pub.publish(rear_message)
+
         _get_result_future = goal_handle.get_result_async()
 
         _get_result_future.add_done_callback(self.get_result_callback)
@@ -97,10 +108,10 @@ class FC2Controller(Node):
     def feedback_callback(self, feedback_msg):
         pass
 
-    def emergency_stop_cb(self, msg):
-        if msg.data:
-            self.get_logger().info('[충돌] ! EMERGENCY STOP !')
-            rclpy.shutdown()
+    # def emergency_stop_cb(self, msg):
+    #     if msg.data:
+    #         self.get_logger().info('[충돌] ! EMERGENCY STOP !')
+    #         rclpy.shutdown()
 
 def main(args=None):
     rclpy.init(args=args)

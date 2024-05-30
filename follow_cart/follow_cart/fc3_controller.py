@@ -1,22 +1,25 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
-from nav_msgs.msg import Odometry
 from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
 from .fc3_formation_keeper import FC3FormationKeeper
 from std_msgs.msg import Bool
+from rclpy.qos import QoSProfile, DurabilityPolicy, ReliabilityPolicy
 
 class FC3Controller(Node):
     def __init__(self):
         super().__init__("fc3_controller")
-        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
-        # self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.pose_cb, 10)
+        qos_profile = QoSProfile(depth=10)
+        qos_profile.durability = DurabilityPolicy.VOLATILE
+        qos_profile.reliability = ReliabilityPolicy.BEST_EFFORT
+
+        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, qos_profile)
 
         self._action_client = ActionClient(self, NavigateToPose, '/fc3/navigate_to_pose')
 
         # 긴급 정지 명령을 받아옴
-        self.emergency_stop_subscription = self.create_subscription(Bool, "/emergency_stop", self.emergency_stop_cb, 10)
+        # self.emergency_stop_subscription = self.create_subscription(Bool, "/emergency_stop", self.emergency_stop_cb, 10)
 
         self.fc3_formation_keeper = FC3FormationKeeper()
         self.initial_goal = True
@@ -98,10 +101,10 @@ class FC3Controller(Node):
     def feedback_callback(self, feedback_msg):
         pass
 
-    def emergency_stop_cb(self, msg):
-        if msg.data:
-            self.get_logger().info('[충돌] ! EMERGENCY STOP !')
-            rclpy.shutdown()
+    # def emergency_stop_cb(self, msg):
+    #     if msg.data:
+    #         self.get_logger().info('[충돌] ! EMERGENCY STOP !')
+    #         rclpy.shutdown()
 def main(args=None):
     rclpy.init(args=args)
     fc3_controller = FC3Controller()

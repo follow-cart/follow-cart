@@ -1,22 +1,23 @@
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
+from geometry_msgs.msg import PoseStamped
 from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
-from .fc1_formation_keeper import FC1FormationKeeper
-from std_msgs.msg import Bool
+from std_msgs.msg import Bool, String
+import json
 from rclpy.qos import QoSProfile, DurabilityPolicy, ReliabilityPolicy
+from .quaternion_about_axis import QuaternionAboutAxis
 
-# follow cart의 주행을 담당하는 노드
-class FC1Controller(Node):
+# convoy의 주행을 담당하는 노드
+class ConvoyController(Node):
     def __init__(self):
-        super().__init__("fc1_controller")
+        super().__init__("convoy_controller")
         qos_profile = QoSProfile(depth=10)
-        qos_profile.durability = DurabilityPolicy.VOLATILE
-        qos_profile.reliability = ReliabilityPolicy.BEST_EFFORT
+        qos_profile.durability = DurabilityPolicy.TRANSIENT_LOCAL
+        qos_profile.reliability = ReliabilityPolicy.RELIABLE
 
-        # convoy의 amcl_pose를 통해 pose 정보 받아옴
-        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, qos_profile)
+        self.cmd_subscription = self.create_subscription(
+            String, '/android_commands', self.cmd_cb, qos_profile)
 
         # navigation action을 전달할 client 생성
         self._action_client = ActionClient(self, NavigateToPose, '/fc1/navigate_to_pose')
@@ -24,42 +25,37 @@ class FC1Controller(Node):
         # 긴급 정지 명령을 받아옴
         # self.emergency_stop_subscription = self.create_subscription(Bool, "/emergency_stop", self.emergency_stop_cb, 10)
 
-        self.fc1_formation_keeper = FC1FormationKeeper()
+        # 어플에 정보 전달
+        self.leader_pub = self.create_publisher(String, '/Leader/call_message', qos_profile)
+
+        # 개발 진행 중
+        self.leader_drive_publisher = self.create_publisher(String, '/Leader/drive_message', qos_profile)
+        self.rear_position_publisher = self.create_publisher(String, '/Rear/position', qos_profile)
 
         # action 수행 중이 아닌지 확인
         self.initial_goal = True
+        self.initial_position = (0.0, -2.0, 0.0)
 
-    def pose_cb(self, pose_msg):
-
-        # convoy의 위치 정보를 수신할 수 없을 시 긴급 정지
-        if pose_msg is None:
-            self.get_logger().info('[위치 정보 수신 불가] ! EMERGENCY STOP !')
-            rclpy.shutdown()
-
-        # action 수행 중이 아니면
+    def cmd_cb(self, msg):
         if self.initial_goal:
+            data = json.loads(msg.data)
+            command = data['command']
 
-            convoy_x = pose_msg.pose.pose.orientation.x
-            convoy_y = pose_msg.pose.pose.orientation.y
-            convoy_z = pose_msg.pose.pose.orientation.z
-            convoy_w = pose_msg.pose.pose.orientation.w
+            if command == 'CALL_LEADER_ROBOT':
+                x = data['x']
+                y = data['y']
+                theta = data['theta']
+                self.get_logger().info(f'Publishing pose: ({x}, {y}, {theta}) to convoy')
+                self.send_goal(x, y, theta)
 
-            # 대형 유지를 위해 convoy 기준으로 x축, y축 어디에 위치해야 하는지
-            x_from_convoy, y_from_convoy = self.fc1_formation_keeper.calculate(convoy_x, convoy_y, convoy_z, convoy_w)
-
-            # 대형 유지를 위한 follow_cart의 새로운 목표 위치 계산
-            new_x = pose_msg.pose.pose.position.x - x_from_convoy
-            new_y = pose_msg.pose.pose.position.y - y_from_convoy
-
-            self.get_logger().info('init goal')
-            orientation = pose_msg.pose.pose.orientation
-            self.send_goal(new_x, new_y, orientation)
-
-        # action을 수행 중이라면
+            elif command == 'RETURN':
+                x, y, theta= self.initial_position
+                self.get_logger().info(f'Returning to initial position: ({x}, {y}, {theta}) to convoy')
+                self.send_goal(x, y, theta)
         else:
             pass
 
-    def send_goal(self, x, y, orientation):
+    def send_goal(self, x, y, theta):
         self.get_logger().info('sending goal to action server')
         goal_pose = NavigateToPose.Goal()
 
@@ -67,11 +63,13 @@ class FC1Controller(Node):
         pose_stamped.header.frame_id = "map"
         pose_stamped.header.stamp = self.get_clock().now().to_msg() # 노드 시간
 
+        quat = QuaternionAboutAxis.quaternion_about_axis(theta / 180.0 * 3.14159, (0, 0, 1))
+
         # 목표 방향
-        pose_stamped.pose.orientation.x = orientation.x
-        pose_stamped.pose.orientation.y = orientation.y
-        pose_stamped.pose.orientation.z = orientation.z
-        pose_stamped.pose.orientation.w = orientation.w
+        pose_stamped.pose.orientation.x = quat[0]
+        pose_stamped.pose.orientation.y = quat[1]
+        pose_stamped.pose.orientation.z = quat[2]
+        pose_stamped.pose.orientation.w = quat[3]
 
         # 목표 위치
         pose_stamped.pose.position.x = x
@@ -99,11 +97,17 @@ class FC1Controller(Node):
         goal_handle = future.result()
         if not goal_handle.accepted:
             self.get_logger().info('Goal rejected :(')
+            self.get_logger().info('[주행 불가] ! EMERGENCY STOP !')
+            rclpy.shutdown()
             return
         self.get_logger().info('Goal accepted :)')
-
         # action 진행 중으로 상태 변경
         self.initial_goal = False
+
+        leader_message = String()
+        leader_message.data = 'Leader is active and moving'
+        self.leader_pub.publish(leader_message)
+
         _get_result_future = goal_handle.get_result_async()
 
         # result callback 추가
@@ -128,9 +132,9 @@ class FC1Controller(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    fc1_controller = FC1Controller()
+    convoy_controller = ConvoyController()
     try:
-        rclpy.spin(fc1_controller)
+        rclpy.spin(convoy_controller)
     except KeyboardInterrupt:
         pass
 

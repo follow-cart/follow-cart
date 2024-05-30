@@ -44,7 +44,8 @@ def generate_launch_description():
 
     # urdf 파일 경로
     pkg_share = get_package_share_directory(package_name)
-    urdf_path = os.path.join(pkg_share, 'urdf', 'follow_cart', 'turtlebot3_waffle_pi.urdf')
+    convoy_cart_urdf_path = os.path.join(pkg_share, 'urdf', 'convoy', 'turtlebot3_waffle_pi.urdf')
+    follow_cart_urdf_path = os.path.join(pkg_share, 'urdf', 'follow_cart', 'turtlebot3_waffle_pi.urdf')
 
     # ekf 파일 경로
     localization_yaml_convoy = os.path.join(pkg_share, 'config', 'convoy_ekf.yaml')
@@ -101,6 +102,9 @@ def generate_launch_description():
     # gazebo 모델 경로
     gazebo_models_path = os.path.join(pkg_share, 'models')
     os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
+
+    # pedestrian 파일 경로
+    pedestrian_sdf_path = os.path.join(pkg_share, 'models', 'pedestrian', 'model.sdf')
 
     use_sim_time = True
     convoy = LaunchConfiguration('convoy', default='convoy')
@@ -179,6 +183,19 @@ def generate_launch_description():
         remappings=[
             ("/tf", "tf")])
 
+    # 보행자 생성 노드
+    spawn_pedestrian_cmd = Node(
+        package='gazebo_ros',
+        namespace='pedestrian',
+        executable='spawn_entity.py',
+        name="spawn_pedestrian",
+        arguments=['-entity', 'pedestrian',
+                   '-file', pedestrian_sdf_path,
+                   '-x', '1.5',
+                   '-y', '1.5',
+                   '-z', '0.1'],
+        output='screen')
+
     # ekf_filter_node 실행
     # odometry, imu 정보를 센서 퓨전하여 위치 추
     convoy_localization_cmd = Node(
@@ -256,7 +273,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', urdf_path, ' robot_name:=', convoy])
+                     'robot_description': Command(['xacro ', convoy_cart_urdf_path, ' robot_name:=', convoy])
                      }],
         remappings=[
             ("/tf", "tf"),
@@ -270,7 +287,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', urdf_path, ' robot_name:=', fc1])}],
+                     'robot_description': Command(['xacro ', follow_cart_urdf_path, ' robot_name:=', fc1])}],
         remappings=[
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
@@ -283,7 +300,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', urdf_path, ' robot_name:=', fc2])}],
+                     'robot_description': Command(['xacro ', follow_cart_urdf_path, ' robot_name:=', fc2])}],
         remappings=[
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
@@ -296,7 +313,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', urdf_path, ' robot_name:=', fc3])}],
+                     'robot_description': Command(['xacro ', follow_cart_urdf_path, ' robot_name:=', fc3])}],
         remappings=[
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
@@ -805,6 +822,13 @@ def generate_launch_description():
                     ("/polygon_slowdown", "polygon_slowdown"),
                     ("/polygon_stop", "polygon_stop")])
 
+    convoy_controller = Node(
+        package='follow_cart',
+        executable='convoy_controller',
+        name='convoy_controller',
+        output='screen'
+    )
+
 
     # 대형을 유지하며 convoy를 따라가게 하는 fc1 controller
     fc1_controller = Node(
@@ -846,6 +870,70 @@ def generate_launch_description():
         package='follow_cart',
         executable='fc3_goal_updater',
         name='fc3_goal_updater',
+        output='screen'
+    )
+
+    convoy_collision_monitor = Node(
+        package='follow_cart',
+        executable='convoy_collision_monitor',
+        name='convoy_collision_monitor',
+        output='screen'
+    )
+
+    fc1_collision_monitor = Node(
+        package='follow_cart',
+        executable='fc1_collision_monitor',
+        name='fc1_collision_monitor',
+        output='screen'
+    )
+
+    fc2_collision_monitor = Node(
+        package='follow_cart',
+        executable='fc2_collision_monitor',
+        name='fc2_collision_monitor',
+        output='screen'
+    )
+
+    fc3_collision_monitor = Node(
+        package='follow_cart',
+        executable='fc3_collision_monitor',
+        name='fc3_collision_monitor',
+        output='screen'
+    )
+
+    # 보행자 움직임 처리하는 노드
+    pedestrian_controller_cmd = Node(
+        package='follow_cart',
+        namespace='pedestrian',
+        executable='pedestrian_controller',
+        name="pedestrian_controller",
+        output='screen')
+
+    # 보행자 추적하는 노드
+    pedestrian_follower_cmd = Node(
+        package='follow_cart',
+        namespace='pedestrian',
+        executable='pedestrian_follower',
+        name="pedestrian_follower",
+        output='screen',
+        parameters=[{'use_sim_time': use_sim_time}]
+    )
+
+    # 프로세스 처리
+    convoy_camera_cmd = Node(
+        package='follow_cart',
+        namespace='convoy',
+        executable='pedestrian_detect_processor',
+        name="pedestrian_detect_processor",
+        output='screen'
+    )
+
+    # 카메라 영상 처리
+    display_image_cmd = Node(
+        package='follow_cart',
+        namespace='convoy',
+        executable='pedestrian_detector',
+        name='pedestrian_detector',
         output='screen'
     )
 
@@ -910,14 +998,31 @@ def generate_launch_description():
     ld.add_action(lifecycle_manager_localization)
     ld.add_action(lifecycle_manager_path_planning)
 
+    ld.add_action(convoy_controller)
+    ld.add_action(convoy_collision_monitor)
+
     ld.add_action(fc1_controller)
     ld.add_action(fc1_goal_updater)
+    ld.add_action(fc1_collision_monitor)
 
     ld.add_action(fc2_controller)
     ld.add_action(fc2_goal_updater)
+    ld.add_action(fc2_collision_monitor)
 
     ld.add_action(fc3_controller)
     ld.add_action(fc3_goal_updater)
+    ld.add_action(fc3_collision_monitor)
+
+    # 보행자
+    ld.add_action(spawn_pedestrian_cmd)
+    ld.add_action(pedestrian_controller_cmd)
+
+    # convoy 카메라
+    ld.add_action(convoy_camera_cmd)
+    ld.add_action(display_image_cmd)
+
+    # 보행자 추적
+    ld.add_action(pedestrian_follower_cmd)
 
     ld.add_action(convoy_rviz)
     # ld.add_action(fc1_rviz)
