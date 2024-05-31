@@ -42,6 +42,11 @@ def generate_launch_description():
     fc3_spawn_z_val = '0.1'
     fc3_spawn_yaw_val = '0.0'
 
+    pedestrian_spawn_x_val = '1.0'
+    pedestrian_spawn_y_val = '-2.0'
+    pedestrian_spawn_z_val = '0.1'
+    pedestrian_spawn_yaw_val = '0.0'
+
     # urdf 파일 경로
     pkg_share = get_package_share_directory(package_name)
     convoy_cart_urdf_path = os.path.join(pkg_share, 'urdf', 'convoy', 'turtlebot3_waffle_pi.urdf')
@@ -134,9 +139,7 @@ def generate_launch_description():
                    '-z', convoy_spawn_z_val,
                    '-Y', convoy_spawn_yaw_val],
         output='screen',
-        parameters=[{'use_sim_time': use_sim_time}],
-        remappings=[
-            ("/tf", "tf")])
+        parameters=[{'use_sim_time': use_sim_time}])
 
     spawn_fc1_cmd = Node(
         package='gazebo_ros',
@@ -191,9 +194,10 @@ def generate_launch_description():
         name="spawn_pedestrian",
         arguments=['-entity', 'pedestrian',
                    '-file', pedestrian_sdf_path,
-                   '-x', '1.5',
-                   '-y', '1.5',
-                   '-z', '0.1'],
+                   '-x', pedestrian_spawn_x_val,
+                   '-y', pedestrian_spawn_y_val,
+                   '-z', pedestrian_spawn_z_val,
+                   '-Y', pedestrian_spawn_yaw_val],
         output='screen')
 
     # ekf_filter_node 실행
@@ -703,9 +707,9 @@ def generate_launch_description():
                     {'bond_timeout': 0.0},
                     {'node_names': ['map_server',
                                     'convoy/amcl',
-                                    'fc1/amcl',
-                                    'fc2/amcl',
-                                    'fc3/amcl'
+                                    # 'fc1/amcl',
+                                    # 'fc2/amcl',
+                                    # 'fc3/amcl'
                                     ]}])
 
     lifecycle_manager_path_planning = Node(
@@ -722,24 +726,24 @@ def generate_launch_description():
                                     'convoy/bt_navigator',
                                     'convoy/collision_monitor',
                                     'convoy/velocity_smoother',
-                                    'fc1/controller_server',
-                                    'fc1/planner_server',
-                                    'fc1/behavior_server',
-                                    'fc1/bt_navigator',
-                                    'fc1/collision_monitor',
-                                    'fc1/velocity_smoother',
-                                    'fc2/controller_server',
-                                    'fc2/planner_server',
-                                    'fc2/behavior_server',
-                                    'fc2/bt_navigator',
-                                    'fc2/collision_monitor',
-                                    'fc2/velocity_smoother',
-                                    'fc3/controller_server',
-                                    'fc3/planner_server',
-                                    'fc3/behavior_server',
-                                    'fc3/bt_navigator',
-                                    'fc3/collision_monitor',
-                                    'fc3/velocity_smoother'
+                                    # 'fc1/controller_server',
+                                    # 'fc1/planner_server',
+                                    # 'fc1/behavior_server',
+                                    # 'fc1/bt_navigator',
+                                    # 'fc1/collision_monitor',
+                                    # 'fc1/velocity_smoother',
+                                    # 'fc2/controller_server',
+                                    # 'fc2/planner_server',
+                                    # 'fc2/behavior_server',
+                                    # 'fc2/bt_navigator',
+                                    # 'fc2/collision_monitor',
+                                    # 'fc2/velocity_smoother',
+                                    # 'fc3/controller_server',
+                                    # 'fc3/planner_server',
+                                    # 'fc3/behavior_server',
+                                    # 'fc3/bt_navigator',
+                                    # 'fc3/collision_monitor',
+                                    # 'fc3/velocity_smoother'
                                     ]}])
 
 
@@ -873,31 +877,31 @@ def generate_launch_description():
         output='screen'
     )
 
-    convoy_collision_monitor = Node(
+    convoy_collision_detector = Node(
         package='follow_cart',
-        executable='convoy_collision_monitor',
-        name='convoy_collision_monitor',
+        executable='convoy_collision_detector',
+        name='convoy_collision_detector',
         output='screen'
     )
 
-    fc1_collision_monitor = Node(
+    fc1_collision_detector = Node(
         package='follow_cart',
-        executable='fc1_collision_monitor',
-        name='fc1_collision_monitor',
+        executable='fc1_collision_detector',
+        name='fc1_collision_detector',
         output='screen'
     )
 
-    fc2_collision_monitor = Node(
+    fc2_collision_detector = Node(
         package='follow_cart',
-        executable='fc2_collision_monitor',
-        name='fc2_collision_monitor',
+        executable='fc2_collision_detector',
+        name='fc2_collision_detector',
         output='screen'
     )
 
-    fc3_collision_monitor = Node(
+    fc3_collision_detector = Node(
         package='follow_cart',
-        executable='fc3_collision_monitor',
-        name='fc3_collision_monitor',
+        executable='fc3_collision_detector',
+        name='fc3_collision_detector',
         output='screen'
     )
 
@@ -948,18 +952,17 @@ def generate_launch_description():
     ld.add_action(convoy_state_publisher_cmd)
     ld.add_action(convoy_localization_cmd)
 
-    ld.add_action(spawn_fc1_cmd)
-    ld.add_action(fc1_state_publisher_cmd)
-    ld.add_action(fc1_localization_cmd)
-
-
-    ld.add_action(spawn_fc2_cmd)
-    ld.add_action(fc2_state_publisher_cmd)
-    ld.add_action(fc2_localization_cmd)
-
-    ld.add_action(spawn_fc3_cmd)
-    ld.add_action(fc3_state_publisher_cmd)
-    ld.add_action(fc3_localization_cmd)
+    # ld.add_action(spawn_fc1_cmd)
+    # ld.add_action(fc1_state_publisher_cmd)
+    # ld.add_action(fc1_localization_cmd)
+    #
+    # ld.add_action(spawn_fc2_cmd)
+    # ld.add_action(fc2_state_publisher_cmd)
+    # ld.add_action(fc2_localization_cmd)
+    #
+    # ld.add_action(spawn_fc3_cmd)
+    # ld.add_action(fc3_state_publisher_cmd)
+    # ld.add_action(fc3_localization_cmd)
 
     ld.add_action(map_server)
 
@@ -971,60 +974,61 @@ def generate_launch_description():
     ld.add_action(convoy_collision_monitor)
     ld.add_action(convoy_velocity_smoother)
 
-    ld.add_action(fc1_amcl)
-    ld.add_action(fc1_controller_server)
-    ld.add_action(fc1_planner_server)
-    ld.add_action(fc1_recoveries_server)
-    ld.add_action(fc1_bt_navigator)
-    ld.add_action(fc1_collision_monitor)
-    ld.add_action(fc1_velocity_smoother)
-
-    ld.add_action(fc2_amcl)
-    ld.add_action(fc2_controller_server)
-    ld.add_action(fc2_planner_server)
-    ld.add_action(fc2_recoveries_server)
-    ld.add_action(fc2_bt_navigator)
-    ld.add_action(fc2_collision_monitor)
-    ld.add_action(fc2_velocity_smoother)
-
-    ld.add_action(fc3_amcl)
-    ld.add_action(fc3_controller_server)
-    ld.add_action(fc3_planner_server)
-    ld.add_action(fc3_recoveries_server)
-    ld.add_action(fc3_bt_navigator)
-    ld.add_action(fc3_collision_monitor)
-    ld.add_action(fc3_velocity_smoother)
+    # ld.add_action(fc1_amcl)
+    # ld.add_action(fc1_controller_server)
+    # ld.add_action(fc1_planner_server)
+    # ld.add_action(fc1_recoveries_server)
+    # ld.add_action(fc1_bt_navigator)
+    # ld.add_action(fc1_collision_monitor)
+    # ld.add_action(fc1_velocity_smoother)
+    #
+    # ld.add_action(fc2_amcl)
+    # ld.add_action(fc2_controller_server)
+    # ld.add_action(fc2_planner_server)
+    # ld.add_action(fc2_recoveries_server)
+    # ld.add_action(fc2_bt_navigator)
+    # ld.add_action(fc2_collision_monitor)
+    # ld.add_action(fc2_velocity_smoother)
+    #
+    # ld.add_action(fc3_amcl)
+    # ld.add_action(fc3_controller_server)
+    # ld.add_action(fc3_planner_server)
+    # ld.add_action(fc3_recoveries_server)
+    # ld.add_action(fc3_bt_navigator)
+    # ld.add_action(fc3_collision_monitor)
+    # ld.add_action(fc3_velocity_smoother)
 
     ld.add_action(lifecycle_manager_localization)
     ld.add_action(lifecycle_manager_path_planning)
 
     ld.add_action(convoy_controller)
-    ld.add_action(convoy_collision_monitor)
 
-    ld.add_action(fc1_controller)
-    ld.add_action(fc1_goal_updater)
-    ld.add_action(fc1_collision_monitor)
+    # ld.add_action(fc1_controller)
+    # ld.add_action(fc1_goal_updater)
+    #
+    # ld.add_action(fc2_controller)
+    # ld.add_action(fc2_goal_updater)
+    #
+    # ld.add_action(fc3_controller)
+    # ld.add_action(fc3_goal_updater)
 
-    ld.add_action(fc2_controller)
-    ld.add_action(fc2_goal_updater)
-    ld.add_action(fc2_collision_monitor)
+    #보행자
+    # ld.add_action(spawn_pedestrian_cmd)
+    # ld.add_action(pedestrian_controller_cmd)
+    #
+    # # convoy 카메라
+    # ld.add_action(convoy_camera_cmd)
+    # ld.add_action(display_image_cmd)
+    #
+    # # 보행자 추적
+    # ld.add_action(pedestrian_follower_cmd)
+    #
+    # ld.add_action(convoy_collision_detector)
+    # ld.add_action(fc1_collision_detector)
+    # ld.add_action(fc2_collision_detector)
+    # ld.add_action(fc3_collision_detector)
 
-    ld.add_action(fc3_controller)
-    ld.add_action(fc3_goal_updater)
-    ld.add_action(fc3_collision_monitor)
-
-    # 보행자
-    ld.add_action(spawn_pedestrian_cmd)
-    ld.add_action(pedestrian_controller_cmd)
-
-    # convoy 카메라
-    ld.add_action(convoy_camera_cmd)
-    ld.add_action(display_image_cmd)
-
-    # 보행자 추적
-    ld.add_action(pedestrian_follower_cmd)
-
-    ld.add_action(convoy_rviz)
+    # ld.add_action(convoy_rviz)
     # ld.add_action(fc1_rviz)
     # ld.add_action(fc2_rviz)
     # ld.add_action(fc3_rviz)

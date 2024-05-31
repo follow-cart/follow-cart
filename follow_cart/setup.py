@@ -33,11 +33,12 @@ def package_files(data_files, directory_list):
 
     return data_files
 
+
 setup(
     name=package_name,
     version='0.0.0',
     packages=find_packages(exclude=['test']),
-    data_files=package_files(data_files, ['launch/', 'rviz/', 'maps/', 'config/', 'urdf/', 'meshes/']),
+    data_files=package_files(data_files, ['launch/', 'rviz/', 'maps/', 'config/', 'urdf/', 'meshes/', 'YOLOV8_model/', 'models/']),
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='bluevery8',
@@ -54,10 +55,10 @@ setup(
             'fc1_goal_updater=follow_cart.fc1_goal_updater:main',
             'fc2_goal_updater=follow_cart.fc2_goal_updater:main',
             'fc3_goal_updater=follow_cart.fc3_goal_updater:main',
-            'convoy_collision_monitor=follow_cart.convoy_collision_monitor:main',
-            'fc1_collision_monitor=follow_cart.fc1_collision_monitor:main',
-            'fc2_collision_monitor=follow_cart.fc2_collision_monitor:main',
-            'fc2_collision_monitor=follow_cart.fc2_collision_monitor:main',
+            'convoy_collision_detector=follow_cart.convoy_collision_detector:main',
+            'fc1_collision_detector=follow_cart.fc1_collision_detector:main',
+            'fc2_collision_detector=follow_cart.fc2_collision_detector:main',
+            'fc3_collision_detector=follow_cart.fc3_collision_detector:main',
             'pedestrian_controller=follow_cart.pedestrian_controller:main',
             'pedestrian_detect_processor=follow_cart.pedestrian_detect_processor:main',
             'pedestrian_detector=follow_cart.pedestrian_detector:main',

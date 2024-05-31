@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="pedestrian">
+    <static>false</static>
+    <pose>0 0.0 0 0 0 0</pose>
+    <link name="link">
+      <inertial>
+        <pose>0 0 0.1 0 0 0</pose>
+        <mass>80.0</mass>
+        <inertia>
+          <ixx>27.82</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>24.88</iyy>
+          <iyz>0</iyz>
+          <izz>4.57</izz>
+        </inertia>
+      </inertial>
+
+      <collision name="bottom">
+        <pose>0 0.0 0.1 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.35 0.35 0.02</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="person">
+        <pose>0 0.0 0.1 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.35 0.35 0.02</size>
+          </box>
+          <mesh>
+            <uri>model://pedestrian/meshes/walking.dae</uri>
+            <scale>0.5 0.5 0.5</scale>
+          </mesh>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <pose>0 0.0 0.1 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://pedestrian/meshes/walking.dae</uri>
+            <scale>0.5 0.5 0.5</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <plugin name='planar_move' filename='libgazebo_ros_planar_move.so'>
+        <ros>
+          <namespace>pedestrian</namespace>
+          <remapping>cmd_vel:=pedestrian_cmd</remapping>
+          <remapping>odom:=pedestrian_odom</remapping>
+        </ros>
+        <update_rate>100</update_rate>
+        <publish_rate>100</publish_rate>
+        <publish_odom>true</publish_odom>
+        <publish_odom_tf>true</publish_odom_tf>
+        <odometry_frame>odom_demo</odometry_frame>
+        <robot_base_frame>link</robot_base_frame>
+        <covariance_x>0.0001</covariance_x>
+        <covariance_y>0.0001</covariance_y>
+        <covariance_yaw>0.01</covariance_yaw>
+      </plugin>
+  </model>
+</sdf>

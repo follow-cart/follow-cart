@@ -1,7 +1,6 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
-from nav_msgs.msg import Odometry
 from .fc1_formation_keeper import FC1FormationKeeper
 
 # 로봇이 navigation action 수행하는 도중 새로운 목표지점을 전달하는 노드
@@ -14,8 +13,7 @@ class FC1GoalUpdater(Node):
 
         # convoy의 amcl_pose를 통해 pose 정보 받아옴
         self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.update_cb, 10)
-        # self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.update_cb,
-        #                                                   10)
+
         self.fc1_formation_keeper = FC1FormationKeeper()
 
     def update_cb(self, pose_msg):
@@ -31,7 +29,6 @@ class FC1GoalUpdater(Node):
         # 대형 유지를 위한 새로운 위치 계산
         new_x = pose_msg.pose.pose.position.x - x_from_convoy
         new_y = pose_msg.pose.pose.position.y - y_from_convoy
-
 
         pose_stamped = PoseStamped()
         pose_stamped.header.frame_id = "map"

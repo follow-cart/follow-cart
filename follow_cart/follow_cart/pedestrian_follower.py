@@ -77,6 +77,11 @@ class PedestrianFollower(Node):
         # 최대 회전 속도 제한
         self.max_angular_speed = 0.5  # 회전 속도 제한을 증가시킴
 
+        # 보행자 탐색 모드 변수
+        self.searching = False
+        self.search_start_time = None
+        self.search_duration = 10  # 탐색 지속 시간 (초)
+
     # 보행자 위치 값 처리
     def pedestrian_callback(self, msg):
         self.pedestrian_odom_x = msg.pose.pose.position.x
@@ -90,6 +95,10 @@ class PedestrianFollower(Node):
         cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
         results = self.model(cv_image, imgsz=640)
 
+        # 보행자 인식 초기화
+        self.target_x = None
+        self.target_y = None
+
         # 보행자 인식 후 추적
         for result in results:
             for box in result.boxes:
@@ -101,15 +110,31 @@ class PedestrianFollower(Node):
                     # 보행자 위치 표시
                     cv2.rectangle(cv_image, (x1, y1), (x2, y2), (0, 255, 0), 2)
                     cv2.circle(cv_image, (int(self.target_x), int(self.target_y)), 5, (0, 255, 0), -1)
+                    self.searching = False  # 보행자를 인식하면 탐색 모드 종료
                     break  # 첫 번째 보행자만 추적
 
-        # 추적 결과 이미지를 표시
-        cv_image = cv2.cvtColor(cv_image, cv2.COLOR_RGB2BGR)
-        # cv2.imshow("Processed Image", cv_image)
-        # cv2.waitKey(1)
+        # 보행자를 인식하지 못했을 때 탐색 모드로 진입
+        if self.target_x is None and not self.searching:
+            self.searching = True
+            self.search_start_time = self.get_clock().now()
 
-        # 로봇 제어
-        self.control_robot()
+        # 탐색 모드에서 보행자를 찾기
+        if self.searching:
+            elapsed_time = (self.get_clock().now() - self.search_start_time).nanoseconds / 1e9
+            if elapsed_time > self.search_duration:
+                self.searching = False
+            else:
+                self.search_for_pedestrian()
+
+        # 보행자를 인식하면 정상적으로 제어
+        if not self.searching:
+            self.control_robot()
+
+    def search_for_pedestrian(self):
+        # 로봇을 제자리에서 회전시켜 보행자를 찾기
+        cmd_msg = Twist()
+        cmd_msg.angular.z = 0.3  # 회전 속도 설정
+        self.publisher_.publish(cmd_msg)
 
     def control_robot(self):
         if self.target_x is None or self.target_y is None:
@@ -124,8 +149,6 @@ class PedestrianFollower(Node):
             cmd_msg.linear.x = 0.35  # 전진 속도를 약간 증가시킴
         else:
             cmd_msg.linear.x = 0.0
-
-        # print(self.pedestrian_distance)
 
         # x와 y 오차 계산 (이미지 기반)
         error_x_image = self.target_x - self.robot_center_x

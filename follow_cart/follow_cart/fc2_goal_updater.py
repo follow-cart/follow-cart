@@ -1,7 +1,6 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
-from nav_msgs.msg import Odometry
 from .fc2_formation_keeper import FC2FormationKeeper
 
 class FC2GoalUpdater(Node):
@@ -9,8 +8,7 @@ class FC2GoalUpdater(Node):
         super().__init__("fc2_goal_updater")
         self.pose_publisher = self.create_publisher(PoseStamped, "/fc2/goal_update", 10)
         self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.update_cb, 10)
-        # self.odom_subscription = self.create_subscription(Odometry, "/convoy/odometry/filtered", self.update_cb,
-        #                                                   10)
+
         self.fc2_formation_keeper = FC2FormationKeeper()
 
     def update_cb(self, pose_msg):

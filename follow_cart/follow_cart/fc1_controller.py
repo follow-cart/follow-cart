@@ -5,24 +5,20 @@ from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
 from .fc1_formation_keeper import FC1FormationKeeper
 from std_msgs.msg import Bool
-from rclpy.qos import QoSProfile, DurabilityPolicy, ReliabilityPolicy
 
 # follow cart의 주행을 담당하는 노드
 class FC1Controller(Node):
     def __init__(self):
         super().__init__("fc1_controller")
-        qos_profile = QoSProfile(depth=10)
-        qos_profile.durability = DurabilityPolicy.VOLATILE
-        qos_profile.reliability = ReliabilityPolicy.BEST_EFFORT
 
         # convoy의 amcl_pose를 통해 pose 정보 받아옴
-        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, qos_profile)
+        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
 
         # navigation action을 전달할 client 생성
         self._action_client = ActionClient(self, NavigateToPose, '/fc1/navigate_to_pose')
 
         # 긴급 정지 명령을 받아옴
-        # self.emergency_stop_subscription = self.create_subscription(Bool, "/emergency_stop", self.emergency_stop_cb, 10)
+        self.emergency_stop_subscription = self.create_subscription(Bool, "/emergency_stop", self.emergency_stop_cb, 10)
 
         self.fc1_formation_keeper = FC1FormationKeeper()
 
@@ -96,15 +92,15 @@ class FC1Controller(Node):
         _send_goal_future.add_done_callback(self.goal_response_callback)
 
     def goal_response_callback(self, future):
-        goal_handle = future.result()
-        if not goal_handle.accepted:
+        self.goal_handle = future.result()
+        if not self.goal_handle.accepted:
             self.get_logger().info('Goal rejected :(')
             return
         self.get_logger().info('Goal accepted :)')
 
         # action 진행 중으로 상태 변경
         self.initial_goal = False
-        _get_result_future = goal_handle.get_result_async()
+        _get_result_future = self.goal_handle.get_result_async()
 
         # result callback 추가
         _get_result_future.add_done_callback(self.get_result_callback)
@@ -121,10 +117,17 @@ class FC1Controller(Node):
         # feedback = feedback_msg.feedback
         # self.get_logger().info('FEEDBACK:' + str(feedback))
 
-    # def emergency_stop_cb(self, msg):
-    #     if msg.data:
-    #         self.get_logger().info('[충돌] ! EMERGENCY STOP !')
-    #         rclpy.shutdown()
+    def emergency_stop_cb(self, msg):
+        if msg.data:
+            self.get_logger().info('[충돌] ! EMERGENCY STOP !')
+
+            cancel_future = self.goal_handle.cancel_goal_async()
+            cancel_future.add_done_callback(self.cancel_cb)
+
+    def cancel_cb(self, future):
+        self.get_logger().info('[충돌] ! FORCE QUIT !')
+        self.destroy_node()
+        rclpy.shutdown()
 
 def main(args=None):
     rclpy.init(args=args)
