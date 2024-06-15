@@ -10,7 +10,6 @@ from launch.substitutions import Command, LaunchConfiguration
 def generate_launch_description():
 
     package_name = 'cartographer_slam'
-    fc1_name_in_model = 'follow_cart_1'
 
     # 로봇 초기 생성 위치
     spawn_x_val = '0.0'
@@ -18,11 +17,10 @@ def generate_launch_description():
     spawn_z_val = '0.0'
     spawn_yaw_val = '0.0'
 
-
     # urdf 파일 경로
     pkg_share = get_package_share_directory(package_name)
     fc_pkg_share = get_package_share_directory("follow_cart")
-    fc_urdf_path = os.path.join(fc_pkg_share, 'urdf', 'follow_cart', 'turtlebot3_waffle_pi.urdf')
+    convoy_urdf_path = os.path.join(fc_pkg_share, 'urdf', 'convoy', 'turtlebot3_waffle_pi.urdf')
 
     # rviz 파일 경로
     rviz_config_file_path = os.path.join(pkg_share, 'rviz', 'mapper.rviz')
@@ -37,18 +35,18 @@ def generate_launch_description():
     )
 
     # cartographer config 파일 경로
-    cartographer_config_dir = os.path.join(get_package_share_directory('cartographer_slam'), 'config')
+    cartographer_config_dir = os.path.join(pkg_share, 'config')
     configuration_basename = 'cartographer.lua'
 
-    fc1 = LaunchConfiguration('fc1', default='fc1')
+    convoy = LaunchConfiguration('convoy', default='convoy')
 
     # 로봇 생성
-    spawn_fc1_cmd = Node(
-        namespace='fc1',
+    spawn_convoy_cmd = Node(
+        namespace='convoy',
         package='gazebo_ros',
         executable='spawn_entity.py',
-        arguments=['-entity', fc1_name_in_model,
-                   '-topic', '/fc1/robot_description',
+        arguments=['-entity', 'convoy',
+                   '-topic', '/convoy/robot_description',
                    '-x', spawn_x_val,
                    '-y', spawn_y_val,
                    '-z', spawn_z_val,
@@ -60,14 +58,14 @@ def generate_launch_description():
 
     # robot_state_publisher 실행
     # 로봇의 상태를 지속적으로 전달
-    fc1_state_publisher_cmd = Node(
+    convoy_state_publisher_cmd = Node(
         package='robot_state_publisher',
-        namespace='fc1',
+        namespace='convoy',
         executable='robot_state_publisher',
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': True,
-                     'robot_description': Command(['xacro ', fc_urdf_path, ' robot_name:=', fc1])}],
+                     'robot_description': Command(['xacro ', convoy_urdf_path, ' robot_name:=', convoy])}],
         remappings=[
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
@@ -83,12 +81,12 @@ def generate_launch_description():
         arguments=['-configuration_directory', cartographer_config_dir,
                    '-configuration_basename', configuration_basename],
         remappings=[
-            ("/tf", "/fc1/tf"),
-            ("/tf_static", "/fc1/tf_static"),
-            ('/cmd_vel', '/fc1/cmd_vel'),
-            ('/odom', '/fc1/odom'),
-            ('/scan', '/fc1/scan'),
-            ('/imu', '/fc1/imu'),
+            ("/tf", "/convoy/tf"),
+            ("/tf_static", "/convoy/tf_static"),
+            ('/cmd_vel', '/convoy/cmd_vel'),
+            ('/odom', '/convoy/odom'),
+            ('/scan', '/convoy/scan'),
+            ('/imu', '/convoy/imu'),
             ("/map", "/map"),])
     # cartographer map 형식을 nav2에서 사용할 수 있는 형태롤 변경하는 노드
     occupancy_grid_node = Node(
@@ -106,20 +104,20 @@ def generate_launch_description():
         name='rviz2',
         output='screen',
         arguments=['-d', rviz_config_file_path],
-        remappings=[("/tf", "/fc1/tf"),
-                    ("/tf_static", "/fc1/tf_static"),
-                    ("/scan", "/fc1/scan"),
-                    ("/odom", "/fc1/odom"),
+        remappings=[("/tf", "/convoy/tf"),
+                    ("/tf_static", "/convoy/tf_static"),
+                    ("/scan", "/convoy/scan"),
+                    ("/odom", "/convoy/odom"),
                     ("/map", "/map"),
-                    ("/amcl_pose", "/fc1/amcl_pose")])
+                    ("/amcl_pose", "/convoy/amcl_pose")])
 
     ld = LaunchDescription()
 
     # launch description에 추가
     ld.add_action(gazebo_run)
 
-    ld.add_action(fc1_state_publisher_cmd)
-    ld.add_action(spawn_fc1_cmd)
+    ld.add_action(convoy_state_publisher_cmd)
+    ld.add_action(spawn_convoy_cmd)
 
     ld.add_action(cartographer_node)
     ld.add_action(occupancy_grid_node)
