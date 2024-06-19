@@ -205,7 +205,7 @@
   <link name="$(arg robot_name)/camera_rgb_frame"/>
 
   <joint name="$(arg robot_name)/camera_rgb_optical_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
     <parent link="$(arg robot_name)/camera_rgb_frame"/>
     <child link="$(arg robot_name)/camera_rgb_optical_frame"/>
   </joint>
@@ -325,7 +325,7 @@
 
 
 
-  <gazebo reference="$(arg robot_name)/camera_rgb_frame">
+  <gazebo reference="$(arg robot_name)/camera_rgb_optical_frame">
     <sensor type="depth" name="Camera">
       <always_on>true</always_on>
       <visualize>false</visualize>

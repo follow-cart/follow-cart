@@ -182,7 +182,7 @@
   </joint>
 
   <joint name="$(arg robot_name)/camera_joint" type="fixed">
-    <origin xyz="0.073 0.161 0.084" rpy="0 0 0.785"/>
+    <origin xyz="0.063 0.14 0.084" rpy="0 0 0.785"/>
     <parent link="$(arg robot_name)/base_link"/>
     <child link="$(arg robot_name)/camera_link"/>
   </joint>
@@ -205,7 +205,7 @@
   <link name="$(arg robot_name)/camera_rgb_frame"/>
 
   <joint name="$(arg robot_name)/camera_rgb_optical_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
     <parent link="$(arg robot_name)/camera_rgb_frame"/>
     <child link="$(arg robot_name)/camera_rgb_optical_frame"/>
   </joint>
@@ -213,15 +213,15 @@
   <link name="$(arg robot_name)/camera_rgb_optical_frame"/>
 
   <gazebo reference="$(arg robot_name)/base_link">
-    <material>Gazebo/Orange</material>
+    <material>Gazebo/Black</material>
   </gazebo>
 
   <gazebo reference="$(arg robot_name)/wheel_right_link">
-    <material>Gazebo/Orange</material>
+    <material>Gazebo/Black</material>
   </gazebo>
 
   <gazebo reference="$(arg robot_name)/wheel_left_link">
-    <material>Gazebo/Orange</material>
+    <material>Gazebo/Black</material>
   </gazebo>
 
 
@@ -318,17 +318,17 @@
         </plugin>
         <gpu>true</gpu>
     </sensor>
-    <material>Gazebo/Orange</material>
+    <material>Gazebo/Black</material>
   </gazebo>
 
 
 
 
 
-  <gazebo reference="$(arg robot_name)/camera_rgb_frame">
+  <gazebo reference="$(arg robot_name)/camera_rgb_optical_frame">
     <sensor type="depth" name="Camera">
       <always_on>true</always_on>
-      <visualize>false</visualize>
+      <visualize>true</visualize>
       <updateRate>30</updateRate>
       <camera>
           <horizontal_fov>2</horizontal_fov>
