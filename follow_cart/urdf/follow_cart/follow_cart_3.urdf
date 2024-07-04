@@ -213,15 +213,15 @@
   <link name="$(arg robot_name)/camera_rgb_optical_frame"/>
 
   <gazebo reference="$(arg robot_name)/base_link">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="$(arg robot_name)/wheel_right_link">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="$(arg robot_name)/wheel_left_link">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
 
@@ -318,7 +318,7 @@
         </plugin>
         <gpu>true</gpu>
     </sensor>
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
 
@@ -327,8 +327,8 @@
 
   <gazebo reference="$(arg robot_name)/camera_rgb_optical_frame">
     <sensor type="depth" name="Camera">
-      <always_on>true</always_on>
-      <visualize>true</visualize>
+      <always_on>false</always_on>
+      <visualize>false</visualize>
       <updateRate>30</updateRate>
       <camera>
           <horizontal_fov>2</horizontal_fov>
@@ -347,7 +347,7 @@
           <namespace>$(arg robot_name)</namespace>
         </ros>
 
-        <cameraName>convoy_camera</cameraName>
+        <cameraName>fc3_camera</cameraName>
         <frameName>$(arg robot_name)/camera_rgb_optical_frame</frameName>
         <imageTopicName>color/image_raw</imageTopicName>
         <cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
@@ -432,7 +432,7 @@
         <namespace>$(arg robot_name)</namespace>
       </ros>
 
-      <cameraName>convoy_camera</cameraName>
+      <cameraName>fc3_camera</cameraName>
       <frameName>$(arg robot_name)/camera_rgb_optical_frame</frameName>
       <imageTopicName>color/image_raw</imageTopicName>
       <cameraInfoTopicName>color/camera_info</cameraInfoTopicName>

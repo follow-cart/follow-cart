@@ -4,7 +4,6 @@ from geometry_msgs.msg import PoseStamped
 from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
 from std_msgs.msg import Bool, String
-import json
 from .quaternion_about_axis import QuaternionAboutAxis
 
 # convoy의 주행을 담당하는 노드
@@ -14,20 +13,13 @@ class ConvoyController(Node):
 
         # 어플과 웹소켓 통신을 통해 연결
         self.cmd_subscription = self.create_subscription(
-            String, '/android_commands', self.cmd_cb, 10)
+            String, '/convoy_cmd', self.cmd_cb, 10)
 
         # navigation action을 전달할 client 생성
         self._action_client = ActionClient(self, NavigateToPose, '/convoy/navigate_to_pose')
 
         # 긴급 정지 명령을 받아옴
         self.emergency_stop_subscription = self.create_subscription(Bool, "/emergency_stop", self.emergency_stop_cb, 10)
-
-        # 어플에 정보 전달
-        self.leader_pub = self.create_subscription(String, '/Leader/call_message', self.call_cb, 10)
-
-        # 개발 진행 중
-        self.leader_drive_publisher = self.create_publisher(String, '/Leader/drive_message', 10)
-        self.rear_position_publisher = self.create_publisher(String, '/Rear/position', 10)
 
         # action 수행 중이 아닌지 확인
         self.initial_goal = True
@@ -36,21 +28,15 @@ class ConvoyController(Node):
 
     # 반환 명령 수신 시 -> 반환 장소로 이동
     def cmd_cb(self, msg):
-        data = json.loads(msg.data)
-        command = data['command']
-
-        if command == 'RETURN':
-            x, y, theta = self.initial_position
-            self.get_logger().info(f'Returning to initial position: ({x}, {y}, {theta}) to convoy')
-            self.send_goal(x, y, theta)
-
-    # 호출 명령 수신 시 -> 호출 장소로 이동
-    def call_cb(self, msg):
         command = msg.data
 
-        if command == 'CALL_LEADER_ROBOT':
+        if command == 'Call':
             x, y, theta = self.call_position
             self.get_logger().info(f'Go to call position: ({x}, {y}, {theta}) ')
+            self.send_goal(x, y, theta)
+        elif command == 'Return':
+            x, y, theta = self.initial_position
+            self.get_logger().info(f'Returning to initial position: ({x}, {y}, {theta}) to convoy')
             self.send_goal(x, y, theta)
 
     def send_goal(self, x, y, theta):

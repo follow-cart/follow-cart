@@ -3,7 +3,7 @@ from .euler_from_quaternion import EulerFromQuaternion
 class FC3FormationKeeper:
     def __init__(self):
         # 세로 대형: 3.0 가로 대형: 1.4 삼각 대형: 2.0
-        self.distance = 2.0
+        self.distance = 0.5
 
     def calculate(self, x, y, z, w):
         # quaternion to Euler angles

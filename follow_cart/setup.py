@@ -60,9 +60,10 @@ setup(
             'fc2_collision_detector=follow_cart.fc2_collision_detector:main',
             'fc3_collision_detector=follow_cart.fc3_collision_detector:main',
             'pedestrian_controller=follow_cart.pedestrian_controller:main',
-            'pedestrian_detect_processor=follow_cart.pedestrian_detect_processor:main',
             'pedestrian_detector=follow_cart.pedestrian_detector:main',
-            'pedestrian_follower=follow_cart.pedestrian_follower:main'
+            'pedestrian_follower=follow_cart.pedestrian_follower:main',
+            'convoy_detector=follow_cart.convoy_detector:main',
+            'convoy_follower=follow_cart.convoy_follower:main'
         ],
     },
 )

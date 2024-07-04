@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <robot name="turtlebot3_waffle_pi" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:arg name="robot_name" default="fc2" />
+  <xacro:arg name="robot_name" default="fc1" />
 
   <link name="$(arg robot_name)/base_footprint"/>
 
@@ -182,7 +182,7 @@
   </joint>
 
   <joint name="$(arg robot_name)/camera_joint" type="fixed">
-    <origin xyz="0.073 -0.011 0.084" rpy="0 0 0"/>
+    <origin xyz="0.063 -0.14 0.084" rpy="0 0 -0.785"/>
     <parent link="$(arg robot_name)/base_link"/>
     <child link="$(arg robot_name)/camera_link"/>
   </joint>
@@ -213,15 +213,15 @@
   <link name="$(arg robot_name)/camera_rgb_optical_frame"/>
 
   <gazebo reference="$(arg robot_name)/base_link">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="$(arg robot_name)/wheel_right_link">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="$(arg robot_name)/wheel_left_link">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
 
@@ -318,17 +318,13 @@
         </plugin>
         <gpu>true</gpu>
     </sensor>
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
-
-
-
-
   <gazebo reference="$(arg robot_name)/camera_rgb_optical_frame">
-    <sensor type="depth" name="Camera">
-      <always_on>true</always_on>
-      <visualize>true</visualize>
+    <sensor type="depth" name="front_camera">
+      <always_on>false</always_on>
+      <visualize>false</visualize>
       <updateRate>30</updateRate>
       <camera>
           <horizontal_fov>2</horizontal_fov>
@@ -347,7 +343,7 @@
           <namespace>$(arg robot_name)</namespace>
         </ros>
 
-        <cameraName>convoy_camera</cameraName>
+        <cameraName>front_camera</cameraName>
         <frameName>$(arg robot_name)/camera_rgb_optical_frame</frameName>
         <imageTopicName>color/image_raw</imageTopicName>
         <cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
@@ -432,7 +428,7 @@
         <namespace>$(arg robot_name)</namespace>
       </ros>
 
-      <cameraName>convoy_camera</cameraName>
+      <cameraName>front_camera</cameraName>
       <frameName>$(arg robot_name)/camera_rgb_optical_frame</frameName>
       <imageTopicName>color/image_raw</imageTopicName>
       <cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
