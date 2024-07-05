@@ -6,26 +6,26 @@ from geometry_msgs.msg import Twist
 from cv_bridge import CvBridge
 
 # 보행자를 추적하는 로직 처리하는 클래스
-class ConvoyFollower(Node):
+class FC1Follower2(Node):
     def __init__(self):
-        super().__init__('convoy_follower')
+        super().__init__('fc1_follower2')
         self.bridge = CvBridge()
 
         # Depth 카메라를 통한 covoy와의 거리 구독
         self.detection_subscription = self.create_subscription(
             Float64MultiArray,
-            '/fc1/detection',
+            '/fc2/detection',
             self.detection_cb,
             10
         )
 
         # 로봇의 속도 명령  publisher
-        self.publisher_ = self.create_publisher(Twist, '/fc1/cmd_vel', 10)
+        self.publisher_ = self.create_publisher(Twist, '/fc2/cmd_vel', 10)
 
         # 로봇의 중앙 위치 (카메라 기준)
         self.image_width = 640  # 이미지 너비 (임의 설정, 실제 카메라 해상도에 맞춰야 함)
         self.image_height = 480  # 이미지 높이 (임의 설정, 실제 카메라 해상도에 맞춰야 함)
-        self.robot_center_x = self.image_width / 2
+        self.robot_center_x = (self.image_width / 3) * 2
         self.robot_center_y = self.image_height / 2
 
         # PID 제어 변수 초기화
@@ -86,14 +86,14 @@ class ConvoyFollower(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    convoy_follower = ConvoyFollower()
+    fc1_follower2 = FC1Follower2()
 
     try:
-        rclpy.spin(convoy_follower)
+        rclpy.spin(fc1_follower2)
     except KeyboardInterrupt:
         pass
 
-    convoy_follower.destroy_node()
+    fc1_follower2.destroy_node()
     rclpy.shutdown()
 
 if __name__ == '__main__':

@@ -8,15 +8,15 @@ from .fc_rgb_image_processor import FCRGBImageProcessor
 from .depth_image_processor import DepthImageProcessor
 
 # 보행자를 인식하는 로직을 처리하는 클래스
-class ConvoyDetector(Node):
+class FC1Detector2(Node):
     def __init__(self):
-        super().__init__('convoy_detector')
+        super().__init__('fc1_detector2')
         self.bridge = CvBridge()
 
         # RGB 카메라 이미지 구독
         self.subscription_rgb = self.create_subscription(
             Image,
-            '/fc1/front_camera/image_raw',
+            '/fc2/front_camera/image_raw',
             self.rgb_callback,
             10
         )
@@ -24,7 +24,7 @@ class ConvoyDetector(Node):
         # Depth 카메라 이미지 구독
         self.subscription_depth = self.create_subscription(
             Image,
-            '/fc1/front_camera/depth/image_raw',
+            '/fc2/front_camera/depth/image_raw',
             self.depth_callback,
             10
         )
@@ -32,7 +32,7 @@ class ConvoyDetector(Node):
         # Depth Camera를 통한 보행자와의 거리 토픽 발행
         self.detection_publisher = self.create_publisher(
             Float64MultiArray,
-            '/fc1/detection',
+            '/fc2/detection',
             10
         )
 
@@ -42,7 +42,7 @@ class ConvoyDetector(Node):
     def rgb_callback(self, msg):
         cv_image_rgb = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
 
-        self.rgb_image_processor.process(cv_image_rgb, "fc1")
+        self.rgb_image_processor.process(cv_image_rgb, "fc2")
 
         # Depth 카메라 callback
 
@@ -61,14 +61,14 @@ class ConvoyDetector(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    convoy_detector = ConvoyDetector()
+    fc1_detector2 = FC1Detector2()
 
     try:
-        rclpy.spin(convoy_detector)
+        rclpy.spin(fc1_detector2)
     except KeyboardInterrupt:
         pass
 
-    convoy_detector.destroy_node()
+    fc1_detector2.destroy_node()
     rclpy.shutdown()
 
 

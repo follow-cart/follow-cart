@@ -213,15 +213,15 @@
   <link name="$(arg robot_name)/camera_rgb_optical_frame"/>
 
   <gazebo reference="$(arg robot_name)/base_link">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="$(arg robot_name)/wheel_right_link">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="$(arg robot_name)/wheel_left_link">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Red</material>
   </gazebo>
 
 
@@ -318,7 +318,7 @@
         </plugin>
         <gpu>true</gpu>
     </sensor>
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="$(arg robot_name)/camera_rgb_optical_frame">

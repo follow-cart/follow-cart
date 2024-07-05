@@ -63,7 +63,11 @@ setup(
             'pedestrian_detector=follow_cart.pedestrian_detector:main',
             'pedestrian_follower=follow_cart.pedestrian_follower:main',
             'convoy_detector=follow_cart.convoy_detector:main',
-            'convoy_follower=follow_cart.convoy_follower:main'
+            'convoy_follower=follow_cart.convoy_follower:main',
+            'fc1_detector2=follow_cart.fc1_detector2:main',
+            'fc1_follower2=follow_cart.fc1_follower2:main',
+            'fc1_detector3=follow_cart.fc1_detector3:main',
+            'fc1_follower3=follow_cart.fc1_follower3:main'
         ],
     },
 )
