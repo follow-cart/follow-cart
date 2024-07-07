@@ -21,17 +21,18 @@ def generate_launch_description():
     convoy_spawn_yaw_val = '0.0'
 
     # convoy yaw: 0.0 원점 기준
-    # 세로 대형: -1.0 가로 대형: -1.0 삼각 대형: -1.7
-    fc1_spawn_x_val = '-1.7'
-    # 세로 대형: 0.0 가로 대형: -1.0 삼각 대형: -1.0
-    fc1_spawn_y_val = '-1.0'
+
+    # 세로 대형: -2.0 가로 대형: -1.0 삼각 대형: -1.0
+    fc1_spawn_x_val = '-1.0'
+    # 세로 대형: 0.0 가로 대형: 0.0 삼각 대형: 0.0
+    fc1_spawn_y_val = '-2.0'
     fc1_spawn_z_val = '0.1'
     fc1_spawn_yaw_val = '0.0'
 
-    # 세로 대형: -2.0 가로 대형: -1.0 삼각 대형: -1.0
-    fc2_spawn_x_val = '-1.0'
-    # 세로 대형: 0.0 가로 대형: 0.0 삼각 대형: 0.0
-    fc2_spawn_y_val = '-2.0'
+    # 세로 대형: -1.0 가로 대형: -1.0 삼각 대형: -1.7
+    fc2_spawn_x_val = '-1.7'
+    # 세로 대형: 0.0 가로 대형: -1.0 삼각 대형: -1.0
+    fc2_spawn_y_val = '-1.0'
     fc2_spawn_z_val = '0.1'
     fc2_spawn_yaw_val = '0.0'
 
@@ -708,7 +709,7 @@ def generate_launch_description():
                     {'autostart': True},
                     {'bond_timeout': 0.0},
                     {'node_names': ['map_server',
-                                    'convoy/amcl',
+                                    # 'convoy/amcl',
                                     'fc1/amcl',
                                     'fc2/amcl',
                                     'fc3/amcl'
@@ -723,18 +724,18 @@ def generate_launch_description():
                     {'autostart': True},
                     {'bond_timeout': 0.0},
                     {'node_names': [
-                                    'convoy/controller_server',
-                                    'convoy/planner_server',
-                                    'convoy/behavior_server',
-                                    'convoy/bt_navigator',
-                                    'convoy/collision_monitor',
-                                    'convoy/velocity_smoother',
+                                    # 'convoy/controller_server',
+                                    # 'convoy/planner_server',
+                                    # 'convoy/behavior_server',
+                                    # 'convoy/bt_navigator',
+                                    # 'convoy/collision_monitor',
+                                    # 'convoy/velocity_smoother',
                                     'fc1/controller_server',
                                     'fc1/planner_server',
                                     'fc1/behavior_server',
                                     'fc1/bt_navigator',
-                                    'fc1/collision_monitor',
-                                    'fc1/velocity_smoother',
+                                    # 'fc1/collision_monitor',
+                                    # 'fc1/velocity_smoother',
                                     'fc2/controller_server',
                                     'fc2/planner_server',
                                     'fc2/behavior_server',
@@ -914,35 +915,76 @@ def generate_launch_description():
         namespace='pedestrian',
         executable='pedestrian_controller',
         name="pedestrian_controller",
-        output='screen')
-
-    # 보행자 추적하는 노드
-    pedestrian_follower_cmd = Node(
-        package='follow_cart',
-        namespace='pedestrian',
-        executable='pedestrian_follower',
-        name="pedestrian_follower",
-        output='screen',
-        parameters=[{'use_sim_time': use_sim_time}]
+        output='screen'
     )
 
-    # 프로세스 처리
-    convoy_camera_cmd = Node(
+    # 보행자 추적하는 노드
+    pedestrian_follower = Node(
         package='follow_cart',
         namespace='convoy',
-        executable='pedestrian_detect_processor',
-        name="pedestrian_detect_processor",
+        executable='pedestrian_follower',
+        name="pedestrian_follower",
         output='screen'
     )
 
     # 카메라 영상 처리
-    display_image_cmd = Node(
+    pedestrian_detector = Node(
         package='follow_cart',
         namespace='convoy',
         executable='pedestrian_detector',
         name='pedestrian_detector',
         output='screen'
     )
+
+    convoy_detector = Node(
+        package='follow_cart',
+        namespace='fc1',
+        executable='convoy_detector',
+        name='convoy_detector',
+        output='screen'
+    )
+
+    convoy_follower = Node(
+        package='follow_cart',
+        namespace='fc1',
+        executable='convoy_follower',
+        name='convoy_follower',
+        output='screen'
+    )
+
+    fc1_detector2 = Node(
+        package='follow_cart',
+        namespace='fc2',
+        executable='fc1_detector2',
+        name='fc1_detector2',
+        output='screen'
+    )
+
+    fc1_follower2 = Node(
+        package='follow_cart',
+        namespace='fc2',
+        executable='fc1_follower2',
+        name='fc1_follower2',
+        output='screen'
+    )
+
+    fc1_detector3 = Node(
+        package='follow_cart',
+        namespace='fc3',
+        executable='fc1_detector3',
+        name='fc1_detector3',
+        output='screen'
+    )
+
+    fc1_follower3 = Node(
+        package='follow_cart',
+        namespace='fc3',
+        executable='fc1_follower3',
+        name='fc1_follower3',
+        output='screen'
+    )
+
+
 
     # launch description 생성
     ld = LaunchDescription()
@@ -953,20 +995,20 @@ def generate_launch_description():
 
     ld.add_action(spawn_convoy_cmd)
     ld.add_action(convoy_state_publisher_cmd)
-    ld.add_action(convoy_localization_cmd)
+    # ld.add_action(convoy_localization_cmd)
 
     ld.add_action(spawn_fc1_cmd)
     ld.add_action(fc1_state_publisher_cmd)
-    ld.add_action(fc1_localization_cmd)
+    # ld.add_action(fc1_localization_cmd)
 
     ld.add_action(spawn_fc2_cmd)
     ld.add_action(fc2_state_publisher_cmd)
-    ld.add_action(fc2_localization_cmd)
+    # ld.add_action(fc2_localization_cmd)
 
     ld.add_action(spawn_fc3_cmd)
     ld.add_action(fc3_state_publisher_cmd)
-    ld.add_action(fc3_localization_cmd)
-
+    # ld.add_action(fc3_localization_cmd)
+    #
     # ld.add_action(map_server)
     #
     # ld.add_action(convoy_amcl)
@@ -976,7 +1018,7 @@ def generate_launch_description():
     # ld.add_action(convoy_bt_navigator)
     # ld.add_action(convoy_collision_monitor)
     # ld.add_action(convoy_velocity_smoother)
-    #
+
     # ld.add_action(fc1_amcl)
     # ld.add_action(fc1_controller_server)
     # ld.add_action(fc1_planner_server)
@@ -984,7 +1026,7 @@ def generate_launch_description():
     # ld.add_action(fc1_bt_navigator)
     # ld.add_action(fc1_collision_monitor)
     # ld.add_action(fc1_velocity_smoother)
-    #
+
     # ld.add_action(fc2_amcl)
     # ld.add_action(fc2_controller_server)
     # ld.add_action(fc2_planner_server)
@@ -1003,9 +1045,9 @@ def generate_launch_description():
     #
     # ld.add_action(lifecycle_manager_localization)
     # ld.add_action(lifecycle_manager_path_planning)
-    #
+
     # ld.add_action(convoy_controller)
-    #
+
     # ld.add_action(fc1_controller)
     # ld.add_action(fc1_goal_updater)
     #
@@ -1014,17 +1056,23 @@ def generate_launch_description():
     #
     # ld.add_action(fc3_controller)
     # ld.add_action(fc3_goal_updater)
-    #
-    # #보행자
-    # ld.add_action(spawn_pedestrian_cmd)
+
+    #보행자
+    ld.add_action(spawn_pedestrian_cmd)
     # ld.add_action(pedestrian_controller_cmd)
-    #
-    # # convoy 카메라
-    # ld.add_action(convoy_camera_cmd)
-    # ld.add_action(display_image_cmd)
-    #
-    # # 보행자 추적
-    # ld.add_action(pedestrian_follower_cmd)
+
+    # 보행자 추적
+    ld.add_action(pedestrian_detector)
+    ld.add_action(pedestrian_follower)
+
+    ld.add_action(convoy_detector)
+    ld.add_action(convoy_follower)
+
+    ld.add_action(fc1_detector2)
+    ld.add_action(fc1_follower2)
+
+    ld.add_action(fc1_detector3)
+    ld.add_action(fc1_follower3)
 
     # ld.add_action(convoy_collision_detector)
     # ld.add_action(fc1_collision_detector)

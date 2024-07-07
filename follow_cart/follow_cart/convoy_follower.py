@@ -1,25 +1,26 @@
 import rclpy
 from rclpy.node import Node
+from rclpy.executors import MultiThreadedExecutor
 from std_msgs.msg import Float64MultiArray
 from geometry_msgs.msg import Twist
+from cv_bridge import CvBridge
 
-
-# 보행자를 추적하는 로직처리하는 클래스
-class PedestrianFollower(Node):
+# 보행자를 추적하는 로직 처리하는 클래스
+class ConvoyFollower(Node):
     def __init__(self):
-        super().__init__('pedestrian_follower')
+        super().__init__('convoy_follower')
+        self.bridge = CvBridge()
 
-        # Depth 카메라를 통한 보행자와의 거리 구독
+        # Depth 카메라를 통한 covoy와의 거리 구독
         self.detection_subscription = self.create_subscription(
             Float64MultiArray,
-            '/convoy/detection',
+            '/fc1/detection',
             self.detection_cb,
             10
         )
 
         # 로봇의 속도 명령  publisher
-        self.publisher_ = self.create_publisher(Twist, '/convoy/cmd_vel', 10)
-
+        self.publisher_ = self.create_publisher(Twist, '/fc1/cmd_vel', 10)
 
         # 로봇의 중앙 위치 (카메라 기준)
         self.image_width = 640  # 이미지 너비 (임의 설정, 실제 카메라 해상도에 맞춰야 함)
@@ -42,8 +43,8 @@ class PedestrianFollower(Node):
         self.search_start_time = None
         self.search_duration = 10  # 탐색 지속 시간 (초)
 
-    # def search_for_pedestrian(self):
-    #     # 로봇을 제자리에서 회전시켜 보행자를 찾기
+    # def search_for_convoy(self):
+    #     # 로봇을 제자리에서 회전시켜 convoy를 찾기
     #     cmd_msg = Twist()
     #     cmd_msg.angular.z = 0.3  # 회전 속도 설정
     #     self.publisher_.publish(cmd_msg)
@@ -58,8 +59,8 @@ class PedestrianFollower(Node):
         # 거리 유지
         if distance < 1.0:
             cmd_msg.linear.x = 0.0
-        elif distance > 1.5:
-            cmd_msg.linear.x = 0.35  # 전진 속도를 약간 증가시킴
+        elif distance >= 1.0:
+            cmd_msg.linear.x = 0.2  # 전진 속도를 약간 증가시킴
         else:
             cmd_msg.linear.x = 0.0
 
@@ -85,14 +86,14 @@ class PedestrianFollower(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    pedestrian_follower = PedestrianFollower()
+    convoy_follower = ConvoyFollower()
 
     try:
-        rclpy.spin(pedestrian_follower)
+        rclpy.spin(convoy_follower)
     except KeyboardInterrupt:
         pass
 
-    pedestrian_follower.destroy_node()
+    convoy_follower.destroy_node()
     rclpy.shutdown()
 
 if __name__ == '__main__':

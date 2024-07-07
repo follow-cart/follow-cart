@@ -7,7 +7,7 @@ class FC3GoalUpdater(Node):
     def __init__(self):
         super().__init__("fc3_goal_updater")
         self.pose_publisher = self.create_publisher(PoseStamped, "/fc3/goal_update", 10)
-        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.update_cb, 10)
+        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/fc1/amcl_pose", self.update_cb, 10)
 
         self.fc3_formation_keeper = FC3FormationKeeper()
 

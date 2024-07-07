@@ -10,7 +10,7 @@ class FC2Controller(Node):
     def __init__(self):
         super().__init__("fc2_controller")
 
-        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/convoy/amcl_pose", self.pose_cb, 10)
+        self.pose_subscription = self.create_subscription(PoseWithCovarianceStamped, "/fc1/amcl_pose", self.pose_cb, 10)
 
         self._action_client = ActionClient(self, NavigateToPose, '/fc2/navigate_to_pose')
 

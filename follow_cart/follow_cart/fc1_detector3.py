@@ -1,22 +1,22 @@
 import rclpy
 from rclpy.node import Node
+from rclpy.executors import MultiThreadedExecutor
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-from rclpy.executors import MultiThreadedExecutor
 from std_msgs.msg import Float64MultiArray
-from .convoy_rgb_image_processor import ConvoyRGBImageProcessor
+from .fc_rgb_image_processor import FCRGBImageProcessor
 from .depth_image_processor import DepthImageProcessor
 
 # 보행자를 인식하는 로직을 처리하는 클래스
-class PedestrianDetector(Node):
+class FC1Detector3(Node):
     def __init__(self):
-        super().__init__('pedestrian_detector')
+        super().__init__('fc1_detector3')
         self.bridge = CvBridge()
 
         # RGB 카메라 이미지 구독
         self.subscription_rgb = self.create_subscription(
             Image,
-            '/convoy/front_camera/image_raw',
+            '/fc3/front_camera/image_raw',
             self.rgb_callback,
             10
         )
@@ -24,7 +24,7 @@ class PedestrianDetector(Node):
         # Depth 카메라 이미지 구독
         self.subscription_depth = self.create_subscription(
             Image,
-            '/convoy/front_camera/depth/image_raw',
+            '/fc3/front_camera/depth/image_raw',
             self.depth_callback,
             10
         )
@@ -32,19 +32,20 @@ class PedestrianDetector(Node):
         # Depth Camera를 통한 보행자와의 거리 토픽 발행
         self.detection_publisher = self.create_publisher(
             Float64MultiArray,
-            '/convoy/detection',
+            '/fc3/detection',
             10
         )
 
-        self.rgb_image_processor = ConvoyRGBImageProcessor()
+        self.rgb_image_processor = FCRGBImageProcessor()
         self.depth_image_processor = DepthImageProcessor()
 
     def rgb_callback(self, msg):
         cv_image_rgb = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
 
-        self.rgb_image_processor.process(cv_image_rgb)
+        self.rgb_image_processor.process(cv_image_rgb, "fc3")
 
-    # Depth 카메라 callback
+        # Depth 카메라 callback
+
     def depth_callback(self, msg):
         if self.rgb_image_processor.x is not None and self.rgb_image_processor.y is not None:
             cv_image_depth = self.bridge.imgmsg_to_cv2(msg, desired_encoding='32FC1')
@@ -60,19 +61,16 @@ class PedestrianDetector(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    pedestrian_detector = PedestrianDetector()
-    # executor = MultiThreadedExecutor()
+    fc1_detector3 = FC1Detector3()
 
     try:
-        # executor.add_node(pedestrian_detector)
-        # executor.spin()
-        rclpy.spin(pedestrian_detector)
+        rclpy.spin(fc1_detector3)
     except KeyboardInterrupt:
         pass
 
-    # executor.remove_node(pedestrian_detector)
-    pedestrian_detector.destroy_node()
+    fc1_detector3.destroy_node()
     rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()
